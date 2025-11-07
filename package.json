@@ -1,0 +1,30 @@
+{
+  "name": "nebatech-ai-academy",
+  "version": "1.0.0",
+  "description": "AI-powered Competency-Based eLearning Platform",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run watch:css",
+    "watch:css": "npx tailwindcss -i ./src/assets/input.css -o ./public/assets/css/main.css --watch",
+    "build:css": "npx tailwindcss -i ./src/assets/input.css -o ./public/assets/css/main.css --minify",
+    "build": "npm run build:css"
+  },
+  "keywords": [
+    "elearning",
+    "ai",
+    "education"
+  ],
+  "author": "Nebatech",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "dependencies": {
+    "alpinejs": "^3.13.0",
+    "axios": "^1.6.0",
+    "chart.js": "^4.4.0",
+    "codemirror": "^6.0.1"
+  }
+}

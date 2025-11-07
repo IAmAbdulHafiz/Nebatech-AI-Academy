@@ -1,0 +1,42 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+/storage/logs/*.log
+*.log
+
+# Cache
+/storage/cache/*
+!storage/cache/.gitkeep
+
+# Uploads
+/storage/uploads/*
+!storage/uploads/.gitkeep
+
+# Compiled assets
+/public/assets/css/main.css
+/public/assets/js/bundle.js
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Build files
+/dist/
+/build/
