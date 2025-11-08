@@ -31,9 +31,10 @@ class DashboardController extends Controller
             exit;
         }
 
-        // Student dashboard
-        echo $this->view('dashboard/index', [
+        // Student dashboard with student layout
+        echo $this->render('dashboard/index', [
             'title' => 'Dashboard',
+            'pageTitle' => 'Dashboard',
             'user' => $user
         ]);
     }

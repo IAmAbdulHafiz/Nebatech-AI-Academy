@@ -18,10 +18,19 @@ class AuthController extends Controller
 
     public function showLogin()
     {
-        // Redirect if already logged in
+        // Redirect if already logged in WITH VALID USER DATA
         if ($this->isAuthenticated()) {
-            header('Location: ' . url('/dashboard'));
-            exit;
+            // Verify the user actually exists in database
+            $user = User::findById($_SESSION['user_id']);
+            if ($user) {
+                header('Location: ' . url('/dashboard'));
+                exit;
+            } else {
+                // Invalid session, clear it
+                session_unset();
+                session_destroy();
+                session_start();
+            }
         }
 
         $errors = $_SESSION['errors'] ?? [];
@@ -41,10 +50,19 @@ class AuthController extends Controller
 
     public function showRegister()
     {
-        // Redirect if already logged in
+        // Redirect if already logged in WITH VALID USER DATA
         if ($this->isAuthenticated()) {
-            header('Location: ' . url('/dashboard'));
-            exit;
+            // Verify the user actually exists in database
+            $user = User::findById($_SESSION['user_id']);
+            if ($user) {
+                header('Location: ' . url('/dashboard'));
+                exit;
+            } else {
+                // Invalid session, clear it
+                session_unset();
+                session_destroy();
+                session_start();
+            }
         }
 
         $errors = $_SESSION['errors'] ?? [];
@@ -198,7 +216,7 @@ class AuthController extends Controller
         }
 
         // Create user
-        $userId = User::create([
+        $userId = User::createUser([
             'first_name' => $firstName,
             'last_name' => $lastName ?: $firstName,
             'email' => $email,

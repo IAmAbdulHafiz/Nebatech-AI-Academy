@@ -7,15 +7,15 @@ use Nebatech\Core\Database;
 
 class User extends Model
 {
-    protected static string $table = 'users';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'users';
+    protected string $primaryKey = 'id';
 
     /**
      * Find user by email
      */
     public static function findByEmail(string $email): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " WHERE email = :email LIMIT 1";
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
         return Database::fetch($sql, ['email' => $email]);
     }
 
@@ -24,18 +24,18 @@ class User extends Model
      */
     public static function findByUuid(string $uuid): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " WHERE uuid = :uuid LIMIT 1";
+        $sql = "SELECT * FROM users WHERE uuid = :uuid LIMIT 1";
         return Database::fetch($sql, ['uuid' => $uuid]);
     }
 
     /**
      * Create a new user
      */
-    public static function create(array $data): ?int
+    public static function createUser(array $data): ?int
     {
         // Generate UUID if not provided
         if (!isset($data['uuid'])) {
-            $data['uuid'] = self::generateUuid();
+            $data['uuid'] = self::generateUserUuid();
         }
 
         // Hash password if provided
@@ -54,7 +54,7 @@ class User extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('users', $data);
         } catch (\Exception $e) {
             error_log("User creation failed: " . $e->getMessage());
             return null;
@@ -77,7 +77,7 @@ class User extends Model
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => 12]);
         
         $result = Database::update(
-            static::$table,
+            'users',
             ['password' => $hashedPassword],
             'id = :id',
             ['id' => $userId]
@@ -99,7 +99,7 @@ class User extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'users',
             $data,
             'id = :id',
             ['id' => $userId]
@@ -114,7 +114,7 @@ class User extends Model
     public static function verifyEmail(int $userId): bool
     {
         $result = Database::update(
-            static::$table,
+            'users',
             ['email_verified_at' => date('Y-m-d H:i:s')],
             'id = :id',
             ['id' => $userId]
@@ -128,7 +128,7 @@ class User extends Model
      */
     public static function emailExists(string $email): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " WHERE email = :email";
+        $sql = "SELECT COUNT(*) as count FROM users WHERE email = :email";
         $result = Database::fetch($sql, ['email' => $email]);
         return $result && $result['count'] > 0;
     }
@@ -138,7 +138,7 @@ class User extends Model
      */
     public static function findById(int $id): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " WHERE id = :id LIMIT 1";
+        $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
         return Database::fetch($sql, ['id' => $id]);
     }
 
@@ -147,7 +147,7 @@ class User extends Model
      */
     public static function getAll(array $filters = []): array
     {
-        $sql = "SELECT * FROM " . static::$table;
+        $sql = "SELECT * FROM users";
         $params = [];
         $conditions = [];
 
@@ -186,7 +186,7 @@ class User extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'users',
             ['status' => $status],
             'id = :id',
             ['id' => $userId]
@@ -207,7 +207,7 @@ class User extends Model
                     SUM(CASE WHEN role = 'admin' THEN 1 ELSE 0 END) as admins,
                     SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
                     SUM(CASE WHEN status = 'inactive' THEN 1 ELSE 0 END) as inactive
-                FROM " . static::$table;
+                FROM users";
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -220,9 +220,9 @@ class User extends Model
     }
 
     /**
-     * Generate UUID v4
+     * Generate UUID v4 for users
      */
-    protected static function generateUuid(): string
+    protected static function generateUserUuid(): string
     {
         $data = random_bytes(16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
@@ -244,7 +244,7 @@ class User extends Model
      */
     public static function hardDelete(int $userId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $userId]);
+        $result = Database::delete('users', 'id = :id', ['id' => $userId]);
         return $result > 0;
     }
 }

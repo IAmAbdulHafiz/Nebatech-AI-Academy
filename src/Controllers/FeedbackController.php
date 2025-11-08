@@ -18,8 +18,15 @@ class FeedbackController extends Controller
     /**
      * View feedback for a submission
      */
-    public function view(int $submissionId)
+    public function view(array $params = [])
     {
+        $submissionId = (int) ($params['id'] ?? 0);
+        if (!$submissionId) {
+            $_SESSION['error'] = 'Invalid submission ID.';
+            header('Location: ' . url('/dashboard'));
+            exit;
+        }
+
         $this->requireAuth();
         $user = $this->getCurrentUser();
         
@@ -40,7 +47,7 @@ class FeedbackController extends Controller
         
         $feedback = $this->feedbackService->getFeedbackDetails($submissionId);
         
-        echo $this->view('feedback/view', [
+        echo $this->render('feedback/view', [
             'title' => 'Assignment Feedback',
             'user' => $user,
             'submission' => $submission,
@@ -51,8 +58,17 @@ class FeedbackController extends Controller
     /**
      * Regenerate feedback for a submission (facilitator only)
      */
-    public function regenerate(int $submissionId)
+    public function regenerate(array $params = [])
     {
+        $submissionId = (int) ($params['id'] ?? 0);
+        if (!$submissionId) {
+            $this->jsonResponse([
+                'success' => false,
+                'error' => 'Invalid submission ID'
+            ], 400);
+            return;
+        }
+
         $this->requireAuth();
         $user = $this->getCurrentUser();
         
@@ -79,8 +95,17 @@ class FeedbackController extends Controller
     /**
      * Get feedback details via API
      */
-    public function getFeedback(int $submissionId)
+    public function getFeedback(array $params = [])
     {
+        $submissionId = (int) ($params['id'] ?? 0);
+        if (!$submissionId) {
+            $this->jsonResponse([
+                'success' => false,
+                'error' => 'Invalid submission ID'
+            ], 400);
+            return;
+        }
+
         $this->requireAuth();
         $user = $this->getCurrentUser();
         

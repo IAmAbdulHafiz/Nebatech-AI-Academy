@@ -3,6 +3,9 @@
 namespace Nebatech\Controllers;
 
 use Nebatech\Core\Controller;
+use Nebatech\Models\Course;
+use Nebatech\Models\Module;
+use Nebatech\Models\Enrollment;
 
 class CourseController extends Controller
 {
@@ -11,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        echo $this->view('courses/index');
+        echo $this->render('courses/index');
     }
 
     /**
@@ -19,7 +22,7 @@ class CourseController extends Controller
      */
     public function frontend()
     {
-        echo $this->view('courses/frontend');
+        echo $this->render('courses/frontend');
     }
 
     /**
@@ -27,7 +30,7 @@ class CourseController extends Controller
      */
     public function backend()
     {
-        echo $this->view('courses/backend');
+        echo $this->render('courses/backend');
     }
 
     /**
@@ -35,7 +38,7 @@ class CourseController extends Controller
      */
     public function fullstack()
     {
-        echo $this->view('courses/fullstack');
+        echo $this->render('courses/fullstack');
     }
 
     /**
@@ -43,7 +46,7 @@ class CourseController extends Controller
      */
     public function mobile()
     {
-        echo $this->view('courses/mobile');
+        echo $this->render('courses/mobile');
     }
 
     /**
@@ -51,7 +54,7 @@ class CourseController extends Controller
      */
     public function ai()
     {
-        echo $this->view('courses/ai');
+        echo $this->render('courses/ai');
     }
 
     /**
@@ -59,7 +62,7 @@ class CourseController extends Controller
      */
     public function dataScience()
     {
-        echo $this->view('courses/data-science');
+        echo $this->render('courses/data-science');
     }
 
     /**
@@ -67,7 +70,7 @@ class CourseController extends Controller
      */
     public function cybersecurity()
     {
-        echo $this->view('courses/cybersecurity');
+        echo $this->render('courses/cybersecurity');
     }
 
     /**
@@ -75,14 +78,57 @@ class CourseController extends Controller
      */
     public function cloud()
     {
-        echo $this->view('courses/cloud');
+        echo $this->render('courses/cloud');
     }
 
     /**
      * Show individual course details
      */
-    public function show($slug)
+    public function show(array $params = [])
     {
-        echo $this->view('courses/show', ['slug' => $slug]);
+        $slug = $params['slug'] ?? '';
+        if (empty($slug)) {
+            http_response_code(404);
+            echo $this->render('errors/404', ['title' => 'Course Not Found']);
+            return;
+        }
+
+        // Fetch course by slug
+        $course = Course::findBySlug($slug);
+        
+        if (!$course) {
+            http_response_code(404);
+            echo $this->render('errors/404', ['title' => 'Course Not Found']);
+            return;
+        }
+
+        // Get course modules with lessons
+        $modules = Module::getByCourse($course['id'], 'published');
+
+        // Check if user is enrolled (if logged in)
+        $isEnrolled = false;
+        if (isset($_SESSION['user_id'])) {
+            $isEnrolled = Enrollment::isEnrolled($_SESSION['user_id'], $course['id']);
+        }
+
+        // Get related courses (same category, excluding current course)
+        $relatedCourses = Course::getAll([
+            'category' => $course['category'],
+            'status' => 'published',
+            'limit' => 3
+        ]);
+        
+        // Filter out current course
+        $relatedCourses = array_filter($relatedCourses, function($c) use ($course) {
+            return $c['id'] !== $course['id'];
+        });
+
+        echo $this->render('courses/show', [
+            'title' => $course['title'] . ' - Nebatech AI Academy',
+            'course' => $course,
+            'modules' => $modules,
+            'isEnrolled' => $isEnrolled,
+            'relatedCourses' => $relatedCourses
+        ]);
     }
 }

@@ -16,6 +16,7 @@ use Nebatech\Controllers\AIController;
 use Nebatech\Controllers\CodeEditorController;
 use Nebatech\Controllers\FeedbackController;
 use Nebatech\Controllers\NotificationController;
+use Nebatech\Controllers\ApplicationController;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
@@ -105,6 +106,21 @@ $router->get('/portfolio/items/{id}', [PortfolioController::class, 'viewItem']);
 $router->post('/certificates/generate', [PortfolioController::class, 'generateCertificate']);
 $router->get('/certificates/{id}/download', [PortfolioController::class, 'downloadCertificate']);
 $router->get('/certificates/verify/{code}', [PortfolioController::class, 'verifyCertificate']);
+
+// Application & Admissions Routes
+// Student application routes
+$router->get('/apply/{programSlug}', [ApplicationController::class, 'apply']);
+$router->post('/applications/submit', [ApplicationController::class, 'submit']);
+$router->get('/applications/my', [ApplicationController::class, 'myApplications']);
+$router->get('/applications/{uuid}', [ApplicationController::class, 'view']);
+
+// Admin application management routes
+$router->get('/admin/applications', [ApplicationController::class, 'adminDashboard']);
+$router->get('/admin/applications/{id}/review', [ApplicationController::class, 'review']);
+$router->post('/admin/applications/approve', [ApplicationController::class, 'approve']);
+$router->post('/admin/applications/reject', [ApplicationController::class, 'reject']);
+$router->post('/admin/applications/waitlist', [ApplicationController::class, 'waitlist']);
+$router->post('/admin/applications/priority', [ApplicationController::class, 'updatePriority']);
 
 // Courses
 $router->get('/courses', [CourseController::class, 'index']);

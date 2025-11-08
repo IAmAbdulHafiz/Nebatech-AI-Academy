@@ -7,17 +7,17 @@ use Nebatech\Core\Database;
 
 class Submission extends Model
 {
-    protected static string $table = 'submissions';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'submissions';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new submission
      */
-    public static function create(array $data): ?int
+    public static function createSubmission(array $data): ?int
     {
         // Generate UUID if not provided
         if (!isset($data['uuid'])) {
-            $data['uuid'] = self::generateUuid();
+            $data['uuid'] = self::generateSubmissionUuid();
         }
 
         // Set default status if not provided
@@ -31,7 +31,7 @@ class Submission extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('submissions', $data);
         } catch (\Exception $e) {
             error_log("Submission creation failed: " . $e->getMessage());
             return null;
@@ -48,7 +48,7 @@ class Submission extends Model
                        u.last_name,
                        u.email,
                        u.avatar
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 WHERE s.assignment_id = :assignment_id";
         
@@ -84,7 +84,7 @@ class Submission extends Model
                        l.title as lesson_title,
                        m.title as module_title,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
                 INNER JOIN modules m ON l.module_id = m.id
@@ -118,7 +118,7 @@ class Submission extends Model
                        l.title as lesson_title,
                        m.title as module_title,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
@@ -146,7 +146,7 @@ class Submission extends Model
      */
     public static function getByUserAndAssignment(int $userId, int $assignmentId): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'submissions' . " 
                 WHERE user_id = :user_id AND assignment_id = :assignment_id
                 ORDER BY submitted_at DESC
                 LIMIT 1";
@@ -168,7 +168,7 @@ class Submission extends Model
      */
     public static function hasSubmitted(int $userId, int $assignmentId): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'submissions' . " 
                 WHERE user_id = :user_id AND assignment_id = :assignment_id";
         
         $result = Database::fetch($sql, [
@@ -204,7 +204,7 @@ class Submission extends Model
                        m.title as module_title,
                        c.id as course_id,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
@@ -243,7 +243,7 @@ class Submission extends Model
      */
     public static function getUserSubmission(int $userId, int $assignmentId): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'submissions' . " 
                 WHERE user_id = :user_id AND assignment_id = :assignment_id
                 ORDER BY submitted_at DESC
                 LIMIT 1";
@@ -271,7 +271,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -293,7 +293,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -313,7 +313,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -333,7 +333,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -354,7 +354,7 @@ class Submission extends Model
                     SUM(CASE WHEN status = 'verified' THEN 1 ELSE 0 END) as verified,
                     SUM(CASE WHEN status = 'revision_needed' THEN 1 ELSE 0 END) as revision_needed,
                     AVG(facilitator_score) as average_score
-                FROM " . static::$table;
+                FROM " . 'submissions';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -376,7 +376,7 @@ class Submission extends Model
                        u.last_name,
                        a.title as assignment_title,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
@@ -392,16 +392,16 @@ class Submission extends Model
     /**
      * Delete submission
      */
-    public static function delete(int $submissionId): bool
+    public static function deleteSubmission(int $submissionId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $submissionId]);
+        $result = Database::delete('submissions', 'id = :id', ['id' => $submissionId]);
         return $result > 0;
     }
 
     /**
      * Generate UUID v4
      */
-    protected static function generateUuid(): string
+    protected static function generateSubmissionUuid(): string
     {
         $data = random_bytes(16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);

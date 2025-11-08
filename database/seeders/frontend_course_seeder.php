@@ -27,7 +27,7 @@ $facilitatorEmail = 'facilitator@nebatech.com';
 $facilitator = User::findByEmail($facilitatorEmail);
 
 if (!$facilitator) {
-    $facilitatorId = User::create([
+    $facilitatorId = User::createUser([
         'first_name' => 'Sarah',
         'last_name' => 'Johnson',
         'email' => $facilitatorEmail,
@@ -43,7 +43,7 @@ if (!$facilitator) {
 
 // Step 2: Create the course
 echo "\n2. Creating Frontend Development course...\n";
-$courseId = Course::create([
+$courseId = Course::createCourse([
     'title' => 'Frontend Development Fundamentals',
     'slug' => 'frontend-development-fundamentals',
     'description' => 'Master the essentials of modern frontend web development. Learn HTML5, CSS3, JavaScript, and React to build beautiful, responsive, and interactive websites. This comprehensive course takes you from zero to job-ready with hands-on projects and real-world examples.',
@@ -151,7 +151,7 @@ $modules = [
 
 $moduleIds = [];
 foreach ($modules as $index => $moduleData) {
-    $moduleId = Module::create([
+    $moduleId = Module::createModule([
         'course_id' => $courseId,
         'title' => $moduleData['title'],
         'description' => $moduleData['description'],
@@ -215,7 +215,7 @@ HTML uses **tags** to mark up different parts of a webpage.
 
 $contactFormLessonId = null;
 foreach ($htmlLessons as $index => $lessonData) {
-    $lessonId = Lesson::create([
+    $lessonId = Lesson::createLesson([
         'module_id' => $moduleIds[0],
         'title' => $lessonData['title'],
         'content' => $lessonData['content'],
@@ -236,7 +236,7 @@ foreach ($htmlLessons as $index => $lessonData) {
 // Step 5: Create assignment for HTML module
 echo "\n5. Creating assignment for HTML module...\n";
 if ($contactFormLessonId) {
-    $assignmentId = Assignment::create([
+    $assignmentId = Assignment::createAssignment([
         'lesson_id' => $contactFormLessonId,
         'title' => 'HTML Contact Form Project',
         'description' => 'Build a professional contact form using semantic HTML5 and form validation.',
@@ -266,7 +266,7 @@ $cssLessons = [
 
 $portfolioLessonId = null;
 foreach ($cssLessons as $index => $lessonData) {
-    $lessonId = Lesson::create([
+    $lessonId = Lesson::createLesson([
         'module_id' => $moduleIds[1],
         'title' => $lessonData['title'],
         'content' => 'Lesson content for ' . $lessonData['title'],
@@ -286,7 +286,7 @@ foreach ($cssLessons as $index => $lessonData) {
 
 // Create CSS assignment
 if ($portfolioLessonId) {
-    $assignmentId = Assignment::create([
+    $assignmentId = Assignment::createAssignment([
         'lesson_id' => $portfolioLessonId,
         'title' => 'Responsive Portfolio Website',
         'description' => 'Design and build a fully responsive personal portfolio website showcasing your skills.',
@@ -316,7 +316,7 @@ $jsBasicsLessons = [
 
 $calculatorLessonId = null;
 foreach ($jsBasicsLessons as $index => $lessonData) {
-    $lessonId = Lesson::create([
+    $lessonId = Lesson::createLesson([
         'module_id' => $moduleIds[2],
         'title' => $lessonData['title'],
         'content' => 'Lesson content for ' . $lessonData['title'],
@@ -336,7 +336,7 @@ foreach ($jsBasicsLessons as $index => $lessonData) {
 
 // Create JavaScript assignment
 if ($calculatorLessonId) {
-    $assignmentId = Assignment::create([
+    $assignmentId = Assignment::createAssignment([
         'lesson_id' => $calculatorLessonId,
         'title' => 'JavaScript Calculator Application',
         'description' => 'Build a fully functional calculator using JavaScript DOM manipulation.',
@@ -367,7 +367,7 @@ $remainingModules = [
 foreach ($remainingModules as $module) {
     echo "   Module: {$module['name']}\n";
     for ($i = 0; $i < $module['lessons']; $i++) {
-        $lessonId = Lesson::create([
+        $lessonId = Lesson::createLesson([
             'module_id' => $moduleIds[$module['index']],
             'title' => "Lesson " . ($i + 1) . ": " . $module['name'],
             'content' => 'Content will be generated for this lesson.',

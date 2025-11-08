@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Course extends Model
 {
-    protected static string $table = 'courses';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'courses';
+    protected string $primaryKey = 'id';
 
     /**
      * Get all courses with optional filters
@@ -19,7 +19,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id";
         
         $params = [];
@@ -75,7 +75,7 @@ class Course extends Model
                        u.last_name as facilitator_last_name,
                        u.avatar as facilitator_avatar,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE c.slug = :slug LIMIT 1";
         
@@ -93,7 +93,7 @@ class Course extends Model
                        u.avatar as facilitator_avatar,
                        u.email as facilitator_email,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE c.id = :id LIMIT 1";
         
@@ -103,11 +103,11 @@ class Course extends Model
     /**
      * Create a new course
      */
-    public static function create(array $data): ?int
+    public static function createCourse(array $data): ?int
     {
         // Generate UUID if not provided
         if (!isset($data['uuid'])) {
-            $data['uuid'] = self::generateUuid();
+            $data['uuid'] = self::generateCourseUuid();
         }
 
         // Generate slug from title if not provided
@@ -126,7 +126,7 @@ class Course extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('courses', $data);
         } catch (\Exception $e) {
             error_log("Course creation failed: " . $e->getMessage());
             return null;
@@ -136,7 +136,7 @@ class Course extends Model
     /**
      * Update course
      */
-    public static function update(int $courseId, array $data): bool
+    public static function updateCourse(int $courseId, array $data): bool
     {
         // Remove fields that shouldn't be updated directly
         unset($data['id'], $data['uuid'], $data['created_at']);
@@ -151,7 +151,7 @@ class Course extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'courses',
             $data,
             'id = :id',
             ['id' => $courseId]
@@ -163,9 +163,9 @@ class Course extends Model
     /**
      * Delete course
      */
-    public static function delete(int $courseId): bool
+    public static function deleteCourse(int $courseId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $courseId]);
+        $result = Database::delete('courses', 'id = :id', ['id' => $courseId]);
         return $result > 0;
     }
 
@@ -203,7 +203,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE (c.title LIKE :query OR c.description LIKE :query)";
         
@@ -241,7 +241,7 @@ class Course extends Model
                     SUM(CASE WHEN level = 'intermediate' THEN 1 ELSE 0 END) as intermediate,
                     SUM(CASE WHEN level = 'advanced' THEN 1 ELSE 0 END) as advanced,
                     (SELECT COUNT(*) FROM enrollments) as total_enrollments
-                FROM " . static::$table;
+                FROM " . 'courses';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -263,7 +263,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        COUNT(e.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 LEFT JOIN enrollments e ON c.id = e.course_id
                 WHERE c.status = 'published'
@@ -279,7 +279,7 @@ class Course extends Model
      */
     public static function slugExists(string $slug, ?int $excludeId = null): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " WHERE slug = :slug";
+        $sql = "SELECT COUNT(*) as count FROM " . 'courses' . " WHERE slug = :slug";
         $params = ['slug' => $slug];
 
         if ($excludeId) {
@@ -312,9 +312,9 @@ class Course extends Model
     }
 
     /**
-     * Generate UUID v4
+     * Generate UUID v4 for courses
      */
-    protected static function generateUuid(): string
+    protected static function generateCourseUuid(): string
     {
         $data = random_bytes(16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);

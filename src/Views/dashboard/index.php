@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Nebatech AI Academy</title>
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <div class="container mx-auto px-4 py-8">
-        <!-- Welcome Section -->
+<!-- Welcome Section -->
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg p-8 text-white mb-8">
             <div class="flex items-center justify-between">
                 <div>
@@ -212,7 +198,4 @@
             </div>
         </div>
     </div>
-
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+</div>

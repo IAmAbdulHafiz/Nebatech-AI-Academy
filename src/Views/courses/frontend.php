@@ -11,6 +11,9 @@
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     
     <!-- Alpine.js -->
+    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine.js Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <!-- Font Awesome -->

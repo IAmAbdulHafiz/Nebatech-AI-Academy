@@ -90,3 +90,39 @@ if (!function_exists('csrf_field')) {
         return '<input type="hidden" name="_token" value="' . csrf_token() . '">';
     }
 }
+
+if (!function_exists('env')) {
+    /**
+     * Get environment variable value
+     * 
+     * @param string $key The environment variable key
+     * @param mixed $default Default value if not found
+     * @return mixed
+     */
+    function env(string $key, $default = null)
+    {
+        $value = getenv($key);
+        
+        if ($value === false) {
+            return $default;
+        }
+        
+        // Convert boolean strings
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return null;
+        }
+        
+        return $value;
+    }
+}

@@ -24,8 +24,15 @@ class PortfolioController extends Controller
     /**
      * Show public portfolio
      */
-    public function show(string $username)
+    public function show(array $params = [])
     {
+        $username = $params['username'] ?? '';
+        if (empty($username)) {
+            http_response_code(404);
+            $this->render('errors/404', ['title' => 'Portfolio Not Found']);
+            return;
+        }
+
         // Find user by email (username)
         $user = User::findByEmail($username);
         
@@ -264,8 +271,15 @@ class PortfolioController extends Controller
     /**
      * View portfolio item details
      */
-    public function viewItem(string $itemId)
+    public function viewItem(array $params = [])
     {
+        $itemId = $params['id'] ?? '';
+        if (empty($itemId)) {
+            http_response_code(404);
+            $this->render('errors/404', ['title' => 'Project Not Found']);
+            return;
+        }
+
         $item = Portfolio::getItemById($itemId);
         
         if (!$item) {
@@ -372,8 +386,15 @@ class PortfolioController extends Controller
     /**
      * Download certificate
      */
-    public function downloadCertificate(string $certificateId)
+    public function downloadCertificate(array $params = [])
     {
+        $certificateId = $params['id'] ?? '';
+        if (empty($certificateId)) {
+            http_response_code(404);
+            echo "Certificate not found";
+            return;
+        }
+
         $certificate = Certificate::findById($certificateId);
         
         if (!$certificate) {
@@ -409,8 +430,15 @@ class PortfolioController extends Controller
     /**
      * Verify certificate
      */
-    public function verifyCertificate(string $verificationCode)
+    public function verifyCertificate(array $params = [])
     {
+        $verificationCode = $params['code'] ?? '';
+        if (empty($verificationCode)) {
+            http_response_code(404);
+            $this->render('errors/404', ['title' => 'Invalid Certificate Code']);
+            return;
+        }
+
         $certificate = Certificate::verify($verificationCode);
         
         $this->render('portfolio/verify-certificate', [

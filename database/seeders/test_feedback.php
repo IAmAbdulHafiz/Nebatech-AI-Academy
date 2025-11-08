@@ -133,7 +133,7 @@ HTML;
     file_put_contents($testDir . '/' . $testFile, $testCode);
     
     // Create test submission
-    $submissionId = Submission::create([
+    $submissionId = Submission::createSubmission([
         'assignment_id' => 1, // Assuming assignment 1 exists
         'user_id' => 1, // Assuming user 1 exists
         'file_path' => $testFile,

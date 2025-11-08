@@ -38,7 +38,7 @@ class Certificate
     /**
      * Create certificate for user
      */
-    public static function create(string $userId, string $courseId, ?array $metadata = null): ?string
+    public static function createCertificate(string $userId, string $courseId, ?array $metadata = null): ?string
     {
         // Check if certificate already exists
         $existing = self::getByCourseAndUser($courseId, $userId);
@@ -47,7 +47,7 @@ class Certificate
         }
         
         $db = self::getDb();
-        $certificateId = self::generateUUID();
+        $certificateId = self::generateCertificateUuid();
         $certificateNumber = self::generateCertificateNumber();
         $verificationCode = self::generateVerificationCode();
         $issueDate = date('Y-m-d');

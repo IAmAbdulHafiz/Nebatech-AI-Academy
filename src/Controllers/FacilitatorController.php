@@ -50,7 +50,7 @@ class FacilitatorController extends Controller
             'pending_submissions' => count($pendingSubmissions)
         ];
 
-        echo $this->view('facilitator/dashboard', [
+        echo $this->render('facilitator/dashboard', [
             'title' => 'Facilitator Dashboard',
             'user' => $user,
             'courses' => $courses,
@@ -70,7 +70,7 @@ class FacilitatorController extends Controller
         
         unset($_SESSION['errors'], $_SESSION['old_input']);
 
-        echo $this->view('facilitator/create-course', [
+        echo $this->render('facilitator/create-course', [
             'title' => 'Create Course',
             'user' => $user,
             'errors' => $errors,
@@ -134,7 +134,7 @@ class FacilitatorController extends Controller
         }
 
         // Create course
-        $courseId = Course::create([
+        $courseId = Course::createCourse([
             'title' => $title,
             'description' => $description,
             'category' => $category,
@@ -161,8 +161,16 @@ class FacilitatorController extends Controller
     /**
      * Edit course
      */
-    public function editCourse(int $courseId)
+    public function editCourse(array $params = [])
     {
+        $courseId = (int) ($params['id'] ?? 0);
+        
+        if (!$courseId) {
+            $_SESSION['error'] = 'Invalid course ID.';
+            header('Location: ' . url('/facilitator/dashboard'));
+            exit;
+        }
+        
         $user = $this->getCurrentUser();
         $course = Course::findById($courseId);
 
@@ -180,7 +188,7 @@ class FacilitatorController extends Controller
         
         unset($_SESSION['errors'], $_SESSION['success']);
 
-        echo $this->view('facilitator/edit-course', [
+        echo $this->render('facilitator/edit-course', [
             'title' => 'Edit Course',
             'user' => $user,
             'course' => $course,
@@ -193,8 +201,16 @@ class FacilitatorController extends Controller
     /**
      * Update course
      */
-    public function updateCourse(int $courseId)
+    public function updateCourse(array $params = [])
     {
+        $courseId = (int) ($params['id'] ?? 0);
+        
+        if (!$courseId) {
+            $_SESSION['error'] = 'Invalid course ID.';
+            header('Location: ' . url('/facilitator/dashboard'));
+            exit;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . url('/facilitator/courses/' . $courseId . '/edit'));
             exit;
@@ -245,7 +261,7 @@ class FacilitatorController extends Controller
             $updateData['thumbnail'] = $thumbnail;
         }
 
-        $updated = Course::update($courseId, $updateData);
+        $updated = Course::updateCourse($courseId, $updateData);
 
         if ($updated) {
             $_SESSION['success'] = 'Course updated successfully!';
@@ -260,8 +276,15 @@ class FacilitatorController extends Controller
     /**
      * Add module to course
      */
-    public function addModule(int $courseId)
+    public function addModule(array $params = [])
     {
+        $courseId = (int) ($params['id'] ?? 0);
+        if (!$courseId) {
+            $_SESSION['error'] = 'Invalid course ID.';
+            header('Location: ' . url('/facilitator/dashboard'));
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . url('/facilitator/courses/' . $courseId . '/edit'));
             exit;
@@ -285,7 +308,7 @@ class FacilitatorController extends Controller
             exit;
         }
 
-        $moduleId = Module::create([
+        $moduleId = Module::createModule([
             'course_id' => $courseId,
             'title' => $title,
             'description' => $description,
@@ -304,8 +327,15 @@ class FacilitatorController extends Controller
     /**
      * Add lesson to module
      */
-    public function addLesson(int $moduleId)
+    public function addLesson(array $params = [])
     {
+        $moduleId = (int) ($params['id'] ?? 0);
+        if (!$moduleId) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid module ID']);
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
             echo json_encode(['error' => 'Method not allowed']);
@@ -339,7 +369,7 @@ class FacilitatorController extends Controller
             exit;
         }
 
-        $lessonId = Lesson::create([
+        $lessonId = Lesson::createLesson([
             'module_id' => $moduleId,
             'title' => $title,
             'type' => $type,
@@ -359,8 +389,15 @@ class FacilitatorController extends Controller
     /**
      * Publish course
      */
-    public function publishCourse(int $courseId)
+    public function publishCourse(array $params = [])
     {
+        $courseId = (int) ($params['id'] ?? 0);
+        if (!$courseId) {
+            $_SESSION['error'] = 'Invalid course ID.';
+            header('Location: ' . url('/facilitator/dashboard'));
+            exit;
+        }
+
         $user = $this->getCurrentUser();
         $course = Course::findById($courseId);
 
@@ -417,7 +454,7 @@ class FacilitatorController extends Controller
         // Get submissions
         $submissions = Submission::getForFacilitator($courseIds, $status, $courseId);
         
-        echo $this->view('facilitator/submissions', [
+        echo $this->render('facilitator/submissions', [
             'title' => 'Review Submissions',
             'user' => $user,
             'submissions' => $submissions,
@@ -430,8 +467,15 @@ class FacilitatorController extends Controller
     /**
      * Review a specific submission
      */
-    public function reviewSubmission(int $submissionId)
+    public function reviewSubmission(array $params = [])
     {
+        $submissionId = (int) ($params['id'] ?? 0);
+        if (!$submissionId) {
+            $_SESSION['error'] = 'Invalid submission ID.';
+            header('Location: ' . url('/facilitator/submissions'));
+            exit;
+        }
+
         $user = $this->getCurrentUser();
         
         // Get submission with full details
@@ -458,7 +502,7 @@ class FacilitatorController extends Controller
         // Parse code into sections
         $parsedCode = $this->parseCode($code ?? '');
         
-        echo $this->view('facilitator/review-submission', [
+        echo $this->render('facilitator/review-submission', [
             'title' => 'Review Submission',
             'user' => $user,
             'submission' => $submission,

@@ -13,10 +13,12 @@ class CodeEditorController extends Controller
     /**
      * Show code editor for a lesson
      */
-    public function index(int $lessonId = null)
+    public function index(array $params = [])
     {
         $this->requireAuth();
         $user = $this->getCurrentUser();
+        
+        $lessonId = isset($params['id']) ? (int) $params['id'] : null;
         
         $lesson = null;
         if ($lessonId) {
@@ -28,7 +30,7 @@ class CodeEditorController extends Controller
             }
         }
         
-        echo $this->view('code-editor/index', [
+        echo $this->render('code-editor/index', [
             'title' => 'Code Editor',
             'user' => $user,
             'lesson' => $lesson
@@ -38,8 +40,15 @@ class CodeEditorController extends Controller
     /**
      * Show code editor for an assignment
      */
-    public function assignment(int $assignmentId)
+    public function assignment(array $params = [])
     {
+        $assignmentId = (int) ($params['id'] ?? 0);
+        if (!$assignmentId) {
+            $_SESSION['error'] = 'Invalid assignment ID.';
+            header('Location: ' . url('/dashboard'));
+            exit;
+        }
+
         $this->requireAuth();
         $user = $this->getCurrentUser();
         
@@ -56,7 +65,7 @@ class CodeEditorController extends Controller
         // Check if user has already submitted
         $existingSubmission = Submission::getByUserAndAssignment($user['id'], $assignmentId);
         
-        echo $this->view('code-editor/assignment', [
+        echo $this->render('code-editor/assignment', [
             'title' => 'Assignment: ' . $assignment['title'],
             'user' => $user,
             'assignment' => $assignment,
@@ -103,7 +112,7 @@ class CodeEditorController extends Controller
                 $submissionId = $existing['id'];
             } else {
                 // Create new submission
-                $submissionId = Submission::create([
+                $submissionId = Submission::createSubmission([
                     'assignment_id' => $assignmentId,
                     'user_id' => $user['id'],
                     'file_path' => $filename,
@@ -169,7 +178,7 @@ class CodeEditorController extends Controller
                 $submissionId = $existing['id'];
             } else {
                 // Create new submission
-                $submissionId = Submission::create([
+                $submissionId = Submission::createSubmission([
                     'assignment_id' => $assignmentId,
                     'user_id' => $user['id'],
                     'file_path' => $filename,
@@ -200,8 +209,17 @@ class CodeEditorController extends Controller
     /**
      * Load saved code for an assignment
      */
-    public function loadCode(int $assignmentId)
+    public function loadCode(array $params = [])
     {
+        $assignmentId = (int) ($params['id'] ?? 0);
+        if (!$assignmentId) {
+            $this->jsonResponse([
+                'success' => false,
+                'error' => 'Invalid assignment ID'
+            ], 400);
+            return;
+        }
+
         $this->requireAuth();
         $user = $this->getCurrentUser();
         
