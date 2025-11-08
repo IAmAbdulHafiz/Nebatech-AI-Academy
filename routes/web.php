@@ -13,6 +13,9 @@ use Nebatech\Controllers\ContactController;
 use Nebatech\Controllers\DashboardController;
 use Nebatech\Controllers\FacilitatorController;
 use Nebatech\Controllers\AIController;
+use Nebatech\Controllers\CodeEditorController;
+use Nebatech\Controllers\FeedbackController;
+use Nebatech\Controllers\NotificationController;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
@@ -46,12 +49,62 @@ $router->post('/facilitator/courses/{id}/publish', [FacilitatorController::class
 $router->post('/facilitator/courses/{id}/modules', [FacilitatorController::class, 'addModule']);
 $router->post('/facilitator/modules/{id}/lessons', [FacilitatorController::class, 'addLesson']);
 
+// Facilitator Submission Review Routes
+$router->get('/facilitator/submissions', [FacilitatorController::class, 'submissions']);
+$router->get('/facilitator/submissions/{id}/review', [FacilitatorController::class, 'reviewSubmission']);
+$router->post('/facilitator/submissions/update', [FacilitatorController::class, 'updateSubmission']);
+
 // AI Generation Routes (facilitator only)
 $router->post('/ai/generate-course-outline', [AIController::class, 'generateCourseOutline']);
 $router->post('/ai/generate-lesson-content', [AIController::class, 'generateLessonContent']);
 $router->post('/ai/generate-project-brief', [AIController::class, 'generateProjectBrief']);
 $router->post('/ai/generate-complete-course', [AIController::class, 'generateCompleteCourse']);
 $router->post('/ai/generate-quiz', [AIController::class, 'generateQuiz']);
+
+// Code Editor Routes (student access)
+$router->get('/code-editor', [CodeEditorController::class, 'index']);
+$router->get('/lessons/{id}/code-editor', [CodeEditorController::class, 'index']);
+$router->get('/assignments/{id}/code-editor', [CodeEditorController::class, 'assignment']);
+$router->post('/assignments/submit', [CodeEditorController::class, 'submitAssignment']);
+$router->post('/assignments/save', [CodeEditorController::class, 'saveSubmission']);
+$router->get('/assignments/{id}/load-code', [CodeEditorController::class, 'loadCode']);
+
+// Feedback Routes
+$router->get('/submissions/{id}/feedback', [FeedbackController::class, 'view']);
+$router->get('/api/submissions/{id}/feedback', [FeedbackController::class, 'getFeedback']);
+$router->post('/api/submissions/{id}/regenerate-feedback', [FeedbackController::class, 'regenerate']);
+$router->post('/api/feedback/batch-generate', [FeedbackController::class, 'generateBatch']);
+
+// Notification Routes
+$router->get('/settings/notifications', [NotificationController::class, 'preferences']);
+$router->post('/notifications/update', [NotificationController::class, 'updatePreferences']);
+$router->post('/notifications/test-email', [NotificationController::class, 'testEmail']);
+$router->post('/notifications/process-queue', [NotificationController::class, 'processQueue']);
+$router->get('/admin/email-queue', [NotificationController::class, 'queueStatus']);
+$router->post('/notifications/retry-email', [NotificationController::class, 'retryEmail']);
+
+// Portfolio Routes
+use Nebatech\Controllers\PortfolioController;
+
+// Public portfolio view
+$router->get('/portfolio/{username}', [PortfolioController::class, 'show']);
+
+// Portfolio management (student access)
+$router->get('/portfolio/manage', [PortfolioController::class, 'manage']);
+$router->post('/portfolio/settings', [PortfolioController::class, 'updateSettings']);
+
+// Portfolio items CRUD (AJAX)
+$router->post('/portfolio/items/add', [PortfolioController::class, 'addItem']);
+$router->post('/portfolio/items/update', [PortfolioController::class, 'updateItem']);
+$router->post('/portfolio/items/delete', [PortfolioController::class, 'deleteItem']);
+
+// Individual project view
+$router->get('/portfolio/items/{id}', [PortfolioController::class, 'viewItem']);
+
+// Certificate generation and management
+$router->post('/certificates/generate', [PortfolioController::class, 'generateCertificate']);
+$router->get('/certificates/{id}/download', [PortfolioController::class, 'downloadCertificate']);
+$router->get('/certificates/verify/{code}', [PortfolioController::class, 'verifyCertificate']);
 
 // Courses
 $router->get('/courses', [CourseController::class, 'index']);

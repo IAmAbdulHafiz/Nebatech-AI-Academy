@@ -4,6 +4,7 @@ namespace Nebatech\Controllers;
 
 use Nebatech\Core\Controller;
 use Nebatech\Models\User;
+use Nebatech\Services\EmailService;
 
 class AuthController extends Controller
 {
@@ -216,8 +217,12 @@ class AuthController extends Controller
             exit;
         }
 
-        // TODO: Send welcome email
-        // TODO: Send email verification
+        // Send welcome email
+        $emailService = new EmailService();
+        $user = User::findById($userId);
+        if ($user) {
+            $emailService->queueEmail('welcome', $user, ['user' => $user]);
+        }
 
         // Set success message
         $_SESSION['success'] = 'Registration successful! Please log in.';

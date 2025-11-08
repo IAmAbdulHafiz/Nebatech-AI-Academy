@@ -142,6 +142,28 @@ class Submission extends Model
     }
 
     /**
+     * Get submission by user and assignment
+     */
+    public static function getByUserAndAssignment(int $userId, int $assignmentId): ?array
+    {
+        $sql = "SELECT * FROM " . static::$table . " 
+                WHERE user_id = :user_id AND assignment_id = :assignment_id
+                ORDER BY submitted_at DESC
+                LIMIT 1";
+        
+        $submission = Database::fetch($sql, [
+            'user_id' => $userId,
+            'assignment_id' => $assignmentId
+        ]);
+        
+        if ($submission && $submission['ai_feedback']) {
+            $submission['ai_feedback'] = json_decode($submission['ai_feedback'], true);
+        }
+        
+        return $submission;
+    }
+
+    /**
      * Check if user has submitted assignment
      */
     public static function hasSubmitted(int $userId, int $assignmentId): bool
@@ -155,6 +177,65 @@ class Submission extends Model
         ]);
 
         return $result && $result['count'] > 0;
+    }
+
+    /**
+     * Get submissions for facilitator review
+     */
+    public static function getForFacilitator(
+        array $courseIds, 
+        ?string $status = 'all', 
+        ?int $courseId = null
+    ): array {
+        if (empty($courseIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($courseIds), '?'));
+        
+        $sql = "SELECT s.*, 
+                       u.first_name,
+                       u.last_name,
+                       u.email,
+                       u.avatar,
+                       a.title as assignment_title,
+                       a.max_score,
+                       l.title as lesson_title,
+                       m.title as module_title,
+                       c.id as course_id,
+                       c.title as course_title
+                FROM " . static::$table . " s
+                INNER JOIN users u ON s.user_id = u.id
+                INNER JOIN assignments a ON s.assignment_id = a.id
+                INNER JOIN lessons l ON a.lesson_id = l.id
+                INNER JOIN modules m ON l.module_id = m.id
+                INNER JOIN courses c ON m.course_id = c.id
+                WHERE c.id IN ($placeholders)";
+        
+        $params = $courseIds;
+
+        if ($status && $status !== 'all') {
+            $sql .= " AND s.status = ?";
+            $params[] = $status;
+        }
+        
+        if ($courseId) {
+            $sql .= " AND c.id = ?";
+            $params[] = $courseId;
+        }
+
+        $sql .= " ORDER BY s.submitted_at DESC";
+
+        $submissions = Database::fetchAll($sql, $params);
+
+        // Decode JSON feedback
+        foreach ($submissions as &$submission) {
+            if ($submission['ai_feedback']) {
+                $submission['ai_feedback'] = json_decode($submission['ai_feedback'], true);
+            }
+        }
+
+        return $submissions;
     }
 
     /**
