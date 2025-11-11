@@ -37,6 +37,9 @@
     
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body class="bg-gray-50">
     <?php include __DIR__ . '/partials/header.php'; ?>

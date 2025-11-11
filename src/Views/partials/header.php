@@ -4,12 +4,23 @@
 </div>
 
 <!-- Sticky Header -->
+<?php
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+$userName = $_SESSION['user_name'] ?? 'User';
+$userEmail = $_SESSION['user_email'] ?? '';
+$userInitials = '';
+if ($isLoggedIn) {
+    $nameParts = explode(' ', $userName);
+    $userInitials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+}
+?>
 <header class="bg-primary text-white shadow-lg sticky top-0 z-50" x-data="{ 
     mobileMenuOpen: false, 
     coursesDropdown: false, 
     searchOpen: false,
     userDropdown: false,
-    isLoggedIn: false,
+    isLoggedIn: <?= $isLoggedIn ? 'true' : 'false' ?>,
     scrolled: false
 }" @scroll.window="scrolled = window.pageYOffset > 20">
     <nav class="container mx-auto px-6 py-4" :class="scrolled ? 'py-2' : 'py-4'" style="transition: padding 0.3s;">
@@ -52,6 +63,7 @@
                     
                     <!-- Dropdown Mega Menu -->
                     <div x-show="coursesDropdown" 
+                         x-cloak
                          x-transition
                          class="absolute left-0 mt-2 w-96 bg-white text-gray-800 rounded-lg shadow-2xl p-6 z-50">
                         <div class="grid grid-cols-2 gap-4">
@@ -98,7 +110,7 @@
                 </a>
 
                 <!-- Notifications (when logged in) -->
-                <button x-show="isLoggedIn" class="hidden md:block relative text-white hover:text-secondary">
+                <button x-show="isLoggedIn" x-cloak class="hidden md:block relative text-white hover:text-secondary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                     </svg>
@@ -106,30 +118,53 @@
                 </button>
 
                 <!-- User Dropdown (when logged in) -->
-                <div x-show="isLoggedIn" class="hidden md:block relative" @mouseenter="userDropdown = true" @mouseleave="userDropdown = false">
+                <div x-show="isLoggedIn" x-cloak class="hidden md:block relative" @mouseenter="userDropdown = true" @mouseleave="userDropdown = false">
                     <button class="flex items-center space-x-2">
                         <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center font-bold">
-                            JD
+                            <?= $userInitials ?>
                         </div>
                     </button>
                     <div x-show="userDropdown" 
+                         x-cloak
                          x-transition
                          class="absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-2xl py-2 z-50">
                         <div class="px-4 py-2 border-b border-gray-200">
-                            <p class="font-semibold">John Doe</p>
-                            <p class="text-sm text-gray-500">john@example.com</p>
+                            <p class="font-semibold truncate"><?= htmlspecialchars($userName) ?></p>
+                            <p class="text-sm text-gray-500 truncate" title="<?= htmlspecialchars($userEmail) ?>"><?= htmlspecialchars($userEmail) ?></p>
+                            <?php if (is_facilitator() || is_admin()): ?>
+                                <span class="inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded">
+                                    <?= ucfirst(user_role()) ?>
+                                </span>
+                            <?php endif; ?>
                         </div>
-                        <a href="<?= url('/dashboard') ?>" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
-                        <a href="<?= url('/my-courses') ?>" class="block px-4 py-2 hover:bg-gray-100">My Courses</a>
+                        
+                        <?php if (is_student()): ?>
+                            <a href="<?= url('/dashboard') ?>" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
+                            <a href="<?= url('/my-courses') ?>" class="block px-4 py-2 hover:bg-gray-100">My Courses</a>
+                            <a href="<?= url('/my-applications') ?>" class="block px-4 py-2 hover:bg-gray-100">My Applications</a>
+                            <a href="<?= url('/my-portfolio') ?>" class="block px-4 py-2 hover:bg-gray-100">Portfolio</a>
+                            <a href="<?= url('/my-certificates') ?>" class="block px-4 py-2 hover:bg-gray-100">Certificates</a>
+                        <?php elseif (is_facilitator()): ?>
+                            <a href="<?= url('/facilitator/dashboard') ?>" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
+                            <a href="<?= url('/facilitator/courses/create') ?>" class="block px-4 py-2 hover:bg-gray-100">My Courses</a>
+                            <a href="<?= url('/facilitator/submissions') ?>" class="block px-4 py-2 hover:bg-gray-100">Submissions</a>
+                            <a href="<?= url('/facilitator/students') ?>" class="block px-4 py-2 hover:bg-gray-100">Students</a>
+                            <a href="<?= url('/my-certificates') ?>" class="block px-4 py-2 hover:bg-gray-100">Certificates</a>
+                        <?php elseif (is_admin()): ?>
+                            <a href="<?= url('/admin/dashboard') ?>" class="block px-4 py-2 hover:bg-gray-100">Admin Dashboard</a>
+                            <a href="<?= url('/admin/applications') ?>" class="block px-4 py-2 hover:bg-gray-100">Applications</a>
+                            <a href="<?= url('/admin/users') ?>" class="block px-4 py-2 hover:bg-gray-100">Users</a>
+                            <a href="<?= url('/facilitator/dashboard') ?>" class="block px-4 py-2 hover:bg-gray-100">Facilitator View</a>
+                        <?php endif; ?>
+                        
                         <a href="<?= url('/profile') ?>" class="block px-4 py-2 hover:bg-gray-100">Profile Settings</a>
-                        <a href="<?= url('/certificates') ?>" class="block px-4 py-2 hover:bg-gray-100">Certificates</a>
                         <div class="border-t border-gray-200 mt-2"></div>
                         <a href="<?= url('/logout') ?>" class="block px-4 py-2 hover:bg-gray-100 text-red-600">Logout</a>
                     </div>
                 </div>
 
                 <!-- Auth Buttons (when not logged in) -->
-                <div x-show="!isLoggedIn" class="hidden md:flex items-center space-x-3">
+                <div x-show="!isLoggedIn" x-cloak class="hidden md:flex items-center space-x-3">
                     <a href="<?= url('/login') ?>" class="text-white hover:text-secondary font-semibold transition-colors">
                         Login
                     </a>
@@ -140,10 +175,10 @@
 
                 <!-- Mobile Menu Button -->
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-white">
-                    <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg x-show="!mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
-                    <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
@@ -151,7 +186,7 @@
         </div>
 
         <!-- Mobile Search Bar -->
-        <div x-show="searchOpen" x-collapse class="lg:hidden mt-4">
+        <div x-show="searchOpen" x-cloak x-collapse class="lg:hidden mt-4">
             <div class="relative">
                 <input type="text" 
                        placeholder="Search courses..." 
@@ -163,7 +198,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" x-collapse class="lg:hidden mt-4 pb-4 border-t border-blue-600 pt-4">
+        <div x-show="mobileMenuOpen" x-cloak x-collapse class="lg:hidden mt-4 pb-4 border-t border-blue-600 pt-4">
             <div class="space-y-2">
                 <a href="<?= url('/') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Home</a>
                 
@@ -175,7 +210,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div x-show="open" x-collapse class="pl-4 space-y-2 mt-2">
+                    <div x-show="open" x-cloak x-collapse class="pl-4 space-y-2 mt-2">
                         <a href="<?= url('/courses/frontend') ?>" class="block py-1 text-gray-300 hover:text-secondary">Frontend Development</a>
                         <a href="<?= url('/courses/backend') ?>" class="block py-1 text-gray-300 hover:text-secondary">Backend Development</a>
                         <a href="<?= url('/courses/ai') ?>" class="block py-1 text-gray-300 hover:text-secondary">AI & Machine Learning</a>
@@ -188,11 +223,47 @@
                 <a href="<?= url('/contact') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Contact</a>
                 <a href="<?= url('/support') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Help & Support</a>
                 
-                <div class="border-t border-blue-600 pt-4 mt-4 space-y-2">
+                <!-- Mobile Auth Buttons (when not logged in) -->
+                <div x-show="!isLoggedIn" x-cloak class="border-t border-blue-600 pt-4 mt-4 space-y-2">
                     <a href="<?= url('/login') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Login</a>
                     <a href="<?= url('/register') ?>" class="block bg-secondary hover:bg-orange-600 text-white font-bold px-4 py-3 rounded-lg text-center transition-colors">
                         Sign Up Free
                     </a>
+                </div>
+                
+                <!-- Mobile User Menu (when logged in) -->
+                <div x-show="isLoggedIn" x-cloak class="border-t border-blue-600 pt-4 mt-4 space-y-2">
+                    <div class="px-4 py-2 bg-blue-700 rounded-lg mb-2">
+                        <p class="font-semibold truncate"><?= htmlspecialchars($userName) ?></p>
+                        <p class="text-sm text-gray-300 break-all"><?= htmlspecialchars($userEmail) ?></p>
+                        <?php if (is_facilitator() || is_admin()): ?>
+                            <span class="inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded">
+                                <?= ucfirst(user_role()) ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <?php if (is_student()): ?>
+                        <a href="<?= url('/dashboard') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Dashboard</a>
+                        <a href="<?= url('/my-courses') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">My Courses</a>
+                        <a href="<?= url('/my-applications') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">My Applications</a>
+                        <a href="<?= url('/my-portfolio') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Portfolio</a>
+                        <a href="<?= url('/my-certificates') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Certificates</a>
+                    <?php elseif (is_facilitator()): ?>
+                        <a href="<?= url('/facilitator/dashboard') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Dashboard</a>
+                        <a href="<?= url('/facilitator/courses/create') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">My Courses</a>
+                        <a href="<?= url('/facilitator/submissions') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Submissions</a>
+                        <a href="<?= url('/facilitator/students') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Students</a>
+                        <a href="<?= url('/my-certificates') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Certificates</a>
+                    <?php elseif (is_admin()): ?>
+                        <a href="<?= url('/admin/dashboard') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Admin Dashboard</a>
+                        <a href="<?= url('/admin/applications') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Applications</a>
+                        <a href="<?= url('/admin/users') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Users</a>
+                        <a href="<?= url('/facilitator/dashboard') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Facilitator View</a>
+                    <?php endif; ?>
+                    
+                    <a href="<?= url('/profile') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Profile Settings</a>
+                    <a href="<?= url('/logout') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold text-red-400">Logout</a>
                 </div>
             </div>
         </div>

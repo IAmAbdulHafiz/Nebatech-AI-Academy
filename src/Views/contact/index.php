@@ -6,6 +6,7 @@
     <title>Contact Us - Nebatech AI Academy</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="<?= asset('js/notifications.js') ?>"></script>
 </head>
 <body class="bg-gray-50">
     <?php include __DIR__ . '/../partials/header.php'; ?>
@@ -28,51 +29,60 @@
                 <!-- Contact Form -->
                 <div class="bg-white rounded-2xl shadow-xl p-8">
                     <h2 class="text-3xl font-bold text-gray-800 mb-6">Send us a Message</h2>
-                    
-                    <?php if (isset($_GET['success'])): ?>
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                        <strong>Success!</strong> Your message has been sent. We'll get back to you soon.
-                    </div>
-                    <?php endif; ?>
 
                     <form method="POST" action="<?= url('/contact') ?>" class="space-y-6">
+                        <?= csrf_field() ?>
                         <!-- Name -->
                         <div>
                             <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
                             <input type="text" id="name" name="name" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                   value="<?= htmlspecialchars($_SESSION['old_input']['name'] ?? '') ?>"
+                                   class="w-full px-4 py-3 border <?= isset($_SESSION['errors']['name']) ? 'border-red-500' : 'border-gray-300' ?> rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                    placeholder="John Doe">
+                            <?php if (isset($_SESSION['errors']['name'])): ?>
+                                <p class="text-red-500 text-sm mt-1"><?= $_SESSION['errors']['name'] ?></p>
+                            <?php endif; ?>
                         </div>
 
                         <!-- Email -->
                         <div>
                             <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
                             <input type="email" id="email" name="email" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                   value="<?= htmlspecialchars($_SESSION['old_input']['email'] ?? '') ?>"
+                                   class="w-full px-4 py-3 border <?= isset($_SESSION['errors']['email']) ? 'border-red-500' : 'border-gray-300' ?> rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                    placeholder="you@example.com">
+                            <?php if (isset($_SESSION['errors']['email'])): ?>
+                                <p class="text-red-500 text-sm mt-1"><?= $_SESSION['errors']['email'] ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="phone" 
+                                   value="<?= htmlspecialchars($_SESSION['old_input']['phone'] ?? '') ?>"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                   placeholder="+233 50 123 4567">
                         </div>
 
                         <!-- Subject -->
                         <div>
-                            <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label>
-                            <select id="subject" name="subject" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">Select a subject</option>
-                                <option value="general">General Inquiry</option>
-                                <option value="technical">Technical Support</option>
-                                <option value="course">Course Question</option>
-                                <option value="partnership">Partnership Opportunity</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" 
+                                   value="<?= htmlspecialchars($_SESSION['old_input']['subject'] ?? '') ?>"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                   placeholder="Brief subject of your message">
                         </div>
 
                         <!-- Message -->
                         <div>
                             <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
                             <textarea id="message" name="message" required rows="6"
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                      placeholder="Tell us how we can help you..."></textarea>
+                                      class="w-full px-4 py-3 border <?= isset($_SESSION['errors']['message']) ? 'border-red-500' : 'border-gray-300' ?> rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                      placeholder="Tell us how we can help you..."><?= htmlspecialchars($_SESSION['old_input']['message'] ?? '') ?></textarea>
+                            <?php if (isset($_SESSION['errors']['message'])): ?>
+                                <p class="text-red-500 text-sm mt-1"><?= $_SESSION['errors']['message'] ?></p>
+                            <?php endif; ?>
                         </div>
 
                         <!-- Submit Button -->
@@ -212,5 +222,30 @@
     </section>
 
     <?php include __DIR__ . '/../partials/footer.php'; ?>
+
+    <script>
+        // Initialize Toast on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            Toast.init();
+            
+            // Check for success message in session
+            <?php if (isset($_SESSION['success'])): ?>
+                Toast.success('<?= addslashes($_SESSION['success']) ?>');
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+
+            // Check for error messages in session
+            <?php if (isset($_SESSION['errors']) && isset($_SESSION['errors']['general'])): ?>
+                Toast.error('<?= addslashes($_SESSION['errors']['general']) ?>');
+                <?php unset($_SESSION['errors']['general']); ?>
+            <?php endif; ?>
+        });
+    </script>
+    
+    <?php 
+    // Clean up session variables after displaying
+    unset($_SESSION['errors']);
+    unset($_SESSION['old_input']);
+    ?>
 </body>
 </html>

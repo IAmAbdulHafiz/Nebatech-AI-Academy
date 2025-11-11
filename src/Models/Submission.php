@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Submission extends Model
 {
-    protected static string $table = 'submissions';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'submissions';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new submission
@@ -31,7 +31,7 @@ class Submission extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('submissions', $data);
         } catch (\Exception $e) {
             error_log("Submission creation failed: " . $e->getMessage());
             return null;
@@ -48,7 +48,7 @@ class Submission extends Model
                        u.last_name,
                        u.email,
                        u.avatar
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 WHERE s.assignment_id = :assignment_id";
         
@@ -83,8 +83,9 @@ class Submission extends Model
                        a.max_score,
                        l.title as lesson_title,
                        m.title as module_title,
+                       c.id as course_id,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
                 INNER JOIN modules m ON l.module_id = m.id
@@ -117,8 +118,9 @@ class Submission extends Model
                        a.rubric,
                        l.title as lesson_title,
                        m.title as module_title,
+                       c.id as course_id,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
@@ -146,7 +148,7 @@ class Submission extends Model
      */
     public static function hasSubmitted(int $userId, int $assignmentId): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'submissions' . " 
                 WHERE user_id = :user_id AND assignment_id = :assignment_id";
         
         $result = Database::fetch($sql, [
@@ -162,7 +164,7 @@ class Submission extends Model
      */
     public static function getUserSubmission(int $userId, int $assignmentId): ?array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'submissions' . " 
                 WHERE user_id = :user_id AND assignment_id = :assignment_id
                 ORDER BY submitted_at DESC
                 LIMIT 1";
@@ -190,7 +192,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -212,7 +214,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -232,7 +234,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -252,7 +254,7 @@ class Submission extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'submissions',
             $data,
             'id = :id',
             ['id' => $submissionId]
@@ -273,7 +275,7 @@ class Submission extends Model
                     SUM(CASE WHEN status = 'verified' THEN 1 ELSE 0 END) as verified,
                     SUM(CASE WHEN status = 'revision_needed' THEN 1 ELSE 0 END) as revision_needed,
                     AVG(facilitator_score) as average_score
-                FROM " . static::$table;
+                FROM " . 'submissions';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -295,7 +297,7 @@ class Submission extends Model
                        u.last_name,
                        a.title as assignment_title,
                        c.title as course_title
-                FROM " . static::$table . " s
+                FROM " . 'submissions' . " s
                 INNER JOIN users u ON s.user_id = u.id
                 INNER JOIN assignments a ON s.assignment_id = a.id
                 INNER JOIN lessons l ON a.lesson_id = l.id
@@ -309,11 +311,80 @@ class Submission extends Model
     }
 
     /**
+     * Find submission by user and assignment
+     */
+    public static function findByUserAndAssignment(int $userId, int $assignmentId): ?array
+    {
+        $sql = "SELECT s.*, 
+                       a.title as assignment_title,
+                       a.max_score,
+                       a.rubric,
+                       l.title as lesson_title,
+                       m.title as module_title,
+                       c.id as course_id,
+                       c.title as course_title
+                FROM " . 'submissions' . " s
+                INNER JOIN assignments a ON s.assignment_id = a.id
+                INNER JOIN lessons l ON a.lesson_id = l.id
+                INNER JOIN modules m ON l.module_id = m.id
+                INNER JOIN courses c ON m.course_id = c.id
+                WHERE s.user_id = :user_id AND s.assignment_id = :assignment_id
+                ORDER BY s.submitted_at DESC
+                LIMIT 1";
+        
+        $submission = Database::fetch($sql, [
+            'user_id' => $userId,
+            'assignment_id' => $assignmentId
+        ]);
+
+        if ($submission) {
+            if ($submission['ai_feedback']) {
+                $submission['ai_feedback'] = json_decode($submission['ai_feedback'], true);
+            }
+            if ($submission['rubric']) {
+                $submission['rubric'] = json_decode($submission['rubric'], true);
+            }
+        }
+
+        return $submission;
+    }
+
+    /**
+     * Update submission data
+     */
+    public static function updateSubmission(int $submissionId, array $data): bool
+    {
+        // Encode AI feedback as JSON if it's an array
+        if (isset($data['ai_feedback']) && is_array($data['ai_feedback'])) {
+            $data['ai_feedback'] = json_encode($data['ai_feedback']);
+        }
+
+        $result = Database::update(
+            'submissions',
+            $data,
+            'id = :id',
+            ['id' => $submissionId]
+        );
+
+        return $result > 0;
+    }
+
+    /**
      * Delete submission
      */
-    public static function delete(int $submissionId): bool
+    public static function deleteById(int $submissionId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $submissionId]);
+        // Get submission to delete associated file
+        $submission = self::findById($submissionId);
+        
+        if ($submission && $submission['file_path']) {
+            $filePath = __DIR__ . '/../../storage/' . $submission['file_path'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        $result = Database::delete('submissions', 'id = :id', ['id' => $submissionId]);
         return $result > 0;
     }
 

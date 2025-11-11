@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Lesson extends Model
 {
-    protected static string $table = 'lessons';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'lessons';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new lesson
@@ -36,7 +36,7 @@ class Lesson extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('lessons', $data);
         } catch (\Exception $e) {
             error_log("Lesson creation failed: " . $e->getMessage());
             return null;
@@ -48,7 +48,7 @@ class Lesson extends Model
      */
     public static function getByModule(int $moduleId): array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'lessons' . " 
                 WHERE module_id = :module_id 
                 ORDER BY order_index ASC";
         
@@ -73,7 +73,7 @@ class Lesson extends Model
                        m.title as module_title,
                        m.course_id,
                        c.title as course_title
-                FROM " . static::$table . " l
+                FROM " . 'lessons' . " l
                 INNER JOIN modules m ON l.module_id = m.id
                 INNER JOIN courses c ON m.course_id = c.id
                 WHERE l.id = :id
@@ -91,7 +91,7 @@ class Lesson extends Model
     /**
      * Update lesson
      */
-    public static function update(int $lessonId, array $data): bool
+    public static function updateById(int $lessonId, array $data): bool
     {
         unset($data['id'], $data['uuid'], $data['created_at'], $data['module_id']);
 
@@ -105,7 +105,7 @@ class Lesson extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'lessons',
             $data,
             'id = :id',
             ['id' => $lessonId]
@@ -117,9 +117,9 @@ class Lesson extends Model
     /**
      * Delete lesson
      */
-    public static function delete(int $lessonId): bool
+    public static function deleteById(int $lessonId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $lessonId]);
+        $result = Database::delete('lessons', 'id = :id', ['id' => $lessonId]);
         return $result > 0;
     }
 
@@ -133,7 +133,7 @@ class Lesson extends Model
         try {
             foreach ($lessonIds as $index => $lessonId) {
                 Database::update(
-                    static::$table,
+                    'lessons',
                     ['order_index' => $index],
                     'id = :id AND module_id = :module_id',
                     ['id' => $lessonId, 'module_id' => $moduleId]
@@ -154,7 +154,7 @@ class Lesson extends Model
      */
     protected static function getNextOrderIndex(int $moduleId): int
     {
-        $sql = "SELECT MAX(order_index) as max_index FROM " . static::$table . " 
+        $sql = "SELECT MAX(order_index) as max_index FROM " . 'lessons' . " 
                 WHERE module_id = :module_id";
         
         $result = Database::fetch($sql, ['module_id' => $moduleId]);
@@ -166,7 +166,7 @@ class Lesson extends Model
      */
     public static function getByType(int $moduleId, string $type): array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'lessons' . " 
                 WHERE module_id = :module_id AND type = :type 
                 ORDER BY order_index ASC";
         
@@ -181,7 +181,7 @@ class Lesson extends Model
      */
     public static function getAIGenerated(int $moduleId): array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'lessons' . " 
                 WHERE module_id = :module_id AND ai_generated = TRUE 
                 ORDER BY order_index ASC";
         
@@ -193,7 +193,7 @@ class Lesson extends Model
      */
     public static function getCountByModule(int $moduleId): int
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'lessons' . " 
                 WHERE module_id = :module_id";
         
         $result = Database::fetch($sql, ['module_id' => $moduleId]);

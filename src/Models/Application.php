@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Application extends Model
 {
-    protected static string $table = 'applications';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'applications';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new application
@@ -26,7 +26,7 @@ class Application extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('applications', $data);
         } catch (\Exception $e) {
             error_log("Application creation failed: " . $e->getMessage());
             return null;
@@ -45,8 +45,8 @@ class Application extends Model
                        u.phone,
                        r.first_name as reviewer_first_name,
                        r.last_name as reviewer_last_name
-                FROM " . static::$table . " a
-                INNER JOIN users u ON a.user_id = u.id
+                FROM " . 'applications' . " a
+                LEFT JOIN users u ON a.user_id = u.id
                 LEFT JOIN users r ON a.reviewed_by = r.id";
         
         $params = [];
@@ -90,11 +90,11 @@ class Application extends Model
                        u.last_name,
                        u.email,
                        u.phone,
-                       u.country,
+                       u.location,
                        r.first_name as reviewer_first_name,
                        r.last_name as reviewer_last_name
-                FROM " . static::$table . " a
-                INNER JOIN users u ON a.user_id = u.id
+                FROM " . 'applications' . " a
+                LEFT JOIN users u ON a.user_id = u.id
                 LEFT JOIN users r ON a.reviewed_by = r.id
                 WHERE a.id = :id
                 LIMIT 1";
@@ -111,8 +111,8 @@ class Application extends Model
                        u.first_name,
                        u.last_name,
                        u.email
-                FROM " . static::$table . " a
-                INNER JOIN users u ON a.user_id = u.id
+                FROM " . 'applications' . " a
+                LEFT JOIN users u ON a.user_id = u.id
                 WHERE a.uuid = :uuid
                 LIMIT 1";
         
@@ -132,7 +132,7 @@ class Application extends Model
      */
     public static function hasPendingApplication(int $userId, ?string $program = null): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'applications' . " 
                 WHERE user_id = :user_id AND status = 'pending'";
         
         $params = ['user_id' => $userId];
@@ -162,7 +162,7 @@ class Application extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'applications',
             $data,
             'id = :id',
             ['id' => $applicationId]
@@ -187,7 +187,7 @@ class Application extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'applications',
             $data,
             'id = :id',
             ['id' => $applicationId]
@@ -209,7 +209,7 @@ class Application extends Model
         ];
 
         $result = Database::update(
-            static::$table,
+            'applications',
             $data,
             'id = :id',
             ['id' => $applicationId]
@@ -221,7 +221,7 @@ class Application extends Model
     /**
      * Update application
      */
-    public static function update(int $applicationId, array $data): bool
+    public static function updateById(int $applicationId, array $data): bool
     {
         // Remove fields that shouldn't be updated directly
         unset($data['id'], $data['uuid'], $data['created_at'], $data['user_id']);
@@ -231,10 +231,32 @@ class Application extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'applications',
             $data,
             'id = :id',
             ['id' => $applicationId]
+        );
+
+        return $result > 0;
+    }
+
+    /**
+     * Update application by UUID
+     */
+    public static function updateByUuid(string $uuid, array $data): bool
+    {
+        // Remove fields that shouldn't be updated directly
+        unset($data['id'], $data['uuid'], $data['created_at'], $data['user_id']);
+
+        if (empty($data)) {
+            return false;
+        }
+
+        $result = Database::update(
+            'applications',
+            $data,
+            'uuid = :uuid',
+            ['uuid' => $uuid]
         );
 
         return $result > 0;
@@ -251,7 +273,7 @@ class Application extends Model
                     SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
                     SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected,
                     SUM(CASE WHEN status = 'info_requested' THEN 1 ELSE 0 END) as info_requested
-                FROM " . static::$table;
+                FROM " . 'applications';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -279,9 +301,9 @@ class Application extends Model
     /**
      * Delete application
      */
-    public static function delete(int $applicationId): bool
+    public static function deleteById(int $applicationId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $applicationId]);
+        $result = Database::delete('applications', 'id = :id', ['id' => $applicationId]);
         return $result > 0;
     }
 

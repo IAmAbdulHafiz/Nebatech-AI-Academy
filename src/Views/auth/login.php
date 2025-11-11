@@ -30,6 +30,7 @@
             <!-- Login Form -->
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <form method="POST" action="<?= url('/login') ?>" class="space-y-6">
+                    <?= csrf_field() ?>
                     <!-- Email Field -->
                     <div>
                         <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">

@@ -43,17 +43,6 @@ abstract class Model
         return array_map([$this, 'hideAttributes'], $results);
     }
 
-    public function create(array $data): int
-    {
-        $filteredData = $this->filterFillable($data);
-        
-        if (in_array('uuid', $this->fillable) && !isset($filteredData['uuid'])) {
-            $filteredData['uuid'] = $this->generateUuid();
-        }
-        
-        return Database::insert($this->table, $filteredData);
-    }
-
     public function update(int $id, array $data): int
     {
         $filteredData = $this->filterFillable($data);
@@ -114,7 +103,7 @@ abstract class Model
         return $data;
     }
 
-    protected function generateUuid(): string
+    protected static function generateUuid(): string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',

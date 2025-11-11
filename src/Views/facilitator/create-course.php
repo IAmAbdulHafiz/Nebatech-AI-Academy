@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Course - Nebatech AI Academy</title>
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <!-- Header -->
-        <div class="mb-8">
-            <a href="<?= url('/facilitator/dashboard') ?>" class="text-blue-600 hover:text-blue-700 font-semibold mb-4 inline-block">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+<?php
+$title = 'Create Course';
+ob_start();
+include __DIR__ . '/../partials/facilitator-sidebar.php';
+$sidebarContent = ob_get_clean();
+ob_start();
+?>
+<div class="max-w-4xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-6">
+        <div class="flex items-center gap-4 mb-4">
+            <a href="<?= url('/facilitator/dashboard') ?>" class="text-gray-600 hover:text-gray-800">
+                <i class="fas fa-arrow-left"></i>
             </a>
-            <h1 class="text-3xl font-bold text-gray-900">Create New Course</h1>
-            <p class="text-gray-600 mt-2">Fill in the details below to create a new course</p>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Create New Course</h1>
+                <p class="text-sm text-gray-600">Fill in the details below to create a new course</p>
+            </div>
         </div>
+    </div>
 
         <!-- Course Creation Form -->
         <div class="bg-white rounded-lg shadow-lg p-8">
             <form method="POST" action="<?= url('/facilitator/courses/create') ?>" enctype="multipart/form-data" class="space-y-6">
+                <?= csrf_field() ?>
                 
                 <!-- Course Title -->
                 <div>
@@ -174,8 +173,9 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+<?php
+$content = ob_get_clean();
+include __DIR__ . '/../layouts/dashboard.php';
+?>

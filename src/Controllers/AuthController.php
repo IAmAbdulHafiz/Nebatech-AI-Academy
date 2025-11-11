@@ -122,12 +122,27 @@ class AuthController extends Controller
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_role'] = $user['role'];
         $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
+        
+        // Set complete user data for middleware
+        $_SESSION['user_data'] = $user;
 
         // Handle remember me
         if ($remember) {
             $token = bin2hex(random_bytes(32));
-            setcookie('remember_token', $token, time() + (86400 * 30), '/', '', true, true); // 30 days
-            // TODO: Store token in database for verification
+            $expiresAt = date('Y-m-d H:i:s', time() + (86400 * 30)); // 30 days
+            
+            // Store token in database for verification
+            try {
+                \Nebatech\Core\Database::insert('remember_tokens', [
+                    'user_id' => $user['id'],
+                    'token' => $token,
+                    'expires_at' => $expiresAt
+                ]);
+                
+                setcookie('remember_token', $token, time() + (86400 * 30), '/', '', true, true);
+            } catch (\Exception $e) {
+                error_log("Failed to store remember token: " . $e->getMessage());
+            }
         }
 
         // Redirect based on role
@@ -216,11 +231,30 @@ class AuthController extends Controller
             exit;
         }
 
-        // TODO: Send welcome email
-        // TODO: Send email verification
+        // Send welcome email
+        try {
+            $user = \Nebatech\Models\User::findById($userId);
+            if ($user) {
+                $emailService = new \Nebatech\Services\EmailService();
+                $emailService->sendWelcomeEmailNewUser($user);
+            }
+        } catch (\Exception $e) {
+            error_log("Failed to send welcome email: " . $e->getMessage());
+        }
+
+        // Send email verification
+        try {
+            $user = \Nebatech\Models\User::findById($userId);
+            if ($user) {
+                $emailService = new \Nebatech\Services\EmailService();
+                $emailService->sendEmailVerification($user);
+            }
+        } catch (\Exception $e) {
+            error_log("Failed to send verification email: " . $e->getMessage());
+        }
 
         // Set success message
-        $_SESSION['success'] = 'Registration successful! Please log in.';
+        $_SESSION['success'] = 'Registration successful! Please check your email to verify your account and log in.';
         
         header('Location: ' . url('/login'));
         exit;
@@ -228,6 +262,28 @@ class AuthController extends Controller
 
     public function logout()
     {
+        // Determine redirect location before destroying session
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+        $publicPages = ['/', '/about', '/blog', '/contact', '/courses', '/login', '/register'];
+        
+        // Check if referer is a public page
+        $redirectTo = '/';
+        if (!empty($referer)) {
+            $refererPath = parse_url($referer, PHP_URL_PATH);
+            // Remove base path if it exists
+            $basePath = parse_url(url('/'), PHP_URL_PATH);
+            if ($basePath && $basePath !== '/') {
+                $refererPath = str_replace($basePath, '', $refererPath);
+            }
+            
+            // Check if it's a public page or course listing
+            if (in_array($refererPath, $publicPages) || 
+                str_starts_with($refererPath, '/courses/') || 
+                str_starts_with($refererPath, '/blog/')) {
+                $redirectTo = $refererPath;
+            }
+        }
+        
         // Clear session
         $_SESSION = [];
         
@@ -236,15 +292,27 @@ class AuthController extends Controller
             setcookie(session_name(), '', time() - 42000, '/');
         }
         
-        // Clear remember me cookie
+        // Clear remember me cookie and database token
         if (isset($_COOKIE['remember_token'])) {
+            try {
+                // Delete token from database
+                \Nebatech\Core\Database::delete(
+                    'remember_tokens',
+                    'token = :token',
+                    ['token' => $_COOKIE['remember_token']]
+                );
+            } catch (\Exception $e) {
+                error_log("Failed to delete remember token: " . $e->getMessage());
+            }
+            
             setcookie('remember_token', '', time() - 42000, '/', '', true, true);
         }
         
         // Destroy session
         session_destroy();
         
-        header('Location: ' . url('/'));
+        // Redirect to appropriate page
+        header('Location: ' . url($redirectTo));
         exit;
     }
 
@@ -260,6 +328,77 @@ class AuthController extends Controller
         echo $this->view('auth/reset-password', [
             'title' => 'Reset Password'
         ]);
+    }
+
+    /**
+     * Verify email address
+     */
+    public function verifyEmail()
+    {
+        $token = $_GET['token'] ?? '';
+        
+        if (empty($token)) {
+            $_SESSION['error'] = 'Invalid verification link.';
+            header('Location: ' . url('/login'));
+            exit;
+        }
+
+        try {
+            // Find verification record
+            $verification = \Nebatech\Core\Database::fetch(
+                'SELECT * FROM email_verifications WHERE token = :token AND verified_at IS NULL',
+                ['token' => $token]
+            );
+
+            if (!$verification) {
+                echo $this->view('auth/verify-email', [
+                    'title' => 'Email Verification',
+                    'success' => false,
+                    'message' => 'Invalid or already used verification link.'
+                ]);
+                return;
+            }
+
+            // Check if token has expired
+            if (strtotime($verification['expires_at']) < time()) {
+                echo $this->view('auth/verify-email', [
+                    'title' => 'Email Verification',
+                    'success' => false,
+                    'message' => 'This verification link has expired. Please request a new one.'
+                ]);
+                return;
+            }
+
+            // Mark email as verified
+            \Nebatech\Core\Database::update(
+                'users',
+                ['email_verified_at' => date('Y-m-d H:i:s')],
+                'id = :id',
+                ['id' => $verification['user_id']]
+            );
+
+            // Mark verification as used
+            \Nebatech\Core\Database::update(
+                'email_verifications',
+                ['verified_at' => date('Y-m-d H:i:s')],
+                'id = :id',
+                ['id' => $verification['id']]
+            );
+
+            echo $this->view('auth/verify-email', [
+                'title' => 'Email Verification',
+                'success' => true,
+                'message' => 'Your email has been successfully verified! You can now log in to your account.'
+            ]);
+
+        } catch (\Exception $e) {
+            error_log("Email verification error: " . $e->getMessage());
+            echo $this->view('auth/verify-email', [
+                'title' => 'Email Verification',
+                'success' => false,
+                'message' => 'An error occurred during verification. Please try again or contact support.'
+            ]);
+        }
     }
 
     /**

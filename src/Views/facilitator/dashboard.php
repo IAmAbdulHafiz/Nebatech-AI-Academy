@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facilitator Dashboard - Nebatech AI Academy</title>
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="<?= asset('js/ai-generator.js') ?>"></script>
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <div class="container mx-auto px-4 py-8">
+<?php
+$title = 'Facilitator Dashboard';
+ob_start();
+include __DIR__ . '/../partials/facilitator-sidebar.php';
+$sidebarContent = ob_get_clean();
+ob_start();
+?>
         <!-- Welcome Section -->
         <div class="bg-gradient-to-r from-green-600 to-teal-600 rounded-lg shadow-lg p-8 text-white mb-8">
             <div class="flex items-center justify-between">
@@ -28,7 +20,7 @@
 
         <!-- Quick Stats -->
         <div class="grid md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow p-6">
+            <a href="<?= url('/facilitator/courses/create') ?>" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm">Total Courses</p>
@@ -38,33 +30,9 @@
                         <i class="fas fa-book text-blue-600 text-xl"></i>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm">Published</p>
-                        <p class="text-3xl font-bold text-green-600"><?= $stats['published_courses'] ?></p>
-                    </div>
-                    <div class="bg-green-100 rounded-full p-3">
-                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm">Draft Courses</p>
-                        <p class="text-3xl font-bold text-yellow-600"><?= $stats['draft_courses'] ?></p>
-                    </div>
-                    <div class="bg-yellow-100 rounded-full p-3">
-                        <i class="fas fa-edit text-yellow-600 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow p-6">
+            <a href="<?= url('/facilitator/submissions') ?>" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm">Pending Reviews</p>
@@ -74,7 +42,31 @@
                         <i class="fas fa-tasks text-orange-600 text-xl"></i>
                     </div>
                 </div>
-            </div>
+            </a>
+
+            <a href="<?= url('/facilitator/students') ?>" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">My Students</p>
+                        <p class="text-3xl font-bold text-green-600">-</p>
+                    </div>
+                    <div class="bg-green-100 rounded-full p-3">
+                        <i class="fas fa-user-graduate text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </a>
+
+            <a href="<?= url('/facilitator/cohorts') ?>" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">My Cohorts</p>
+                        <p class="text-3xl font-bold text-purple-600">-</p>
+                    </div>
+                    <div class="bg-purple-100 rounded-full p-3">
+                        <i class="fas fa-user-friends text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
@@ -225,11 +217,13 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- AI Modals -->
-    <?php include __DIR__ . '/../partials/ai-modals.php'; ?>
+<!-- AI Modals -->
+<?php include __DIR__ . '/../partials/ai-modals.php'; ?>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+<script src="<?= asset('js/ai-generator.js') ?>"></script>
+
+<?php
+$content = ob_get_clean();
+include __DIR__ . '/../layouts/dashboard.php';
+?>

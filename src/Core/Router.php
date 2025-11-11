@@ -82,18 +82,24 @@ class Router
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
 
                 // Run middleware
-                foreach ($route['middleware'] as $middlewareClass) {
-                    $middleware = new $middlewareClass();
-                    $middleware->handle();
+                foreach ($route['middleware'] as $middleware) {
+                    // Check if it's already an instance or a class name
+                    if (is_object($middleware)) {
+                        $middleware->handle();
+                    } else {
+                        $middlewareInstance = new $middleware();
+                        $middlewareInstance->handle();
+                    }
                 }
 
                 // Call handler
                 if (is_array($route['handler'])) {
                     [$controller, $method] = $route['handler'];
                     $controllerInstance = new $controller();
-                    echo $controllerInstance->$method($params);
+                    // Unpack params array as individual arguments
+                    echo $controllerInstance->$method(...array_values($params));
                 } else {
-                    echo $route['handler']($params);
+                    echo $route['handler'](...array_values($params));
                 }
                 return;
             }

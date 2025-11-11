@@ -4,11 +4,12 @@ namespace Nebatech\Models;
 
 use Nebatech\Core\Model;
 use Nebatech\Core\Database;
+use Nebatech\Models\Notification;
 
 class Course extends Model
 {
-    protected static string $table = 'courses';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'courses';
+    protected string $primaryKey = 'id';
 
     /**
      * Get all courses with optional filters
@@ -19,7 +20,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id";
         
         $params = [];
@@ -75,7 +76,7 @@ class Course extends Model
                        u.last_name as facilitator_last_name,
                        u.avatar as facilitator_avatar,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE c.slug = :slug LIMIT 1";
         
@@ -93,7 +94,7 @@ class Course extends Model
                        u.avatar as facilitator_avatar,
                        u.email as facilitator_email,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE c.id = :id LIMIT 1";
         
@@ -126,7 +127,7 @@ class Course extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('courses', $data);
         } catch (\Exception $e) {
             error_log("Course creation failed: " . $e->getMessage());
             return null;
@@ -136,7 +137,7 @@ class Course extends Model
     /**
      * Update course
      */
-    public static function update(int $courseId, array $data): bool
+    public static function updateById(int $courseId, array $data): bool
     {
         // Remove fields that shouldn't be updated directly
         unset($data['id'], $data['uuid'], $data['created_at']);
@@ -151,7 +152,7 @@ class Course extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'courses',
             $data,
             'id = :id',
             ['id' => $courseId]
@@ -163,9 +164,9 @@ class Course extends Model
     /**
      * Delete course
      */
-    public static function delete(int $courseId): bool
+    public static function deleteById(int $courseId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $courseId]);
+        $result = Database::delete('courses', 'id = :id', ['id' => $courseId]);
         return $result > 0;
     }
 
@@ -187,11 +188,31 @@ class Course extends Model
     }
 
     /**
-     * Get courses by facilitator
+     * Get courses by facilitator with approval status filter
      */
-    public static function getByFacilitator(int $facilitatorId): array
+    public static function getByFacilitator(int $facilitatorId, array $filters = []): array
     {
-        return self::getAll(['facilitator_id' => $facilitatorId]);
+        $sql = "SELECT c.*, 
+                       (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count,
+                       (SELECT COUNT(*) FROM modules WHERE course_id = c.id) as module_count
+                FROM courses c
+                WHERE c.facilitator_id = :facilitator_id";
+        
+        $params = ['facilitator_id' => $facilitatorId];
+
+        if (!empty($filters['approval_status'])) {
+            $sql .= " AND c.approval_status = :approval_status";
+            $params['approval_status'] = $filters['approval_status'];
+        }
+
+        if (!empty($filters['status'])) {
+            $sql .= " AND c.status = :status";
+            $params['status'] = $filters['status'];
+        }
+
+        $sql .= " ORDER BY c.created_at DESC";
+
+        return Database::fetchAll($sql, $params);
     }
 
     /**
@@ -203,7 +224,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 WHERE (c.title LIKE :query OR c.description LIKE :query)";
         
@@ -241,7 +262,7 @@ class Course extends Model
                     SUM(CASE WHEN level = 'intermediate' THEN 1 ELSE 0 END) as intermediate,
                     SUM(CASE WHEN level = 'advanced' THEN 1 ELSE 0 END) as advanced,
                     (SELECT COUNT(*) FROM enrollments) as total_enrollments
-                FROM " . static::$table;
+                FROM " . 'courses';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -263,7 +284,7 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        COUNT(e.id) as enrollment_count
-                FROM " . static::$table . " c
+                FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
                 LEFT JOIN enrollments e ON c.id = e.course_id
                 WHERE c.status = 'published'
@@ -279,7 +300,7 @@ class Course extends Model
      */
     public static function slugExists(string $slug, ?int $excludeId = null): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " WHERE slug = :slug";
+        $sql = "SELECT COUNT(*) as count FROM " . 'courses' . " WHERE slug = :slug";
         $params = ['slug' => $slug];
 
         if ($excludeId) {
@@ -328,7 +349,7 @@ class Course extends Model
      */
     public static function publish(int $courseId): bool
     {
-        return self::update($courseId, ['status' => 'published']);
+        return self::updateById($courseId, ['status' => 'published']);
     }
 
     /**
@@ -336,6 +357,299 @@ class Course extends Model
      */
     public static function archive(int $courseId): bool
     {
-        return self::update($courseId, ['status' => 'archived']);
+        return self::updateById($courseId, ['status' => 'archived']);
     }
+
+    /**
+     * Get all cohorts teaching this course
+     */
+    public static function getCohorts(int $courseId): array
+    {
+        $sql = "SELECT co.*, cc.start_date as cohort_start_date, 
+                       cc.end_date as cohort_end_date, cc.order_index,
+                       u.first_name as facilitator_first_name,
+                       u.last_name as facilitator_last_name,
+                       (SELECT COUNT(*) FROM cohort_assignments WHERE cohort_id = co.id) as student_count
+                FROM cohort_courses cc
+                INNER JOIN cohorts co ON cc.cohort_id = co.id
+                LEFT JOIN users u ON co.facilitator_id = u.id
+                WHERE cc.course_id = :course_id
+                ORDER BY co.start_date DESC";
+
+        return Database::fetchAll($sql, ['course_id' => $courseId]);
+    }
+
+    /**
+     * Get active cohorts for this course
+     */
+    public static function getActiveCohorts(int $courseId): array
+    {
+        $sql = "SELECT co.*, cc.start_date as cohort_start_date, 
+                       cc.end_date as cohort_end_date,
+                       u.first_name as facilitator_first_name,
+                       u.last_name as facilitator_last_name,
+                       (SELECT COUNT(*) FROM cohort_assignments WHERE cohort_id = co.id) as student_count
+                FROM cohort_courses cc
+                INNER JOIN cohorts co ON cc.cohort_id = co.id
+                LEFT JOIN users u ON co.facilitator_id = u.id
+                WHERE cc.course_id = :course_id AND co.status = 'active'
+                ORDER BY co.start_date DESC";
+
+        return Database::fetchAll($sql, ['course_id' => $courseId]);
+    }
+
+    /**
+     * Get enrollments for this course
+     */
+    public static function getEnrollments(int $courseId, ?array $filters = []): array
+    {
+        $sql = "SELECT e.*, 
+                       u.first_name, u.last_name, u.email, u.avatar,
+                       co.name as cohort_name, co.id as cohort_id
+                FROM enrollments e
+                INNER JOIN users u ON e.user_id = u.id
+                LEFT JOIN cohorts co ON e.cohort_id = co.id
+                WHERE e.course_id = :course_id";
+        
+        $params = ['course_id' => $courseId];
+
+        if (!empty($filters['status'])) {
+            $sql .= " AND e.status = :status";
+            $params['status'] = $filters['status'];
+        }
+
+        if (!empty($filters['cohort_id'])) {
+            $sql .= " AND e.cohort_id = :cohort_id";
+            $params['cohort_id'] = $filters['cohort_id'];
+        }
+
+        // Filter for self-paced (no cohort)
+        if (isset($filters['self_paced']) && $filters['self_paced']) {
+            $sql .= " AND e.cohort_id IS NULL";
+        }
+
+        $sql .= " ORDER BY e.enrolled_at DESC";
+
+        return Database::fetchAll($sql, $params);
+    }
+
+    /**
+     * Get course enrollment statistics
+     */
+    public static function getEnrollmentStats(int $courseId): array
+    {
+        $sql = "SELECT 
+                    COUNT(*) as total_enrollments,
+                    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active_enrollments,
+                    SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed_enrollments,
+                    SUM(CASE WHEN cohort_id IS NULL THEN 1 ELSE 0 END) as self_paced_enrollments,
+                    SUM(CASE WHEN cohort_id IS NOT NULL THEN 1 ELSE 0 END) as cohort_enrollments,
+                    AVG(progress) as average_progress
+                FROM enrollments
+                WHERE course_id = :course_id";
+        
+        return Database::fetch($sql, ['course_id' => $courseId]) ?? [
+            'total_enrollments' => 0,
+            'active_enrollments' => 0,
+            'completed_enrollments' => 0,
+            'self_paced_enrollments' => 0,
+            'cohort_enrollments' => 0,
+            'average_progress' => 0
+        ];
+    }
+
+    /**
+     * Check if user is enrolled in course
+     */
+    public static function isUserEnrolled(int $courseId, int $userId): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM enrollments 
+                WHERE course_id = :course_id AND user_id = :user_id";
+        
+        $result = Database::fetch($sql, [
+            'course_id' => $courseId,
+            'user_id' => $userId
+        ]);
+
+        return $result && $result['count'] > 0;
+    }
+
+    /**
+     * Enroll user in course (self-paced)
+     */
+    public static function enrollUser(int $courseId, int $userId): ?int
+    {
+        // Check if already enrolled
+        if (self::isUserEnrolled($courseId, $userId)) {
+            return null;
+        }
+
+        try {
+            return Database::insert('enrollments', [
+                'user_id' => $userId,
+                'course_id' => $courseId,
+                'status' => 'active',
+                'cohort_id' => null // Self-paced enrollment
+            ]);
+        } catch (\Exception $e) {
+            error_log("Course enrollment failed: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get user's enrollment in this course
+     */
+    public static function getUserEnrollment(int $courseId, int $userId): ?array
+    {
+        $sql = "SELECT e.*, co.name as cohort_name
+                FROM enrollments e
+                LEFT JOIN cohorts co ON e.cohort_id = co.id
+                WHERE e.course_id = :course_id AND e.user_id = :user_id
+                LIMIT 1";
+        
+        return Database::fetch($sql, [
+            'course_id' => $courseId,
+            'user_id' => $userId
+        ]);
+    }
+
+    /**
+     * Submit course for approval
+     */
+    public static function submitForApproval(int $courseId): bool
+    {
+        $result = self::updateById($courseId, [
+            'approval_status' => 'pending_approval'
+        ]);
+
+        if ($result) {
+            // Log approval history
+            Database::insert('approval_history', [
+                'entity_type' => 'course',
+                'entity_id' => $courseId,
+                'action' => 'submitted'
+            ]);
+
+            // Notify admins
+            self::notifyAdminsOfPendingCourse($courseId);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Approve course
+     */
+    public static function approve(int $courseId, int $adminId, ?string $reason = null): bool
+    {
+        $result = self::updateById($courseId, [
+            'approval_status' => 'approved',
+            'status' => 'published', // Also publish the course
+            'approved_by' => $adminId,
+            'approved_at' => date('Y-m-d H:i:s')
+        ]);
+
+        if ($result) {
+            // Log approval history
+            Database::insert('approval_history', [
+                'entity_type' => 'course',
+                'entity_id' => $courseId,
+                'action' => 'approved',
+                'admin_id' => $adminId,
+                'reason' => $reason
+            ]);
+
+            // Notify facilitator
+            $course = self::findById($courseId);
+            if ($course && $course['facilitator_id']) {
+                Notification::create([
+                    'user_id' => $course['facilitator_id'],
+                    'type' => 'course_approved',
+                    'title' => 'Course Approved',
+                    'message' => "Your course '{$course['title']}' has been approved and published!",
+                    'action_url' => '/facilitator/courses'
+                ]);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Reject course
+     */
+    public static function reject(int $courseId, int $adminId, string $reason): bool
+    {
+        $result = self::updateById($courseId, [
+            'approval_status' => 'rejected',
+            'rejection_reason' => $reason
+        ]);
+
+        if ($result) {
+            // Log approval history
+            Database::insert('approval_history', [
+                'entity_type' => 'course',
+                'entity_id' => $courseId,
+                'action' => 'rejected',
+                'admin_id' => $adminId,
+                'reason' => $reason
+            ]);
+
+            // Notify facilitator
+            $course = self::findById($courseId);
+            if ($course && $course['facilitator_id']) {
+                Notification::create([
+                    'user_id' => $course['facilitator_id'],
+                    'type' => 'course_rejected',
+                    'title' => 'Course Needs Revision',
+                    'message' => "Your course '{$course['title']}' needs revision: {$reason}",
+                    'action_url' => '/facilitator/courses'
+                ]);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get pending courses for approval
+     */
+    public static function getPendingApprovals(): array
+    {
+        $sql = "SELECT c.*, 
+                       u.first_name as facilitator_first_name,
+                       u.last_name as facilitator_last_name,
+                       u.email as facilitator_email,
+                       (SELECT COUNT(*) FROM modules WHERE course_id = c.id) as module_count
+                FROM courses c
+                LEFT JOIN users u ON c.facilitator_id = u.id
+                WHERE c.approval_status = 'pending_approval'
+                ORDER BY c.created_at ASC";
+        
+        return Database::fetchAll($sql);
+    }
+
+    /**
+     * Notify admins of pending course
+     */
+    protected static function notifyAdminsOfPendingCourse(int $courseId): void
+    {
+        $course = self::findById($courseId);
+        if (!$course) return;
+
+        // Get all admins
+        $admins = Database::fetchAll("SELECT id FROM users WHERE role = 'admin'");
+        
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => $admin['id'],
+                'type' => 'course_pending_approval',
+                'title' => 'New Course Pending Approval',
+                'message' => "Course '{$course['title']}' by {$course['facilitator_first_name']} {$course['facilitator_last_name']} needs approval",
+                'action_url' => '/admin/approvals/courses'
+            ]);
+        }
+    }
+
 }

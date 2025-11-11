@@ -4,10 +4,21 @@ namespace Nebatech\Core;
 
 use PDO;
 use PDOException;
+use Nebatech\Exceptions\DatabaseConnectionException;
 
 class Database
 {
     private static ?PDO $connection = null;
+    private static array $allowedTables = [
+        'users', 'courses', 'modules', 'lessons', 'enrollments',
+        'assignments', 'submissions', 'applications', 'cohorts',
+        'portfolios', 'certificates', 'notifications', 'progress',
+        'cohort_assignments', 'cohort_courses', 'cohort_schedules', 
+        'cohort_assignment_deadlines', 'course_approvals', 'contacts',
+        'activity_logs', 'email_logs', 'email_verifications', 'remember_tokens',
+        'learning_goals', 'learning_streaks', 'lesson_progress', 'study_sessions',
+        'user_preferences', 'approval_history', 'cohort_invitations'
+    ];
 
     public static function connect(): PDO
     {
@@ -30,7 +41,16 @@ class Database
                     $config['options']
                 );
             } catch (PDOException $e) {
-                throw new \Exception('Database connection failed: ' . $e->getMessage());
+                // Log the actual error
+                error_log('Database connection failed: ' . $e->getMessage());
+                
+                // Throw sanitized error based on environment
+                $isDebug = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
+                $message = $isDebug 
+                    ? 'Database connection failed: ' . $e->getMessage()
+                    : 'Database connection unavailable';
+                    
+                throw new DatabaseConnectionException($message, 0, $e);
             }
         }
 
@@ -60,6 +80,8 @@ class Database
 
     public static function insert(string $table, array $data): int
     {
+        self::validateTableName($table);
+        
         $columns = implode(', ', array_keys($data));
         $placeholders = ':' . implode(', :', array_keys($data));
         
@@ -71,6 +93,8 @@ class Database
 
     public static function update(string $table, array $data, string $where, array $whereParams = []): int
     {
+        self::validateTableName($table);
+        
         $sets = [];
         foreach (array_keys($data) as $column) {
             $sets[] = "{$column} = :{$column}";
@@ -85,6 +109,8 @@ class Database
 
     public static function delete(string $table, string $where, array $params = []): int
     {
+        self::validateTableName($table);
+        
         $sql = "DELETE FROM {$table} WHERE {$where}";
         $stmt = self::query($sql, $params);
         return $stmt->rowCount();
@@ -103,5 +129,16 @@ class Database
     public static function rollback(): bool
     {
         return self::connect()->rollBack();
+    }
+
+    /**
+     * Validate table name against whitelist
+     */
+    protected static function validateTableName(string $table): void
+    {
+        if (!in_array($table, self::$allowedTables)) {
+            error_log('Invalid table name attempted: ' . $table);
+            throw new \InvalidArgumentException('Invalid table name');
+        }
     }
 }

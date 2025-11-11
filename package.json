@@ -25,6 +25,25 @@
     "alpinejs": "^3.13.0",
     "axios": "^1.6.0",
     "chart.js": "^4.4.0",
-    "codemirror": "^6.0.1"
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.23.0",
+    "@codemirror/commands": "^6.3.3",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/lang-python": "^6.1.4",
+    "@codemirror/lang-html": "^6.4.7",
+    "@codemirror/lang-css": "^6.2.1",
+    "@codemirror/lang-php": "^6.0.1",
+    "@codemirror/lang-sql": "^6.5.5",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/autocomplete": "^6.12.0",
+    "@codemirror/search": "^6.5.5",
+    "@codemirror/lint": "^6.5.0",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@uiw/codemirror-theme-github": "^4.21.21",
+    "@uiw/codemirror-theme-dracula": "^4.21.21",
+    "@uiw/codemirror-theme-monokai": "^4.21.21",
+    "@uiw/codemirror-theme-nord": "^4.21.21",
+    "@uiw/codemirror-theme-solarized": "^4.21.21"
   }
 }

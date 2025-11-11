@@ -13,10 +13,8 @@ class BlogController extends Controller
         ]);
     }
 
-    public function show($params)
+    public function show(string $slug)
     {
-        $slug = $params['slug'] ?? '';
-        
         echo $this->view('blog.show', [
             'title' => 'Article',
             'slug' => $slug

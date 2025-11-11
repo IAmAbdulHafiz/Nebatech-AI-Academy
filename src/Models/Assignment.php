@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Assignment extends Model
 {
-    protected static string $table = 'assignments';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'assignments';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new assignment
@@ -31,7 +31,7 @@ class Assignment extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('assignments', $data);
         } catch (\Exception $e) {
             error_log("Assignment creation failed: " . $e->getMessage());
             return null;
@@ -43,7 +43,7 @@ class Assignment extends Model
      */
     public static function getByLesson(int $lessonId): array
     {
-        $sql = "SELECT * FROM " . static::$table . " 
+        $sql = "SELECT * FROM " . 'assignments' . " 
                 WHERE lesson_id = :lesson_id 
                 ORDER BY created_at DESC";
         
@@ -60,6 +60,35 @@ class Assignment extends Model
     }
 
     /**
+     * Find single assignment by lesson (returns first one)
+     */
+    public static function findByLesson(int $lessonId): ?array
+    {
+        $sql = "SELECT a.*, 
+                       l.title as lesson_title,
+                       l.module_id,
+                       m.title as module_title,
+                       m.course_id,
+                       c.title as course_title,
+                       c.slug as course_slug
+                FROM " . 'assignments' . " a
+                INNER JOIN lessons l ON a.lesson_id = l.id
+                INNER JOIN modules m ON l.module_id = m.id
+                INNER JOIN courses c ON m.course_id = c.id
+                WHERE a.lesson_id = :lesson_id
+                ORDER BY a.created_at DESC
+                LIMIT 1";
+        
+        $assignment = Database::fetch($sql, ['lesson_id' => $lessonId]);
+
+        if ($assignment && $assignment['rubric']) {
+            $assignment['rubric'] = json_decode($assignment['rubric'], true);
+        }
+
+        return $assignment;
+    }
+
+    /**
      * Get assignment by ID
      */
     public static function findById(int $id): ?array
@@ -69,8 +98,9 @@ class Assignment extends Model
                        l.module_id,
                        m.title as module_title,
                        m.course_id,
-                       c.title as course_title
-                FROM " . static::$table . " a
+                       c.title as course_title,
+                       c.slug as course_slug
+                FROM " . 'assignments' . " a
                 INNER JOIN lessons l ON a.lesson_id = l.id
                 INNER JOIN modules m ON l.module_id = m.id
                 INNER JOIN courses c ON m.course_id = c.id
@@ -89,7 +119,7 @@ class Assignment extends Model
     /**
      * Update assignment
      */
-    public static function update(int $assignmentId, array $data): bool
+    public static function updateById(int $assignmentId, array $data): bool
     {
         unset($data['id'], $data['uuid'], $data['created_at'], $data['lesson_id']);
 
@@ -103,7 +133,7 @@ class Assignment extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'assignments',
             $data,
             'id = :id',
             ['id' => $assignmentId]
@@ -115,9 +145,9 @@ class Assignment extends Model
     /**
      * Delete assignment
      */
-    public static function delete(int $assignmentId): bool
+    public static function deleteById(int $assignmentId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $assignmentId]);
+        $result = Database::delete('assignments', 'id = :id', ['id' => $assignmentId]);
         return $result > 0;
     }
 
@@ -129,7 +159,7 @@ class Assignment extends Model
         $sql = "SELECT a.*, 
                        l.title as lesson_title,
                        m.title as module_title
-                FROM " . static::$table . " a
+                FROM " . 'assignments' . " a
                 INNER JOIN lessons l ON a.lesson_id = l.id
                 INNER JOIN modules m ON l.module_id = m.id
                 WHERE m.course_id = :course_id

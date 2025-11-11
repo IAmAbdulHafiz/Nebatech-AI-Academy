@@ -2,6 +2,10 @@
 
 namespace Nebatech\Core;
 
+use Nebatech\Exceptions\ValidationException;
+use Nebatech\Exceptions\AuthenticationException;
+use Nebatech\Exceptions\AuthorizationException;
+
 abstract class Controller
 {
     protected function view(string $view, array $data = []): string
@@ -25,6 +29,14 @@ abstract class Controller
         http_response_code($statusCode);
         header('Content-Type: application/json');
         return json_encode($data);
+    }
+
+    protected function jsonResponse(array $data, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
     }
 
     protected function redirect(string $url): void
@@ -92,9 +104,41 @@ abstract class Controller
         }
 
         if (!empty($errors)) {
-            throw new \Exception(json_encode($errors));
+            throw new ValidationException($errors);
         }
 
         return $data;
+    }
+
+    protected function requireAuth(): void
+    {
+        if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+            throw new AuthenticationException();
+        }
+    }
+
+    protected function requireRole(string $role): void
+    {
+        $this->requireAuth();
+        
+        $user = $_SESSION['user_data'] ?? null;
+        if (!$user || $user['role'] !== $role) {
+            // Allow admin to access facilitator routes
+            if ($role === 'facilitator' && $user && $user['role'] === 'admin') {
+                return;
+            }
+            
+            throw new AuthorizationException();
+        }
+    }
+
+    protected function getCurrentUser(): ?array
+    {
+        if (!isset($_SESSION['user_id'])) {
+            return null;
+        }
+
+        return $_SESSION['user_data'] ?? null;
     }
 }

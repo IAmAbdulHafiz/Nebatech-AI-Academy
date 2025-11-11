@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Module extends Model
 {
-    protected static string $table = 'modules';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'modules';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new module
@@ -31,7 +31,7 @@ class Module extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('modules', $data);
         } catch (\Exception $e) {
             error_log("Module creation failed: " . $e->getMessage());
             return null;
@@ -43,7 +43,7 @@ class Module extends Model
      */
     public static function getByCourse(int $courseId, ?string $status = null): array
     {
-        $sql = "SELECT * FROM " . static::$table . " WHERE course_id = :course_id";
+        $sql = "SELECT * FROM " . 'modules' . " WHERE course_id = :course_id";
         $params = ['course_id' => $courseId];
 
         if ($status) {
@@ -63,7 +63,7 @@ class Module extends Model
     {
         $sql = "SELECT m.*, 
                        (SELECT COUNT(*) FROM lessons WHERE module_id = m.id) as lessons_count
-                FROM " . static::$table . " m
+                FROM " . 'modules' . " m
                 WHERE m.id = :id
                 LIMIT 1";
         
@@ -73,7 +73,7 @@ class Module extends Model
     /**
      * Update module
      */
-    public static function update(int $moduleId, array $data): bool
+    public static function updateById(int $moduleId, array $data): bool
     {
         unset($data['id'], $data['uuid'], $data['created_at'], $data['course_id']);
 
@@ -82,7 +82,7 @@ class Module extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'modules',
             $data,
             'id = :id',
             ['id' => $moduleId]
@@ -94,9 +94,9 @@ class Module extends Model
     /**
      * Delete module
      */
-    public static function delete(int $moduleId): bool
+    public static function deleteById(int $moduleId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $moduleId]);
+        $result = Database::delete('modules', 'id = :id', ['id' => $moduleId]);
         return $result > 0;
     }
 
@@ -110,7 +110,7 @@ class Module extends Model
         try {
             foreach ($moduleIds as $index => $moduleId) {
                 Database::update(
-                    static::$table,
+                    'modules',
                     ['order_index' => $index],
                     'id = :id AND course_id = :course_id',
                     ['id' => $moduleId, 'course_id' => $courseId]
@@ -131,7 +131,7 @@ class Module extends Model
      */
     protected static function getNextOrderIndex(int $courseId): int
     {
-        $sql = "SELECT MAX(order_index) as max_index FROM " . static::$table . " 
+        $sql = "SELECT MAX(order_index) as max_index FROM " . 'modules' . " 
                 WHERE course_id = :course_id";
         
         $result = Database::fetch($sql, ['course_id' => $courseId]);
@@ -143,7 +143,7 @@ class Module extends Model
      */
     public static function publish(int $moduleId): bool
     {
-        return self::update($moduleId, ['status' => 'published']);
+        return self::updateById($moduleId, ['status' => 'published']);
     }
 
     /**

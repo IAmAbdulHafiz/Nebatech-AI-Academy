@@ -3,6 +3,8 @@
 namespace Nebatech\Controllers;
 
 use Nebatech\Core\Controller;
+use Nebatech\Models\LessonProgress;
+use Nebatech\Services\ProgressService;
 
 class CourseController extends Controller
 {
@@ -79,10 +81,198 @@ class CourseController extends Controller
     }
 
     /**
-     * Show individual course details
+     * Show individual course details with lessons
      */
-    public function show($slug)
+    public function show(string $slug)
     {
-        echo $this->view('courses/show', ['slug' => $slug]);
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if user is authenticated
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+            header('Location: ' . url('/login'));
+            exit;
+        }
+
+        $user = \Nebatech\Models\User::findById($_SESSION['user_id']);
+        
+        // Get course by slug
+        $course = \Nebatech\Models\Course::findBySlug($slug);
+        
+        if (!$course) {
+            http_response_code(404);
+            echo "Course not found";
+            exit;
+        }
+
+        // Check if user is enrolled
+        $enrollment = \Nebatech\Models\Enrollment::findByUserAndCourse($user['id'], $course['id']);
+        
+        // Handle non-enrolled users
+        if (!$enrollment) {
+            // Facilitators can preview courses (read-only mode)
+            if ($user['role'] === 'facilitator') {
+                // Allow preview - enrollment will be null
+            } elseif ($user['role'] === 'admin') {
+                $_SESSION['info'] = 'You are not enrolled in this course. Manage courses from your admin dashboard.';
+                header('Location: ' . url('/admin/dashboard'));
+                exit;
+            } else {
+                // Students must be enrolled
+                $_SESSION['error'] = 'You must be enrolled in this course to view it';
+                header('Location: ' . url('/courses'));
+                exit;
+            }
+        }
+
+        // Get course modules with lessons
+        $modules = \Nebatech\Models\Module::getByCourse($course['id']);
+        
+        // Get lessons for each module and check for assignments and progress
+        foreach ($modules as &$module) {
+            $lessons = \Nebatech\Models\Lesson::getByModule($module['id']);
+            
+            // Check if each lesson has an assignment and get progress
+            foreach ($lessons as &$lesson) {
+                $assignment = \Nebatech\Models\Assignment::findByLesson($lesson['id']);
+                $lesson['has_assignment'] = !empty($assignment);
+                
+                // Get lesson progress
+                $progress = LessonProgress::findByUserAndLesson($user['id'], $lesson['id']);
+                $lesson['progress'] = $progress;
+                $lesson['is_completed'] = $progress && $progress['status'] === 'completed';
+                $lesson['is_in_progress'] = $progress && $progress['status'] === 'in_progress';
+            }
+            
+            $module['lessons'] = $lessons;
+        }
+
+        // Get resume lesson (only if enrolled)
+        $resumeLesson = null;
+        if ($enrollment) {
+            $resumeLesson = LessonProgress::getResumeLesson($enrollment['id']);
+            if (!$resumeLesson) {
+                $resumeLesson = LessonProgress::getNextLesson($enrollment['id']);
+            }
+        }
+
+        echo $this->view('courses/view', [
+            'title' => $course['title'],
+            'user' => $user,
+            'course' => $course,
+            'enrollment' => $enrollment,
+            'modules' => $modules,
+            'resumeLesson' => $resumeLesson
+        ]);
+    }
+
+    /**
+     * Show individual lesson within a course
+     */
+    public function showLesson(string $slug, int $lessonId)
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if user is authenticated
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+            header('Location: ' . url('/login'));
+            exit;
+        }
+
+        $user = \Nebatech\Models\User::findById($_SESSION['user_id']);
+        
+        // Get course by slug
+        $course = \Nebatech\Models\Course::findBySlug($slug);
+        
+        if (!$course) {
+            http_response_code(404);
+            echo "Course not found";
+            exit;
+        }
+
+        // Check if user is enrolled
+        $enrollment = \Nebatech\Models\Enrollment::findByUserAndCourse($user['id'], $course['id']);
+        
+        // Handle non-enrolled users
+        if (!$enrollment) {
+            // Facilitators can preview courses (read-only mode)
+            if ($user['role'] === 'facilitator') {
+                // Allow preview - enrollment will be null
+            } elseif ($user['role'] === 'admin') {
+                $_SESSION['info'] = 'You are not enrolled in this course. Manage courses from your admin dashboard.';
+                header('Location: ' . url('/admin/dashboard'));
+                exit;
+            } else {
+                // Students must be enrolled
+                $_SESSION['error'] = 'You must be enrolled in this course to view it';
+                header('Location: ' . url('/courses'));
+                exit;
+            }
+        }
+
+        // Get lesson
+        $lesson = \Nebatech\Models\Lesson::findById($lessonId);
+        
+        if (!$lesson) {
+            http_response_code(404);
+            echo "Lesson not found";
+            exit;
+        }
+
+        // Mark lesson as started/in progress
+        LessonProgress::markAsStarted($user['id'], $lessonId, $enrollment['id']);
+        
+        // Update learning streak
+        ProgressService::updateLearningStreak($user['id']);
+
+        // Get assignment for this lesson (if exists)
+        $assignment = \Nebatech\Models\Assignment::findByLesson($lessonId);
+        
+        // Get lesson progress
+        $lessonProgress = LessonProgress::findByUserAndLesson($user['id'], $lessonId);
+
+        // Get course modules with lessons
+        $modules = \Nebatech\Models\Module::getByCourse($course['id']);
+        
+        // Get lessons for each module and check for assignments and progress
+        foreach ($modules as &$module) {
+            $lessons = \Nebatech\Models\Lesson::getByModule($module['id']);
+            
+            // Check if each lesson has an assignment and get progress
+            foreach ($lessons as &$lessonItem) {
+                $assignmentCheck = \Nebatech\Models\Assignment::findByLesson($lessonItem['id']);
+                $lessonItem['has_assignment'] = !empty($assignmentCheck);
+                
+                // Get lesson progress
+                $progress = LessonProgress::findByUserAndLesson($user['id'], $lessonItem['id']);
+                $lessonItem['progress'] = $progress;
+                $lessonItem['is_completed'] = $progress && $progress['status'] === 'completed';
+                $lessonItem['is_in_progress'] = $progress && $progress['status'] === 'in_progress';
+            }
+            
+            $module['lessons'] = $lessons;
+        }
+
+        // Get next and previous lessons
+        $nextLesson = LessonProgress::getNextLesson($enrollment['id']);
+
+        echo $this->view('courses/view', [
+            'title' => $lesson['title'],
+            'user' => $user,
+            'course' => $course,
+            'enrollment' => $enrollment,
+            'modules' => $modules,
+            'currentLesson' => $lesson,
+            'currentAssignment' => $assignment,
+            'lessonProgress' => $lessonProgress,
+            'nextLesson' => $nextLesson
+        ]);
     }
 }

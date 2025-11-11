@@ -150,6 +150,52 @@ class AIService
     }
 
     /**
+     * Evaluate a submission (text or code) and provide feedback
+     * 
+     * @param string $content The submitted content
+     * @param string $assignmentDescription Assignment context
+     * @param array $rubric Assessment rubric
+     * @return array Feedback with score and comments
+     */
+    public function evaluateSubmission(string $content, string $assignmentDescription = '', array $rubric = []): array
+    {
+        $prompt = $this->buildSubmissionEvaluationPrompt($content, $assignmentDescription, $rubric);
+        
+        try {
+            $response = $this->client->chat()->create([
+                'model' => $this->model,
+                'messages' => [
+                    ['role' => 'system', 'content' => 'You are an expert instructor providing constructive feedback on student submissions. Evaluate the work fairly and provide actionable feedback in JSON format.'],
+                    ['role' => 'user', 'content' => $prompt],
+                ],
+                'max_tokens' => $this->maxTokens,
+                'temperature' => 0.5,
+                'response_format' => ['type' => 'json_object']
+            ]);
+
+            $content = $response->choices[0]->message->content;
+            $data = json_decode($content, true);
+            
+            return [
+                'score' => $data['score'] ?? 0,
+                'feedback' => $data['feedback'] ?? '',
+                'strengths' => $data['strengths'] ?? [],
+                'areas_for_improvement' => $data['areas_for_improvement'] ?? [],
+                'suggestions' => $data['suggestions'] ?? []
+            ];
+        } catch (\Exception $e) {
+            error_log('AI Submission Evaluation Error: ' . $e->getMessage());
+            return [
+                'score' => 0,
+                'feedback' => 'Unable to generate AI feedback at this time.',
+                'strengths' => [],
+                'areas_for_improvement' => [],
+                'suggestions' => []
+            ];
+        }
+    }
+
+    /**
      * Review code submission and provide feedback
      * 
      * @param string $code The submitted code
@@ -434,6 +480,43 @@ Return the data in JSON format with this structure:
 }
 
 Make questions clear, fair, and testing understanding rather than memorization.
+PROMPT;
+    }
+
+    /**
+     * Build prompt for submission evaluation
+     */
+    private function buildSubmissionEvaluationPrompt(string $content, string $assignmentDescription, array $rubric): string
+    {
+        $rubricText = !empty($rubric) ? json_encode($rubric, JSON_PRETTY_PRINT) : "Standard assessment criteria";
+        $contextText = !empty($assignmentDescription) ? "Assignment Description:\n{$assignmentDescription}\n\n" : "";
+        
+        return <<<PROMPT
+Evaluate the following student submission:
+
+{$contextText}Submission Content:
+{$content}
+
+Assessment Rubric:
+{$rubricText}
+
+Please provide a comprehensive evaluation including:
+- score: Overall score out of 100
+- feedback: Detailed summary of the submission quality
+- strengths: Array of what the student did well
+- areas_for_improvement: Array of specific areas needing improvement
+- suggestions: Array of actionable suggestions for improvement
+
+Return the data in JSON format with this structure:
+{
+  "score": 85,
+  "feedback": "Overall feedback on the submission...",
+  "strengths": ["Strength 1", "Strength 2"],
+  "areas_for_improvement": ["Area 1", "Area 2"],
+  "suggestions": ["Suggestion 1", "Suggestion 2"]
+}
+
+Be constructive, specific, and educational in your feedback. Focus on helping the student learn and improve.
 PROMPT;
     }
 }

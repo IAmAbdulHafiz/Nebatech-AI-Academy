@@ -30,6 +30,7 @@
             <!-- Registration Form -->
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <form method="POST" action="<?= url('/register') ?>" class="space-y-5">
+                    <?= csrf_field() ?>
                     <!-- Full Name Field -->
                     <div>
                         <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">

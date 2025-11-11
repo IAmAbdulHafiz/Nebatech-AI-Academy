@@ -29,10 +29,11 @@ Thumbs.db
 /storage/uploads/*
 !storage/uploads/.gitkeep
 
+
 # Compiled assets
 /public/assets/css/main.css
 /public/assets/js/bundle.js
-
+/public/uploads
 # Testing
 /coverage/
 .phpunit.result.cache

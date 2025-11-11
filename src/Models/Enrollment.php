@@ -7,8 +7,8 @@ use Nebatech\Core\Database;
 
 class Enrollment extends Model
 {
-    protected static string $table = 'enrollments';
-    protected static string $primaryKey = 'id';
+    protected string $table = 'enrollments';
+    protected string $primaryKey = 'id';
 
     /**
      * Create a new enrollment
@@ -26,7 +26,7 @@ class Enrollment extends Model
         }
 
         try {
-            return Database::insert(static::$table, $data);
+            return Database::insert('enrollments', $data);
         } catch (\Exception $e) {
             error_log("Enrollment creation failed: " . $e->getMessage());
             return null;
@@ -41,14 +41,20 @@ class Enrollment extends Model
         $sql = "SELECT e.*, 
                        c.title as course_title,
                        c.slug as course_slug,
+                       c.description as course_description,
                        c.thumbnail as course_thumbnail,
                        c.level as course_level,
                        c.duration_hours,
                        u.first_name as facilitator_first_name,
-                       u.last_name as facilitator_last_name
-                FROM " . static::$table . " e
+                       u.last_name as facilitator_last_name,
+                       co.id as cohort_id,
+                       co.name as cohort_name,
+                       co.start_date as cohort_start_date,
+                       co.end_date as cohort_end_date
+                FROM " . 'enrollments' . " e
                 INNER JOIN courses c ON e.course_id = c.id
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN cohorts co ON e.cohort_id = co.id
                 WHERE e.user_id = :user_id";
         
         $params = ['user_id' => $userId];
@@ -73,7 +79,7 @@ class Enrollment extends Model
                        u.last_name,
                        u.email,
                        u.avatar
-                FROM " . static::$table . " e
+                FROM " . 'enrollments' . " e
                 INNER JOIN users u ON e.user_id = u.id
                 WHERE e.course_id = :course_id";
         
@@ -94,7 +100,7 @@ class Enrollment extends Model
      */
     public static function isEnrolled(int $userId, int $courseId): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'enrollments' . " 
                 WHERE user_id = :user_id AND course_id = :course_id";
         
         $result = Database::fetch($sql, [
@@ -113,7 +119,7 @@ class Enrollment extends Model
         $sql = "SELECT e.*, 
                        c.title as course_title,
                        c.slug as course_slug
-                FROM " . static::$table . " e
+                FROM " . 'enrollments' . " e
                 INNER JOIN courses c ON e.course_id = c.id
                 WHERE e.user_id = :user_id AND e.course_id = :course_id
                 LIMIT 1";
@@ -122,6 +128,56 @@ class Enrollment extends Model
             'user_id' => $userId,
             'course_id' => $courseId
         ]);
+    }
+
+    /**
+     * Alias for getByUserAndCourse
+     */
+    public static function findByUserAndCourse(int $userId, int $courseId): ?array
+    {
+        return self::getByUserAndCourse($userId, $courseId);
+    }
+
+    /**
+     * Get all enrollments with filters
+     */
+    public static function getAll(array $filters = []): array
+    {
+        $sql = "SELECT e.*, 
+                       u.first_name,
+                       u.last_name,
+                       u.email,
+                       c.title as course_title,
+                       c.slug as course_slug
+                FROM enrollments e
+                INNER JOIN users u ON e.user_id = u.id
+                INNER JOIN courses c ON e.course_id = c.id
+                WHERE 1=1";
+        
+        $params = [];
+
+        if (!empty($filters['status'])) {
+            $sql .= " AND e.status = :status";
+            $params['status'] = $filters['status'];
+        }
+
+        if (!empty($filters['course_id'])) {
+            $sql .= " AND e.course_id = :course_id";
+            $params['course_id'] = $filters['course_id'];
+        }
+
+        if (!empty($filters['user_id'])) {
+            $sql .= " AND e.user_id = :user_id";
+            $params['user_id'] = $filters['user_id'];
+        }
+
+        $sql .= " ORDER BY e.enrolled_at DESC";
+
+        if (!empty($filters['limit'])) {
+            $sql .= " LIMIT " . (int)$filters['limit'];
+        }
+
+        return Database::fetchAll($sql, $params);
     }
 
     /**
@@ -140,7 +196,7 @@ class Enrollment extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'enrollments',
             $data,
             'id = :id',
             ['id' => $enrollmentId]
@@ -154,7 +210,8 @@ class Enrollment extends Model
      */
     public static function updateStatus(int $enrollmentId, string $status): bool
     {
-        $validStatuses = ['active', 'completed', 'dropped'];
+        // Valid statuses according to schema: active, suspended, completed, cancelled, dropped
+        $validStatuses = ['active', 'suspended', 'completed', 'cancelled', 'dropped'];
         
         if (!in_array($status, $validStatuses)) {
             return false;
@@ -168,7 +225,7 @@ class Enrollment extends Model
         }
 
         $result = Database::update(
-            static::$table,
+            'enrollments',
             $data,
             'id = :id',
             ['id' => $enrollmentId]
@@ -182,7 +239,7 @@ class Enrollment extends Model
      */
     protected static function isCompleted(int $enrollmentId): bool
     {
-        $sql = "SELECT completed_at FROM " . static::$table . " WHERE id = :id LIMIT 1";
+        $sql = "SELECT completed_at FROM " . 'enrollments' . " WHERE id = :id LIMIT 1";
         $result = Database::fetch($sql, ['id' => $enrollmentId]);
         
         return $result && $result['completed_at'] !== null;
@@ -207,7 +264,7 @@ class Enrollment extends Model
                     SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed,
                     SUM(CASE WHEN status = 'dropped' THEN 1 ELSE 0 END) as dropped,
                     AVG(progress) as average_progress
-                FROM " . static::$table;
+                FROM " . 'enrollments';
         
         return Database::fetch($sql) ?? [
             'total' => 0,
@@ -223,7 +280,7 @@ class Enrollment extends Model
      */
     public static function getCountByCourse(int $courseId): int
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'enrollments' . " 
                 WHERE course_id = :course_id";
         
         $result = Database::fetch($sql, ['course_id' => $courseId]);
@@ -235,7 +292,7 @@ class Enrollment extends Model
      */
     public static function getActiveCountByUser(int $userId): int
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'enrollments' . " 
                 WHERE user_id = :user_id AND status = 'active'";
         
         $result = Database::fetch($sql, ['user_id' => $userId]);
@@ -247,7 +304,7 @@ class Enrollment extends Model
      */
     public static function getCompletedCountByUser(int $userId): int
     {
-        $sql = "SELECT COUNT(*) as count FROM " . static::$table . " 
+        $sql = "SELECT COUNT(*) as count FROM " . 'enrollments' . " 
                 WHERE user_id = :user_id AND status = 'completed'";
         
         $result = Database::fetch($sql, ['user_id' => $userId]);
@@ -257,9 +314,9 @@ class Enrollment extends Model
     /**
      * Delete enrollment
      */
-    public static function delete(int $enrollmentId): bool
+    public static function deleteEnrollment(int $enrollmentId): bool
     {
-        $result = Database::delete(static::$table, 'id = :id', ['id' => $enrollmentId]);
+        $result = Database::delete('enrollments', 'id = :id', ['id' => $enrollmentId]);
         return $result > 0;
     }
 }
