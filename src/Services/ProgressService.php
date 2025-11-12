@@ -3,9 +3,9 @@
 namespace Nebatech\Services;
 
 use Nebatech\Core\Database;
-use Nebatech\Models\LessonProgress;
-use Nebatech\Models\Enrollment;
-use Nebatech\Models\User;
+use Nebatech\Models\Academic\LessonProgress;
+use Nebatech\Models\Academic\Enrollment;
+use Nebatech\Models\Community\User;
 
 class ProgressService
 {

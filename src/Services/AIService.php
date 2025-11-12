@@ -16,7 +16,7 @@ class AIService
 
     public function __construct()
     {
-        $config = require __DIR__ . '/../../config/ai.php';
+        $config = require dirname(__DIR__, 2) . '/config/ai.php';
         
         $apiKey = $config['api_key'];
         if (empty($apiKey)) {

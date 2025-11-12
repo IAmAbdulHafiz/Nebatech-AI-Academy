@@ -26,7 +26,7 @@ class Database
     {
         if (self::$connection === null) {
             try {
-                $config = require __DIR__ . '/../../config/database.php';
+                $config = require dirname(__DIR__, 2) . '/config/database.php';
                 
                 $dsn = sprintf(
                     'mysql:host=%s;port=%d;dbname=%s;charset=%s',

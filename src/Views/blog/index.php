@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Resources - Nebatech AI Academy</title>
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
+<?php 
+$content = ob_start(); 
+?>
 
     <!-- Hero Section -->
     <section class="bg-primary text-white py-16">
@@ -233,6 +225,7 @@
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+<?php 
+$content = ob_get_clean();
+include __DIR__ . '/../layouts/main.php';
+?>

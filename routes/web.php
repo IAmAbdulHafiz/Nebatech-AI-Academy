@@ -5,25 +5,25 @@
  * Routes that return HTML views
  */
 
-use Nebatech\Controllers\PublicController;
-use Nebatech\Controllers\ServiceController;
-use Nebatech\Controllers\ProgrammeController;
-use Nebatech\Controllers\AuthController;
-use Nebatech\Controllers\CourseController;
-use Nebatech\Controllers\BlogController;
-use Nebatech\Controllers\ContactController;
-use Nebatech\Controllers\DashboardController;
-use Nebatech\Controllers\FacilitatorController;
-use Nebatech\Controllers\AIController;
-use Nebatech\Controllers\AdminController;
-use Nebatech\Controllers\ApplicationController;
-use Nebatech\Controllers\PortfolioController;
-use Nebatech\Controllers\CertificateController;
-use Nebatech\Controllers\CodeExecutionController;
-use Nebatech\Controllers\SubmissionController;
-use Nebatech\Controllers\ProgressController;
-use Nebatech\Controllers\NotificationController;
-use Nebatech\Controllers\SearchController;
+use Nebatech\Controllers\Public\PublicController;
+use Nebatech\Controllers\Public\ServiceController;
+use Nebatech\Controllers\Public\ProgrammeController;
+use Nebatech\Controllers\User\AuthController;
+use Nebatech\Controllers\Academic\CourseController;
+use Nebatech\Controllers\Public\BlogController;
+use Nebatech\Controllers\Public\ContactController;
+use Nebatech\Controllers\Academic\DashboardController;
+use Nebatech\Controllers\Admin\FacilitatorController;
+use Nebatech\Controllers\System\AIController;
+use Nebatech\Controllers\Admin\AdminController;
+use Nebatech\Controllers\Academic\ApplicationController;
+use Nebatech\Controllers\User\PortfolioController;
+use Nebatech\Controllers\Academic\CertificateController;
+use Nebatech\Controllers\System\CodeExecutionController;
+use Nebatech\Controllers\Academic\SubmissionController;
+use Nebatech\Controllers\Academic\ProgressController;
+use Nebatech\Controllers\System\NotificationController;
+use Nebatech\Controllers\System\SearchController;
 use Nebatech\Middleware\AuthMiddleware;
 use Nebatech\Middleware\RoleMiddleware;
 use Nebatech\Middleware\CsrfMiddleware;

@@ -2,7 +2,7 @@
 
 namespace Nebatech\Services;
 
-use Nebatech\Models\Notification;
+use Nebatech\Models\Community\Notification;
 
 class NotificationService
 {

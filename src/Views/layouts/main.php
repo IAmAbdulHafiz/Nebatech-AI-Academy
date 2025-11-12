@@ -49,5 +49,8 @@
     </main>
     
     <?php include __DIR__ . '/../partials/footer.php'; ?>
+    
+    <!-- Include notifications.js for contact forms and other interactive features -->
+    <script src="<?= asset('js/notifications.js') ?>"></script>
 </body>
 </html>
