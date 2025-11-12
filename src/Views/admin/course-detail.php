@@ -14,7 +14,7 @@ ob_start();
                 <i class="fas fa-arrow-left mr-2"></i>Back to Courses
             </a>
             <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($course['title']) ?></h1>
-            <p class="text-gray-600"><?= htmlspecialchars($course['category']) ?> • <?= $course['duration_hours'] ?> hours</p>
+            <p class="text-gray-600"><?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?> • <?= $course['duration_hours'] ?> hours</p>
         </div>
         <div class="flex gap-2">
             <?php if ($course['status'] === 'draft'): ?>

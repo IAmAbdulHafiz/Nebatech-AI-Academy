@@ -78,7 +78,7 @@ class UserPreference
     /**
      * Delete a preference for a user
      */
-    public static function delete($userId, $key)
+    public static function deletePreference($userId, $key)
     {
         return Database::delete('user_preferences', 
             'user_id = :user_id AND preference_key = :key', 

@@ -31,11 +31,10 @@
                     </div>
                     <h3 class="text-xl font-bold">
                         <span class="text-white">Nebatech</span>
-                        <span class="text-secondary">AI Academy</span>
                     </h3>
                 </div>
                 <p class="text-gray-400 mb-4">
-                    AI-powered, competency-based eLearning platform empowering students with hands-on IT skills. Learn by doing, master by practicing.
+                    Nebatech Software Solution Ltd - Empowering businesses and individuals with cutting-edge technology solutions. IT Services, Training Programmes, and Innovation.
                 </p>
                 
                 <!-- Trust Badges -->
@@ -101,40 +100,40 @@
                 <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul class="space-y-2">
                     <li><a href="<?= url('/') ?>" class="text-gray-400 hover:text-secondary transition-colors">Home</a></li>
-                    <li><a href="<?= url('/courses') ?>" class="text-gray-400 hover:text-secondary transition-colors">All Courses</a></li>
                     <li><a href="<?= url('/about') ?>" class="text-gray-400 hover:text-secondary transition-colors">About Us</a></li>
-                    <li><a href="<?= url('/blog') ?>" class="text-gray-400 hover:text-secondary transition-colors">Blog & Resources</a></li>
-                    <li><a href="<?= url('/testimonials') ?>" class="text-gray-400 hover:text-secondary transition-colors">Success Stories</a></li>
+                    <li><a href="<?= url('/services') ?>" class="text-gray-400 hover:text-secondary transition-colors">IT Services</a></li>
+                    <li><a href="<?= url('/programmes') ?>" class="text-gray-400 hover:text-secondary transition-colors">Training Programmes</a></li>
+                    <li><a href="<?= url('/projects') ?>" class="text-gray-400 hover:text-secondary transition-colors">Our Projects</a></li>
+                    <li><a href="<?= url('/blog') ?>" class="text-gray-400 hover:text-secondary transition-colors">Blog</a></li>
                     <li><a href="<?= url('/contact') ?>" class="text-gray-400 hover:text-secondary transition-colors">Contact Us</a></li>
-                    <li><a href="<?= url('/sitemap') ?>" class="text-gray-400 hover:text-secondary transition-colors">Sitemap</a></li>
                 </ul>
             </div>
 
-            <!-- Programs & Services -->
+            <!-- Services -->
             <div>
-                <h4 class="text-lg font-semibold mb-4">Programs</h4>
+                <h4 class="text-lg font-semibold mb-4">Our Services</h4>
                 <ul class="space-y-2">
-                    <li><a href="<?= url('/courses/frontend') ?>" class="text-gray-400 hover:text-secondary transition-colors">Frontend Development</a></li>
-                    <li><a href="<?= url('/courses/backend') ?>" class="text-gray-400 hover:text-secondary transition-colors">Backend Development</a></li>
-                    <li><a href="<?= url('/courses/ai') ?>" class="text-gray-400 hover:text-secondary transition-colors">AI & Machine Learning</a></li>
-                    <li><a href="<?= url('/courses/mobile') ?>" class="text-gray-400 hover:text-secondary transition-colors">Mobile Development</a></li>
-                    <li><a href="<?= url('/courses/cybersecurity') ?>" class="text-gray-400 hover:text-secondary transition-colors">Cybersecurity</a></li>
-                    <li><a href="<?= url('/corporate') ?>" class="text-gray-400 hover:text-secondary transition-colors">Corporate Training</a></li>
-                    <li><a href="<?= url('/career-services') ?>" class="text-gray-400 hover:text-secondary transition-colors">Career Services</a></li>
+                    <li><a href="<?= url('/services/mobile-web-development') ?>" class="text-gray-400 hover:text-secondary transition-colors">Mobile & Web Development</a></li>
+                    <li><a href="<?= url('/services/website-design') ?>" class="text-gray-400 hover:text-secondary transition-colors">Website Design</a></li>
+                    <li><a href="<?= url('/services/pos-system-development') ?>" class="text-gray-400 hover:text-secondary transition-colors">POS Systems</a></li>
+                    <li><a href="<?= url('/services/network-services') ?>" class="text-gray-400 hover:text-secondary transition-colors">Network Services</a></li>
+                    <li><a href="<?= url('/services/cctv-installation') ?>" class="text-gray-400 hover:text-secondary transition-colors">CCTV Installation</a></li>
+                    <li><a href="<?= url('/services/device-repairs') ?>" class="text-gray-400 hover:text-secondary transition-colors">Device Repairs</a></li>
+                    <li><a href="<?= url('/request-quote') ?>" class="text-gray-400 hover:text-secondary transition-colors">Request Quote</a></li>
                 </ul>
             </div>
 
-            <!-- Support & Community -->
+            <!-- Support & Resources -->
             <div>
-                <h4 class="text-lg font-semibold mb-4">Support & Community</h4>
+                <h4 class="text-lg font-semibold mb-4">Support & Resources</h4>
                 <ul class="space-y-2">
-                    <li><a href="<?= url('/support') ?>" class="text-gray-400 hover:text-secondary transition-colors">Help Center</a></li>
                     <li><a href="<?= url('/faq') ?>" class="text-gray-400 hover:text-secondary transition-colors">FAQ</a></li>
-                    <li><a href="https://discord.gg/nebatech" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">Discord Community</a></li>
-                    <li><a href="<?= url('/forum') ?>" class="text-gray-400 hover:text-secondary transition-colors">Student Forum</a></li>
-                    <li><a href="<?= url('/live-chat') ?>" class="text-gray-400 hover:text-secondary transition-colors">Live Chat</a></li>
-                    <li><a href="<?= url('/accessibility') ?>" class="text-gray-400 hover:text-secondary transition-colors">Accessibility</a></li>
-                    <li><a href="<?= url('/contact#support') ?>" class="text-gray-400 hover:text-secondary transition-colors">24/7 Support</a></li>
+                    <li><a href="<?= url('/contact') ?>" class="text-gray-400 hover:text-secondary transition-colors">Contact Support</a></li>
+                    <li><a href="<?= url('/dashboard') ?>" class="text-gray-400 hover:text-secondary transition-colors">Student Portal</a></li>
+                    <li><a href="<?= url('/login') ?>" class="text-gray-400 hover:text-secondary transition-colors">Login</a></li>
+                    <li><a href="<?= url('/register') ?>" class="text-gray-400 hover:text-secondary transition-colors">Register</a></li>
+                    <li><a href="https://discord.gg/nebatech" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">Community</a></li>
+                    <li><a href="<?= url('/blog') ?>" class="text-gray-400 hover:text-secondary transition-colors">Blog & News</a></li>
                 </ul>
             </div>
         </div>
@@ -148,7 +147,7 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Email Support</div>
-                        <a href="mailto:support@nebatech.com" class="hover:text-secondary">support@nebatech.com</a>
+                        <a href="mailto:info@nebatech.com" class="hover:text-secondary">info@nebatech.com</a>
                         <div class="text-sm text-gray-500">Response within 24hrs</div>
                     </div>
                 </div>
@@ -158,8 +157,9 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Phone Support</div>
-                        <a href="tel:+2348012345678" class="hover:text-secondary">+234 801 234 5678</a>
-                        <div class="text-sm text-gray-500">Mon-Fri, 9AM-6PM WAT</div>
+                        <p>024 763 6080</p>
+                        <p>020 678 9600</p>
+                        <div class="text-sm text-gray-500">Mon-Fri, 9AM-6PM GMT</div>
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
@@ -169,8 +169,8 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Office Address</div>
-                        <p>Accra, Ghana</p>
-                        <div class="text-sm text-gray-500">Remote-first organization</div>
+                        <p>Choggu Yapalsi, Tamale</p>
+                        <p>Northern Ghana</p>
                     </div>
                 </div>
             </div>
@@ -180,8 +180,8 @@
         <div class="border-t border-gray-700 mt-8 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="text-gray-400 text-sm text-center md:text-left">
-                    <p>&copy; <?= date('Y') ?> Nebatech AI Academy. All rights reserved.</p>
-                    <p class="mt-1">Developed by <a href="https://nebatech.com" target="_blank" class="text-secondary hover:text-orange-400 font-semibold">Nebatech</a> • Empowering Tech Education Globally</p>
+                    <p>&copy; 2019-<?= date('Y') ?> Nebatech Software Solution Ltd. All rights reserved.</p>
+                    <p class="mt-1">Empowering businesses and individuals with cutting-edge technology solutions</p>
                 </div>
                 
                 <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">

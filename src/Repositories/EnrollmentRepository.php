@@ -33,9 +33,11 @@ class EnrollmentRepository
      */
     public function getByUser(int $userId, array $filters = []): array
     {
-        $sql = 'SELECT e.*, c.title as course_title, c.slug as course_slug, c.category
+        $sql = 'SELECT e.*, c.title as course_title, c.slug as course_slug, 
+                       cc.name as category_name, cc.slug as category_slug
                 FROM enrollments e
                 JOIN courses c ON e.course_id = c.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE e.user_id = :user_id';
         
         $params = ['user_id' => $userId];

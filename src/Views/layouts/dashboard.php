@@ -48,7 +48,10 @@
                     <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                         <span class="text-white font-bold text-xl">N</span>
                     </div>
-                    <span class="font-bold text-xl text-gray-900 hidden sm:block">Nebatech AI Academy</span>
+                    <div class="hidden sm:block">
+                        <span class="font-bold text-xl text-gray-900">Nebatech</span>
+                        <div class="text-xs text-gray-500 -mt-1">AI Academy</div>
+                    </div>
                 </a>
             </div>
 
@@ -63,6 +66,12 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-4">
+                <!-- Cross-section Navigation -->
+                <a href="<?= url('/services') ?>" 
+                   class="hidden md:flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Our Services</span>
+                </a>
                 <!-- Notifications -->
                 <div class="relative" @click.away="notificationDropdown = false" x-data="notificationWidget()">
                     <button @click="notificationDropdown = !notificationDropdown; if(notificationDropdown) loadNotifications()" 

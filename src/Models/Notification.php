@@ -105,7 +105,7 @@ class Notification
     /**
      * Delete notification
      */
-    public static function delete(int $id): bool
+    public static function deleteNotification(int $id): bool
     {
         return Database::delete('notifications', 'id = :id', ['id' => $id]) > 0;
     }

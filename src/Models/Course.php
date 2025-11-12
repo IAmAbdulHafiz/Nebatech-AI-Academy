@@ -19,16 +19,24 @@ class Course extends Model
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
                 FROM " . 'courses' . " c
-                LEFT JOIN users u ON c.facilitator_id = u.id";
+                LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id";
         
         $params = [];
         $conditions = [];
 
         if (!empty($filters['category'])) {
-            $conditions[] = "c.category = :category";
+            $conditions[] = "cc.slug = :category";
             $params['category'] = $filters['category'];
+        }
+
+        if (!empty($filters['category_id'])) {
+            $conditions[] = "c.category_id = :category_id";
+            $params['category_id'] = $filters['category_id'];
         }
 
         if (!empty($filters['level'])) {
@@ -75,9 +83,12 @@ class Course extends Model
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
                        u.avatar as facilitator_avatar,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
                 FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE c.slug = :slug LIMIT 1";
         
         return Database::fetch($sql, ['slug' => $slug]);
@@ -93,9 +104,12 @@ class Course extends Model
                        u.last_name as facilitator_last_name,
                        u.avatar as facilitator_avatar,
                        u.email as facilitator_email,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
                 FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE c.id = :id LIMIT 1";
         
         return Database::fetch($sql, ['id' => $id]);
@@ -188,6 +202,23 @@ class Course extends Model
     }
 
     /**
+     * Get courses by category ID
+     */
+    public static function getByCategoryId(int $categoryId, int $limit = null): array
+    {
+        $filters = [
+            'category_id' => $categoryId,
+            'status' => 'published'
+        ];
+
+        if ($limit) {
+            $filters['limit'] = $limit;
+        }
+
+        return self::getAll($filters);
+    }
+
+    /**
      * Get courses by facilitator with approval status filter
      */
     public static function getByFacilitator(int $facilitatorId, array $filters = []): array
@@ -223,16 +254,24 @@ class Course extends Model
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
                 FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
-                WHERE (c.title LIKE :query OR c.description LIKE :query)";
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
+                WHERE (c.title LIKE :query OR c.description LIKE :query OR cc.name LIKE :query)";
         
         $params = ['query' => "%$query%"];
 
         if (!empty($filters['category'])) {
-            $sql .= " AND c.category = :category";
+            $sql .= " AND cc.slug = :category";
             $params['category'] = $filters['category'];
+        }
+
+        if (!empty($filters['category_id'])) {
+            $sql .= " AND c.category_id = :category_id";
+            $params['category_id'] = $filters['category_id'];
         }
 
         if (!empty($filters['level'])) {
@@ -283,9 +322,12 @@ class Course extends Model
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        COUNT(e.id) as enrollment_count
                 FROM " . 'courses' . " c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 LEFT JOIN enrollments e ON c.id = e.course_id
                 WHERE c.status = 'published'
                 GROUP BY c.id

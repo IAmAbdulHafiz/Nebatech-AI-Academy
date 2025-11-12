@@ -38,8 +38,20 @@ class AIController extends Controller
 
         $topic = trim($_POST['topic'] ?? '');
         $level = $_POST['level'] ?? 'beginner';
-        $category = $_POST['category'] ?? '';
+        $categorySlug = $_POST['category'] ?? '';
         $durationHours = (int)($_POST['duration_hours'] ?? 40);
+        
+        // Get category ID from slug
+        $categoryId = null;
+        if (!empty($categorySlug)) {
+            $categoryData = \Nebatech\Core\Database::fetch(
+                "SELECT id FROM course_categories WHERE slug = :slug AND is_active = 1",
+                ['slug' => $categorySlug]
+            );
+            if ($categoryData) {
+                $categoryId = $categoryData['id'];
+            }
+        }
 
         if (empty($topic)) {
             $this->jsonResponse(['success' => false, 'error' => 'Topic is required'], 400);
@@ -47,7 +59,7 @@ class AIController extends Controller
         }
 
         try {
-            $modules = $this->aiService->generateCourseOutline($topic, $level, $category, $durationHours);
+            $modules = $this->aiService->generateCourseOutline($topic, $level, $categorySlug, $durationHours);
             
             $this->jsonResponse([
                 'success' => true,
@@ -159,7 +171,7 @@ class AIController extends Controller
             $modules = $this->aiService->generateCourseOutline(
                 $course['title'],
                 $course['level'],
-                $course['category'],
+                $course['category_slug'] ?? '',
                 $course['duration_hours']
             );
 

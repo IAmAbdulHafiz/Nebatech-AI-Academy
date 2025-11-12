@@ -55,7 +55,7 @@ ob_start();
                     </div>
                     <div>
                         <p class="text-sm text-gray-600 mb-1">Category</p>
-                        <p class="font-semibold text-gray-900"><?= ucfirst($course['category']) ?></p>
+                        <p class="font-semibold text-gray-900"><?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?></p>
                     </div>
                 </div>
 

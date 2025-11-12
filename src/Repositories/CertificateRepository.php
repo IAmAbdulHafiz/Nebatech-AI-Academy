@@ -29,10 +29,12 @@ class CertificateRepository
     {
         return Database::fetch(
             'SELECT c.*, u.first_name, u.last_name, u.email,
-                    co.title as course_title, co.slug as course_slug, co.category
+                    co.title as course_title, co.slug as course_slug, 
+                    cc.name as category_name, cc.slug as category_slug
              FROM certificates c
              JOIN users u ON c.user_id = u.id
              JOIN courses co ON c.course_id = co.id
+             LEFT JOIN course_categories cc ON co.category_id = cc.id
              WHERE c.uuid = :uuid',
             ['uuid' => $uuid]
         );
@@ -60,9 +62,11 @@ class CertificateRepository
     public function getByUser(int $userId): array
     {
         return Database::fetchAll(
-            'SELECT c.*, co.title as course_title, co.slug as course_slug, co.category
+            'SELECT c.*, co.title as course_title, co.slug as course_slug, 
+                    cc.name as category_name, cc.slug as category_slug
              FROM certificates c
              JOIN courses co ON c.course_id = co.id
+             LEFT JOIN course_categories cc ON co.category_id = cc.id
              WHERE c.user_id = :user_id
              ORDER BY c.issued_at DESC',
             ['user_id' => $userId]

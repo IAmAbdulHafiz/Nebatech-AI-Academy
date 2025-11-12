@@ -105,7 +105,7 @@ ob_start();
                                                 </div>
                                                 <p class="text-sm text-gray-600 mb-3 line-clamp-2"><?= htmlspecialchars($course['description']) ?></p>
                                                 <div class="flex items-center gap-4 text-xs text-gray-500">
-                                                    <span><i class="fas fa-layer-group mr-1"></i><?= ucfirst($course['category']) ?></span>
+                                                    <span><i class="fas fa-layer-group mr-1"></i><?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?></span>
                                                     <span><i class="fas fa-signal mr-1"></i><?= ucfirst($course['level']) ?></span>
                                                     <span><i class="fas fa-clock mr-1"></i><?= $course['duration_hours'] ?> hours</span>
                                                     <span><i class="fas fa-users mr-1"></i><?= $course['enrollment_count'] ?? 0 ?> students</span>

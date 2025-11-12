@@ -17,7 +17,9 @@ class Database
         'cohort_assignment_deadlines', 'course_approvals', 'contacts',
         'activity_logs', 'email_logs', 'email_verifications', 'remember_tokens',
         'learning_goals', 'learning_streaks', 'lesson_progress', 'study_sessions',
-        'user_preferences', 'approval_history', 'cohort_invitations'
+        'user_preferences', 'approval_history', 'cohort_invitations',
+        'services', 'projects', 'blog_posts', 'testimonials', 'service_requests', 'contact_messages',
+        'service_categories', 'cross_promotions', 'course_categories'
     ];
 
     public static function connect(): PDO

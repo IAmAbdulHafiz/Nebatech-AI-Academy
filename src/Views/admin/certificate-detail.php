@@ -74,7 +74,7 @@ ob_start();
                     <p class="text-gray-900 mt-1"><?= htmlspecialchars($certificate['course_title']) ?></p>
                     <div class="flex gap-4 mt-2">
                         <span class="text-sm text-gray-600">
-                            <i class="fas fa-tag mr-1"></i><?= htmlspecialchars(ucwords($certificate['category'])) ?>
+                            <i class="fas fa-tag mr-1"></i><?= htmlspecialchars($certificate['category_name'] ?? 'Uncategorized') ?>
                         </span>
                         <span class="text-sm text-gray-600">
                             <i class="fas fa-signal mr-1"></i><?= ucfirst($certificate['level']) ?>
@@ -125,7 +125,11 @@ ob_start();
                     </div>
                 <?php else: ?>
                     <div class="pt-4 border-t border-gray-200">
-                        <p class="text-sm text-gray-600">This certificate has been revoked and is no longer valid.</p>
+                        <p class="text-sm text-gray-600 mb-3">This certificate has been revoked and is no longer valid.</p>
+                        <button onclick="restoreCertificate(<?= $certificate['id'] ?>, '<?= htmlspecialchars($certificate['certificate_number']) ?>')" 
+                                class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                            <i class="fas fa-undo mr-2"></i>Restore Certificate
+                        </button>
                     </div>
                 <?php endif; ?>
             </div>
@@ -162,7 +166,7 @@ ob_start();
 
 <script>
 async function revokeCertificate(certificateId, certificateNumber) {
-    const confirmed = await confirmAction(`Revoke certificate ${certificateNumber}? This action will invalidate the certificate and cannot be easily undone.`, {
+    const confirmed = await confirmAction(`Revoke certificate ${certificateNumber}? This action will invalidate the certificate.`, {
         title: 'Revoke Certificate',
         confirmText: 'Revoke',
         type: 'danger'
@@ -182,6 +186,34 @@ async function revokeCertificate(certificateId, certificateNumber) {
             setTimeout(() => window.location.reload(), 1000);
         } else {
             showError('Error: ' + (data.error || 'Failed to revoke certificate'));
+        }
+    })
+    .catch(error => {
+        showError('An error occurred: ' + error.message);
+    });
+}
+
+async function restoreCertificate(certificateId, certificateNumber) {
+    const confirmed = await confirmAction(`Restore certificate ${certificateNumber}? This will make the certificate valid again.`, {
+        title: 'Restore Certificate',
+        confirmText: 'Restore',
+        type: 'success'
+    });
+    
+    if (!confirmed) return;
+
+    fetch(`<?= url('/admin/certificates/') ?>${certificateId}/restore`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `_token=<?= csrf_token() ?>`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess('Certificate restored successfully');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showError('Error: ' + (data.error || 'Failed to restore certificate'));
         }
     })
     .catch(error => {

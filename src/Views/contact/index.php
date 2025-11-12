@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Nebatech AI Academy</title>
+    <title>Contact Us - Nebatech</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="<?= asset('js/notifications.js') ?>"></script>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-gray-800 mb-1">Email</h3>
-                                    <a href="mailto:support@nebatech.com" class="text-primary hover:text-blue-700">support@nebatech.com</a>
+                                    <a href="mailto:info@nebatech.com" class="text-primary hover:text-blue-700">info@nebatech.com</a>
                                     <p class="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
                                 </div>
                             </div>
@@ -123,7 +123,8 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-gray-800 mb-1">Phone</h3>
-                                    <a href="tel:+233501234567" class="text-primary hover:text-blue-700">+233 50 123 4567</a>
+                                    <p class="text-gray-600">024 763 6080</p>
+                                    <p class="text-gray-600">020 678 9600</p>
                                     <p class="text-sm text-gray-500 mt-1">Mon-Fri, 9AM-6PM GMT</p>
                                 </div>
                             </div>
@@ -138,8 +139,8 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-gray-800 mb-1">Office</h3>
-                                    <p class="text-gray-600">Accra, Ghana</p>
-                                    <p class="text-sm text-gray-500 mt-1">Remote-first organization</p>
+                                    <p class="text-gray-600">Choggu Yapalsi, Tamale</p>
+                                    <p class="text-gray-600">Northern Ghana</p>
                                 </div>
                             </div>
 

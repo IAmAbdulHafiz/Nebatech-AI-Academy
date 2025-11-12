@@ -937,7 +937,7 @@ class AdminController extends Controller
             $filters['status'] = $status;
         }
         if ($category) {
-            $filters['category'] = $category;
+            $filters['category'] = $category; // This now uses category slug
         }
         if ($search) {
             $filters['search'] = $search;
@@ -1098,10 +1098,12 @@ class AdminController extends Controller
                        u.last_name,
                        u.email,
                        co.title as course_title,
-                       co.category
+                       cc.name as category_name,
+                       cc.slug as category_slug
                 FROM certificates c
                 INNER JOIN users u ON c.user_id = u.id
                 INNER JOIN courses co ON c.course_id = co.id
+                LEFT JOIN course_categories cc ON co.category_id = cc.id
                 WHERE 1=1";
 
         $params = [];
@@ -1185,7 +1187,8 @@ class AdminController extends Controller
         $certificateId = $this->certificateRepo->create([
             'user_id' => $userId,
             'course_id' => $courseId,
-            'issued_at' => date('Y-m-d H:i:s')
+            'issued_at' => date('Y-m-d H:i:s'),
+            'verified' => 1  // Admin-issued certificates are automatically verified
         ]);
 
         if ($certificateId) {
@@ -1223,12 +1226,14 @@ class AdminController extends Controller
                        u.last_name,
                        u.email,
                        co.title as course_title,
-                       co.category,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        co.level,
                        co.duration_hours
                 FROM certificates c
                 INNER JOIN users u ON c.user_id = u.id
                 INNER JOIN courses co ON c.course_id = co.id
+                LEFT JOIN course_categories cc ON co.category_id = cc.id
                 WHERE c.id = :id
                 LIMIT 1";
 
@@ -1265,6 +1270,28 @@ class AdminController extends Controller
             ]);
         } else {
             $this->jsonResponse(['error' => 'Failed to revoke certificate'], 500);
+        }
+    }
+
+    /**
+     * Restore revoked certificate
+     */
+    public function restoreCertificate(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->jsonResponse(['error' => 'Invalid request method'], 405);
+            return;
+        }
+
+        $success = $this->certificateRepo->restore($id);
+
+        if ($success) {
+            $this->jsonResponse([
+                'success' => true,
+                'message' => 'Certificate restored successfully'
+            ]);
+        } else {
+            $this->jsonResponse(['error' => 'Failed to restore certificate'], 500);
         }
     }
 

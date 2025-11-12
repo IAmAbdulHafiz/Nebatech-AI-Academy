@@ -14,9 +14,12 @@ class CourseRepository
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
-                       u.email as facilitator_email
+                       u.email as facilitator_email,
+                       cc.name as category_name,
+                       cc.slug as category_slug
                 FROM courses c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE c.id = :id
                 LIMIT 1";
         
@@ -31,9 +34,12 @@ class CourseRepository
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
-                       u.email as facilitator_email
+                       u.email as facilitator_email,
+                       cc.name as category_name,
+                       cc.slug as category_slug
                 FROM courses c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE c.slug = :slug
                 LIMIT 1";
         
@@ -48,9 +54,12 @@ class CourseRepository
         $sql = "SELECT c.*, 
                        u.first_name as facilitator_first_name,
                        u.last_name as facilitator_last_name,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as enrollment_count
                 FROM courses c
                 LEFT JOIN users u ON c.facilitator_id = u.id
+                LEFT JOIN course_categories cc ON c.category_id = cc.id
                 WHERE 1=1";
         
         $params = [];
@@ -61,8 +70,13 @@ class CourseRepository
         }
 
         if (!empty($filters['category'])) {
-            $sql .= " AND c.category = :category";
+            $sql .= " AND cc.slug = :category";
             $params['category'] = $filters['category'];
+        }
+        
+        if (!empty($filters['category_id'])) {
+            $sql .= " AND c.category_id = :category_id";
+            $params['category_id'] = $filters['category_id'];
         }
 
         if (!empty($filters['level'])) {
@@ -216,9 +230,9 @@ class CourseRepository
             $params['status'] = $filters['status'];
         }
 
-        if (!empty($filters['category'])) {
-            $sql .= " AND category = :category";
-            $params['category'] = $filters['category'];
+        if (!empty($filters['category_id'])) {
+            $sql .= " AND category_id = :category_id";
+            $params['category_id'] = $filters['category_id'];
         }
 
         $result = Database::fetch($sql, $params);

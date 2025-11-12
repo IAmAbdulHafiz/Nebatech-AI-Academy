@@ -4,6 +4,9 @@ namespace Nebatech\Controllers;
 
 use Nebatech\Core\Controller;
 use Nebatech\Models\LessonProgress;
+use Nebatech\Models\Lesson;
+use Nebatech\Models\LessonContentBlock;
+use Nebatech\Models\LessonBlockProgress;
 use Nebatech\Services\ProgressService;
 
 class CourseController extends Controller
@@ -49,7 +52,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Show AI & Machine Learning courses
+     * Show AI courses
      */
     public function ai()
     {
@@ -217,8 +220,12 @@ class CourseController extends Controller
             }
         }
 
-        // Get lesson
-        $lesson = \Nebatech\Models\Lesson::findById($lessonId);
+        // Get lesson with enhanced content blocks
+        $lesson = Lesson::findByIdWithContent(
+            $lessonId, 
+            $user['id'], 
+            $enrollment ? $enrollment['id'] : null
+        );
         
         if (!$lesson) {
             http_response_code(404);
@@ -226,11 +233,26 @@ class CourseController extends Controller
             exit;
         }
 
-        // Mark lesson as started/in progress
-        LessonProgress::markAsStarted($user['id'], $lessonId, $enrollment['id']);
-        
-        // Update learning streak
-        ProgressService::updateLearningStreak($user['id']);
+        // Mark lesson as started/in progress (only for enrolled users)
+        if ($enrollment) {
+            LessonProgress::markAsStarted($user['id'], $lessonId, $enrollment['id']);
+            
+            // Mark first content block as started if not already
+            if (!empty($lesson['content_blocks'])) {
+                $firstBlock = $lesson['content_blocks'][0];
+                if ($firstBlock['progress_status'] === 'not_started') {
+                    LessonBlockProgress::markAsStarted(
+                        $user['id'], 
+                        $lessonId, 
+                        $firstBlock['id'], 
+                        $enrollment['id']
+                    );
+                }
+            }
+            
+            // Update learning streak
+            ProgressService::updateLearningStreak($user['id']);
+        }
 
         // Get assignment for this lesson (if exists)
         $assignment = \Nebatech\Models\Assignment::findByLesson($lessonId);
@@ -260,19 +282,24 @@ class CourseController extends Controller
             $module['lessons'] = $lessons;
         }
 
-        // Get next and previous lessons
-        $nextLesson = LessonProgress::getNextLesson($enrollment['id']);
+        // Get next lesson navigation
+        $nextLesson = null;
+        if ($enrollment) {
+            $nextLesson = LessonProgress::getNextLesson($enrollment['id']);
+        }
 
-        echo $this->view('courses/view', [
+        // Use enhanced course view for better lesson display
+        echo $this->view('courses/enhanced-view', [
             'title' => $lesson['title'],
             'user' => $user,
             'course' => $course,
             'enrollment' => $enrollment,
-            'modules' => $modules,
             'currentLesson' => $lesson,
             'currentAssignment' => $assignment,
             'lessonProgress' => $lessonProgress,
-            'nextLesson' => $nextLesson
+            'modules' => $modules,
+            'nextLesson' => $nextLesson,
+            'contentBlocks' => $lesson['content_blocks'] ?? []
         ]);
     }
 }

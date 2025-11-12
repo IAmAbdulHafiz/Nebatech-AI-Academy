@@ -98,7 +98,7 @@ ob_start();
                                     
                                     <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                         <span class="inline-flex items-center">
-                                            <i class="fas fa-tag mr-1"></i><?= ucfirst($course['category']) ?>
+                                            <i class="fas fa-tag mr-1"></i><?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?>
                                         </span>
                                         <span class="inline-flex items-center">
                                             <i class="fas fa-signal mr-1"></i><?= ucfirst($course['level']) ?>

@@ -9,6 +9,7 @@ SET @facilitator_id = (SELECT id FROM users WHERE email = 'facilitator@nebatech.
 
 -- Create the Frontend Development Course
 INSERT INTO courses (
+    uuid,
     title, 
     slug, 
     description, 
@@ -19,7 +20,7 @@ INSERT INTO courses (
     status, 
     thumbnail,
     created_at
-) VALUES (
+) VALUES (UUID(),
     'Frontend Development Fundamentals',
     'frontend-development-fundamentals',
     'Master the essentials of modern frontend web development. Learn HTML5, CSS3, JavaScript, and React to build beautiful, responsive, and interactive websites. This comprehensive course takes you from zero to job-ready with hands-on projects and real-world examples.',
@@ -35,7 +36,8 @@ INSERT INTO courses (
 SET @course_id = LAST_INSERT_ID();
 
 -- MODULE 1: HTML5 Fundamentals
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'HTML5 Fundamentals',
     'Learn the building blocks of web development with HTML5. Master semantic markup, forms, and modern HTML features.',
@@ -47,7 +49,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module1_id = LAST_INSERT_ID();
 
 -- MODULE 2: CSS3 & Responsive Design
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'CSS3 & Responsive Design',
     'Style beautiful websites with CSS3. Learn Flexbox, Grid, animations, and mobile-first responsive design.',
@@ -59,7 +62,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module2_id = LAST_INSERT_ID();
 
 -- MODULE 3: JavaScript Basics
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'JavaScript Basics',
     'Get started with JavaScript programming. Learn variables, functions, control flow, and DOM manipulation.',
@@ -71,7 +75,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module3_id = LAST_INSERT_ID();
 
 -- MODULE 4: Advanced JavaScript
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'Advanced JavaScript',
     'Deep dive into ES6+, async programming, API integration, and modern JavaScript patterns.',
@@ -83,7 +88,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module4_id = LAST_INSERT_ID();
 
 -- MODULE 5: React Fundamentals
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'React Fundamentals',
     'Learn React.js to build dynamic user interfaces. Master components, props, state, and hooks.',
@@ -95,7 +101,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module5_id = LAST_INSERT_ID();
 
 -- MODULE 6: React Advanced Concepts
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'React Advanced Concepts',
     'Master advanced React patterns, routing, state management, and performance optimization.',
@@ -107,7 +114,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module6_id = LAST_INSERT_ID();
 
 -- MODULE 7: Version Control with Git
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'Version Control with Git',
     'Master Git for version control. Learn branching, merging, and collaboration workflows.',
@@ -119,7 +127,8 @@ INSERT INTO modules (course_id, title, description, objectives, status, order_in
 SET @module7_id = LAST_INSERT_ID();
 
 -- MODULE 8: Final Capstone Project
-INSERT INTO modules (course_id, title, description, objectives, status, order_index, created_at) VALUES (
+INSERT INTO modules (uuid, course_id, title, description, objectives, status, order_index, created_at) VALUES (
+    UUID(),
     @course_id,
     'Final Capstone Project',
     'Build a complete full-stack web application from scratch. Showcase all the skills you\'ve learned.',
@@ -134,8 +143,8 @@ SET @module8_id = LAST_INSERT_ID();
 -- LESSONS FOR MODULE 1: HTML5 Fundamentals
 -- ===================================
 
-INSERT INTO lessons (module_id, title, content, type, duration_minutes, resources, order_index, status, ai_generated, created_at) VALUES
-(@module1_id, 'Introduction to HTML', 
+INSERT INTO lessons (uuid, module_id, title, content, type, duration_minutes, resources, order_index, ai_generated, created_at) VALUES
+(UUID(), @module1_id, 'Introduction to HTML', 
 '# Introduction to HTML
 
 HTML (HyperText Markup Language) is the standard markup language for creating web pages. It provides the structure and content of websites.
@@ -176,9 +185,9 @@ HTML uses **tags** to mark up different parts of a webpage. Tags are enclosed in
 - `<span>`: Inline containers',
 'text', 30, 
 '[{"title":"MDN HTML Guide","url":"https://developer.mozilla.org/en-US/docs/Web/HTML","type":"article"},{"title":"HTML Tutorial - W3Schools","url":"https://www.w3schools.com/html/","type":"tutorial"}]',
-0, 'published', false, NOW()),
+0, false, NOW()),
 
-(@module1_id, 'HTML Document Structure', 
+(UUID(), @module1_id, 'HTML Document Structure', 
 '# HTML Document Structure
 
 Understanding the structure of an HTML document is crucial for building valid, accessible webpages.
@@ -233,9 +242,9 @@ The `<body>` contains all visible content.
 ✅ Clearer structure',
 'text', 45,
 '[{"title":"HTML Semantic Elements","url":"https://www.w3schools.com/html/html5_semantic_elements.asp","type":"tutorial"}]',
-1, 'published', false, NOW()),
+1, false, NOW()),
 
-(@module1_id, 'HTML Forms and Input', 
+(UUID(), @module1_id, 'HTML Forms and Input', 
 '# HTML Forms and Input
 
 Forms allow users to interact with your website by submitting data.
@@ -292,9 +301,9 @@ Use HTML5 validation attributes:
 ```',
 'text', 40,
 '[{"title":"HTML Forms Guide","url":"https://developer.mozilla.org/en-US/docs/Learn/Forms","type":"article"}]',
-2, 'published', false, NOW()),
+2, false, NOW()),
 
-(@module1_id, 'Practice: Build a Contact Form', 
+(UUID(), @module1_id, 'Practice: Build a Contact Form', 
 '# Practice Exercise: Build a Contact Form
 
 Create a fully functional contact form with validation.
@@ -338,11 +347,12 @@ A clean, accessible contact form that validates user input before submission.
 - Make it responsive',
 'code', 60,
 '[{"title":"Form Best Practices","url":"https://www.smashingmagazine.com/2018/08/best-practices-for-mobile-form-design/","type":"article"}]',
-3, 'published', false, NOW());
+3, false, NOW());
 
 -- Create assignment for Module 1
-INSERT INTO assignments (lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
-((SELECT id FROM lessons WHERE module_id = @module1_id AND title = 'Practice: Build a Contact Form' LIMIT 1),
+INSERT INTO assignments (uuid, lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
+(UUID(),
+(SELECT id FROM lessons WHERE module_id = @module1_id AND title = 'Practice: Build a Contact Form' LIMIT 1),
 'HTML Contact Form Project',
 'Build a professional contact form using semantic HTML5 and form validation.',
 'Create a contact form that includes all required fields, proper validation, and accessible markup. Test your form to ensure all validation works correctly.',
@@ -355,8 +365,8 @@ NOW());
 -- LESSONS FOR MODULE 2: CSS3 & Responsive Design
 -- ===================================
 
-INSERT INTO lessons (module_id, title, content, type, duration_minutes, resources, order_index, status, ai_generated, created_at) VALUES
-(@module2_id, 'CSS Basics and Selectors',
+INSERT INTO lessons (uuid, module_id, title, content, type, duration_minutes, resources, order_index, ai_generated, created_at) VALUES
+(UUID(), @module2_id, 'CSS Basics and Selectors',
 '# CSS Basics and Selectors
 
 CSS (Cascading Style Sheets) is used to style and layout web pages.
@@ -442,9 +452,9 @@ Specificity determines which styles are applied:
 ```',
 'text', 45,
 '[{"title":"CSS Selectors Reference","url":"https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors","type":"article"}]',
-0, 'published', false, NOW()),
+0, false, NOW()),
 
-(@module2_id, 'Flexbox Layout',
+(UUID(), @module2_id, 'Flexbox Layout',
 '# Flexbox Layout
 
 Flexbox is a powerful CSS layout system for creating flexible, responsive layouts.
@@ -530,9 +540,9 @@ Flexbox is a powerful CSS layout system for creating flexible, responsive layout
 ```',
 'text', 50,
 '[{"title":"A Complete Guide to Flexbox","url":"https://css-tricks.com/snippets/css/a-guide-to-flexbox/","type":"article"}]',
-1, 'published', false, NOW()),
+1, false, NOW()),
 
-(@module2_id, 'CSS Grid Layout',
+(UUID(), @module2_id, 'CSS Grid Layout',
 '# CSS Grid Layout
 
 CSS Grid is a two-dimensional layout system perfect for complex layouts.
@@ -614,9 +624,9 @@ CSS Grid is a two-dimensional layout system perfect for complex layouts.
 ```',
 'text', 50,
 '[{"title":"A Complete Guide to Grid","url":"https://css-tricks.com/snippets/css/complete-guide-grid/","type":"article"}]',
-2, 'published', false, NOW()),
+2, false, NOW()),
 
-(@module2_id, 'Responsive Design with Media Queries',
+(UUID(), @module2_id, 'Responsive Design with Media Queries',
 '# Responsive Design with Media Queries
 
 Make your websites look great on all devices with responsive design techniques.
@@ -725,9 +735,9 @@ picture {
 ```',
 'text', 45,
 '[{"title":"Responsive Web Design Basics","url":"https://web.dev/responsive-web-design-basics/","type":"article"}]',
-3, 'published', false, NOW()),
+3, false, NOW()),
 
-(@module2_id, 'Project: Build a Responsive Portfolio Page',
+(UUID(), @module2_id, 'Project: Build a Responsive Portfolio Page',
 '# Project: Responsive Portfolio Page
 
 Create a personal portfolio website that looks great on all devices.
@@ -784,11 +794,12 @@ Create a personal portfolio website that looks great on all devices.
 - Loading animations',
 'project', 180,
 '[{"title":"Portfolio Inspiration","url":"https://www.awwwards.com/websites/portfolio/","type":"inspiration"},{"title":"Color Palette Generator","url":"https://coolors.co/","type":"tool"}]',
-4, 'published', false, NOW());
+4, false, NOW());
 
 -- Create assignment for Module 2
-INSERT INTO assignments (lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
-((SELECT id FROM lessons WHERE module_id = @module2_id AND title = 'Project: Build a Responsive Portfolio Page' LIMIT 1),
+INSERT INTO assignments (uuid, lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
+(UUID(),
+(SELECT id FROM lessons WHERE module_id = @module2_id AND title = 'Project: Build a Responsive Portfolio Page' LIMIT 1),
 'Responsive Portfolio Website',
 'Design and build a fully responsive personal portfolio website showcasing your skills.',
 'Create a multi-section portfolio website with responsive design. Ensure it works perfectly on mobile, tablet, and desktop screens. Use modern CSS techniques including Flexbox or Grid.',
@@ -798,8 +809,8 @@ DATE_ADD(NOW(), INTERVAL 14 DAY),
 NOW());
 
 -- Continue with MODULE 3 lessons (JavaScript Basics) - abbreviated for space
-INSERT INTO lessons (module_id, title, content, type, duration_minutes, resources, order_index, status, ai_generated, created_at) VALUES
-(@module3_id, 'JavaScript Introduction & Variables',
+INSERT INTO lessons (uuid, module_id, title, content, type, duration_minutes, resources, order_index, ai_generated, created_at) VALUES
+(UUID(), @module3_id, 'JavaScript Introduction & Variables',
 '# JavaScript Introduction
 
 JavaScript is a programming language that makes websites interactive.
@@ -875,9 +886,9 @@ typeof {}      // "object"
 ```',
 'text', 40,
 '[{"title":"JavaScript Basics","url":"https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics","type":"article"}]',
-0, 'published', false, NOW()),
+0, false, NOW()),
 
-(@module3_id, 'Functions and Control Flow',
+(UUID(), @module3_id, 'Functions and Control Flow',
 '# Functions and Control Flow
 
 ## Functions
@@ -960,9 +971,9 @@ fruits.forEach(fruit => {
 ```',
 'text', 45,
 '[{"title":"JavaScript Functions","url":"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions","type":"article"}]',
-1, 'published', false, NOW()),
+1, false, NOW()),
 
-(@module3_id, 'DOM Manipulation',
+(UUID(), @module3_id, 'DOM Manipulation',
 '# DOM Manipulation
 
 The Document Object Model (DOM) represents your HTML as a tree structure that JavaScript can interact with.
@@ -1048,9 +1059,9 @@ form.addEventListener("submit", (e) => {
 ```',
 'text', 50,
 '[{"title":"DOM Manipulation Guide","url":"https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents","type":"article"}]',
-2, 'published', false, NOW()),
+2, false, NOW()),
 
-(@module3_id, 'Interactive Calculator Project',
+(UUID(), @module3_id, 'Interactive Calculator Project',
 '# Project: Build an Interactive Calculator
 
 Create a functional calculator using HTML, CSS, and JavaScript.
@@ -1103,11 +1114,12 @@ let operation = null;
 - Percentage calculation',
 'code', 120,
 '[{"title":"Calculator Tutorial","url":"https://www.youtube.com/watch?v=j59qQ7YWLxw","type":"video"}]',
-3, 'published', false, NOW());
+3, false, NOW());
 
 -- Create assignment for Module 3
-INSERT INTO assignments (lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
-((SELECT id FROM lessons WHERE module_id = @module3_id AND title = 'Interactive Calculator Project' LIMIT 1),
+INSERT INTO assignments (uuid, lesson_id, title, description, instructions, rubric, max_score, due_date, created_at) VALUES
+(UUID(),
+(SELECT id FROM lessons WHERE module_id = @module3_id AND title = 'Interactive Calculator Project' LIMIT 1),
 'JavaScript Calculator Application',
 'Build a fully functional calculator using JavaScript DOM manipulation.',
 'Create an interactive calculator that handles basic arithmetic operations. Use event listeners for button clicks and update the display dynamically.',
@@ -1117,8 +1129,8 @@ DATE_ADD(NOW(), INTERVAL 10 DAY),
 NOW());
 
 -- MODULE 4: A few key lessons (abbreviated)
-INSERT INTO lessons (module_id, title, content, type, duration_minutes, resources, order_index, status, ai_generated, created_at) VALUES
-(@module4_id, 'ES6+ Features',
+INSERT INTO lessons (uuid, module_id, title, content, type, duration_minutes, resources, order_index, ai_generated, created_at) VALUES
+(UUID(), @module4_id, 'ES6+ Features',
 '# Modern JavaScript (ES6+)
 
 ## Arrow Functions
@@ -1154,9 +1166,9 @@ async function fetchData() {
 ```',
 'text', 50,
 '[]',
-0, 'published', false, NOW()),
+0, false, NOW()),
 
-(@module4_id, 'Fetch API and Promises',
+(UUID(), @module4_id, 'Fetch API and Promises',
 '# Working with APIs
 
 ## Fetch API
@@ -1181,7 +1193,7 @@ async function getData() {
 ```',
 'text', 45,
 '[]',
-1, 'published', false, NOW());
+1, false, NOW());
 
 -- Success message
 SELECT 'Frontend Development Course created successfully!' AS message,

@@ -45,7 +45,7 @@ ob_start();
                 <?php foreach ($courses as $course): ?>
                     <option value="<?= $course['id'] ?>">
                         <?= htmlspecialchars($course['title']) ?> 
-                        (<?= htmlspecialchars(ucwords($course['category'])) ?>)
+                        (<?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?>)
                     </option>
                 <?php endforeach; ?>
             </select>

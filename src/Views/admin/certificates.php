@@ -108,7 +108,7 @@ ob_start();
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900"><?= htmlspecialchars($certificate['course_title']) ?></div>
-                                <div class="text-xs text-gray-500"><?= htmlspecialchars(ucwords($certificate['category'])) ?></div>
+                                <div class="text-xs text-gray-500"><?= htmlspecialchars($certificate['category_name'] ?? 'Uncategorized') ?></div>
                             </td>
                             <td class="px-6 py-4">
                                 <?php if ($certificate['verified']): ?>
@@ -134,6 +134,11 @@ ob_start();
                                         <button onclick="revokeCertificate(<?= $certificate['id'] ?>, '<?= htmlspecialchars($certificate['certificate_number']) ?>')" 
                                                 class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium">
                                             <i class="fas fa-ban mr-1"></i>Revoke
+                                        </button>
+                                    <?php else: ?>
+                                        <button onclick="restoreCertificate(<?= $certificate['id'] ?>, '<?= htmlspecialchars($certificate['certificate_number']) ?>')" 
+                                                class="inline-flex items-center px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium">
+                                            <i class="fas fa-undo mr-1"></i>Restore
                                         </button>
                                     <?php endif; ?>
                                 </div>
@@ -168,6 +173,34 @@ async function revokeCertificate(certificateId, certificateNumber) {
             setTimeout(() => window.location.reload(), 1000);
         } else {
             showError('Error: ' + (data.error || 'Failed to revoke certificate'));
+        }
+    })
+    .catch(error => {
+        showError('An error occurred: ' + error.message);
+    });
+}
+
+async function restoreCertificate(certificateId, certificateNumber) {
+    const confirmed = await confirmAction(`Restore certificate ${certificateNumber}? This will make the certificate valid again.`, {
+        title: 'Restore Certificate',
+        confirmText: 'Restore',
+        type: 'success'
+    });
+    
+    if (!confirmed) return;
+
+    fetch(`<?= url('/admin/certificates/') ?>${certificateId}/restore`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `_token=<?= csrf_token() ?>`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccess('Certificate restored successfully');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showError('Error: ' + (data.error || 'Failed to restore certificate'));
         }
     })
     .catch(error => {

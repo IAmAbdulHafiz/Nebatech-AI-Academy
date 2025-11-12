@@ -183,7 +183,7 @@ ob_start();
                                     </span>
                                     <span>
                                         <i class="fas fa-tag mr-1"></i>
-                                        <?= ucfirst($course['category']) ?>
+                                        <?= htmlspecialchars($course['category_name'] ?? 'Uncategorized') ?>
                                     </span>
                                 </div>
 

@@ -5,7 +5,9 @@
  * Routes that return HTML views
  */
 
-use Nebatech\Controllers\HomeController;
+use Nebatech\Controllers\PublicController;
+use Nebatech\Controllers\ServiceController;
+use Nebatech\Controllers\ProgrammeController;
 use Nebatech\Controllers\AuthController;
 use Nebatech\Controllers\CourseController;
 use Nebatech\Controllers\BlogController;
@@ -21,14 +23,48 @@ use Nebatech\Controllers\CodeExecutionController;
 use Nebatech\Controllers\SubmissionController;
 use Nebatech\Controllers\ProgressController;
 use Nebatech\Controllers\NotificationController;
+use Nebatech\Controllers\SearchController;
 use Nebatech\Middleware\AuthMiddleware;
 use Nebatech\Middleware\RoleMiddleware;
 use Nebatech\Middleware\CsrfMiddleware;
 use Nebatech\Middleware\RateLimitMiddleware;
 
-// Home
-$router->get('/', [HomeController::class, 'index']);
-$router->get('/about', [HomeController::class, 'about']);
+// Debug route
+$router->get('/debug', function() {
+    return '<h1>Debug Route Works!</h1><p>Router is functioning correctly.</p>';
+});
+
+// Public Pages
+$router->get('/', [PublicController::class, 'home']);
+$router->get('/about', [PublicController::class, 'about']);
+$router->get('/projects', [PublicController::class, 'projects']);
+$router->get('/faq', [PublicController::class, 'faq']);
+
+// Services
+$router->get('/services', [ServiceController::class, 'index']);
+$router->get('/services/{slug}', [ServiceController::class, 'show']);
+$router->get('/request-quote', [ServiceController::class, 'requestQuote']);
+$router->post('/request-quote', [ServiceController::class, 'submitRequest'], [CsrfMiddleware::class, RateLimitMiddleware::class]);
+
+// Training Programmes (Unified Navigation)
+$router->get('/programmes', [ProgrammeController::class, 'index']);
+$router->get('/training', function() { 
+    // Alias for /programmes for unified navigation
+    header('Location: ' . url('/programmes'), true, 301);
+    exit;
+});
+$router->get('/academy', function() {
+    // Academy homepage - redirect to dashboard if logged in, otherwise programmes
+    if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+        header('Location: ' . url('/dashboard'), true, 302);
+    } else {
+        header('Location: ' . url('/programmes'), true, 302);
+    }
+    exit;
+});
+$router->get('/programmes/category/{category}', [ProgrammeController::class, 'category']);
+$router->get('/programmes/{slug}', [ProgrammeController::class, 'show']);
+$router->post('/programmes/{id}/enroll', [ProgrammeController::class, 'enroll'], [AuthMiddleware::class]);
 
 // Blog
 $router->get('/blog', [BlogController::class, 'index']);
@@ -37,6 +73,13 @@ $router->get('/blog/{slug}', [BlogController::class, 'show']);
 // Contact
 $router->get('/contact', [ContactController::class, 'index']);
 $router->post('/contact', [ContactController::class, 'submit'], [CsrfMiddleware::class, RateLimitMiddleware::class]);
+
+// Unified Search
+$router->get('/search', [SearchController::class, 'index']);
+$router->get('/search/suggestions', [SearchController::class, 'suggestions']);
+$router->get('/search/ajax', [SearchController::class, 'ajax']);
+$router->get('/search/related', [SearchController::class, 'related']);
+$router->get('/search/category/{category}', [SearchController::class, 'category']);
 
 // Authentication
 $router->get('/login', [AuthController::class, 'showLogin']);
@@ -193,6 +236,7 @@ $router->get('/admin/certificates/issue', [AdminController::class, 'issueCertifi
 $router->post('/admin/certificates/issue', [AdminController::class, 'issueCertificate'], [RoleMiddleware::admin()]);
 $router->get('/admin/certificates/{id}', [AdminController::class, 'viewCertificate'], [RoleMiddleware::admin()]);
 $router->post('/admin/certificates/{id}/revoke', [AdminController::class, 'revokeCertificate'], [RoleMiddleware::admin()]);
+$router->post('/admin/certificates/{id}/restore', [AdminController::class, 'restoreCertificate'], [RoleMiddleware::admin()]);
 
 // Submission Routes (student only)
 $router->get('/assignment/{id}/submit', [SubmissionController::class, 'create'], [RoleMiddleware::student()]);

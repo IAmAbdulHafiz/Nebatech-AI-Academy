@@ -145,7 +145,7 @@ class FacilitatorController extends Controller
 
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');
-        $category = $_POST['category'] ?? '';
+        $categorySlug = $_POST['category'] ?? '';
         $level = $_POST['level'] ?? 'beginner';
         $durationHours = (int)($_POST['duration_hours'] ?? 0);
         $status = $_POST['status'] ?? 'draft';
@@ -165,8 +165,22 @@ class FacilitatorController extends Controller
             $errors['description'] = 'Course description must be at least 20 characters.';
         }
 
-        if (empty($category)) {
+        if (empty($categorySlug)) {
             $errors['category'] = 'Course category is required.';
+        }
+        
+        // Get category ID from slug
+        $categoryId = null;
+        if (!empty($categorySlug)) {
+            $categoryData = \Nebatech\Core\Database::fetch(
+                "SELECT id FROM course_categories WHERE slug = :slug AND is_active = 1",
+                ['slug' => $categorySlug]
+            );
+            if ($categoryData) {
+                $categoryId = $categoryData['id'];
+            } else {
+                $errors['category'] = 'Invalid category selected.';
+            }
         }
 
         if ($durationHours < 1) {
@@ -190,7 +204,7 @@ class FacilitatorController extends Controller
         $courseId = $this->courseRepo->create([
             'title' => $title,
             'description' => $description,
-            'category' => $category,
+            'category_id' => $categoryId,
             'level' => $level,
             'duration_hours' => $durationHours,
             'thumbnail' => $thumbnail,
@@ -283,9 +297,21 @@ class FacilitatorController extends Controller
 
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');
-        $category = $_POST['category'] ?? '';
+        $categorySlug = $_POST['category'] ?? '';
         $level = $_POST['level'] ?? 'beginner';
         $durationHours = (int)($_POST['duration_hours'] ?? 0);
+        
+        // Get category ID from slug
+        $categoryId = null;
+        if (!empty($categorySlug)) {
+            $categoryData = \Nebatech\Core\Database::fetch(
+                "SELECT id FROM course_categories WHERE slug = :slug AND is_active = 1",
+                ['slug' => $categorySlug]
+            );
+            if ($categoryData) {
+                $categoryId = $categoryData['id'];
+            }
+        }
 
         $errors = [];
 
@@ -306,7 +332,7 @@ class FacilitatorController extends Controller
         $updateData = [
             'title' => $title,
             'description' => $description,
-            'category' => $category,
+            'category_id' => $categoryId,
             'level' => $level,
             'duration_hours' => $durationHours
         ];

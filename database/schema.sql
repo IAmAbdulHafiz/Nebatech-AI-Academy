@@ -1,31 +1,12 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 10, 2025 at 10:33 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `nebatech_ai_academy`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `activity_logs`
---
 
 CREATE TABLE `activity_logs` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -38,12 +19,6 @@ CREATE TABLE `activity_logs` (
   `user_agent` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `applications`
---
 
 CREATE TABLE `applications` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -67,12 +42,6 @@ CREATE TABLE `applications` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `approval_history`
---
-
 CREATE TABLE `approval_history` (
   `id` int(10) UNSIGNED NOT NULL,
   `entity_type` enum('course','cohort') NOT NULL,
@@ -82,12 +51,6 @@ CREATE TABLE `approval_history` (
   `reason` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `assignments`
---
 
 CREATE TABLE `assignments` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -104,11 +67,23 @@ CREATE TABLE `assignments` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `certificates`
---
+CREATE TABLE `blog_posts` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `excerpt` text DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `featured_image` varchar(255) DEFAULT NULL,
+  `author_id` int(10) UNSIGNED DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `tags` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`tags`)),
+  `status` enum('draft','published','archived') DEFAULT 'draft',
+  `published_at` timestamp NULL DEFAULT NULL,
+  `views` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `certificates` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -123,12 +98,6 @@ CREATE TABLE `certificates` (
   `revoked_by` int(10) UNSIGNED DEFAULT NULL,
   `revocation_reason` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cohorts`
---
 
 CREATE TABLE `cohorts` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -150,24 +119,12 @@ CREATE TABLE `cohorts` (
   `course_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cohort_assignments`
---
-
 CREATE TABLE `cohort_assignments` (
   `id` int(10) UNSIGNED NOT NULL,
   `cohort_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `assigned_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cohort_assignment_deadlines`
---
 
 CREATE TABLE `cohort_assignment_deadlines` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -178,12 +135,6 @@ CREATE TABLE `cohort_assignment_deadlines` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cohort_courses`
---
-
 CREATE TABLE `cohort_courses` (
   `id` int(10) UNSIGNED NOT NULL,
   `cohort_id` int(10) UNSIGNED NOT NULL,
@@ -192,12 +143,6 @@ CREATE TABLE `cohort_courses` (
   `end_date` date DEFAULT NULL,
   `order_index` int(10) UNSIGNED DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cohort_invitations`
---
 
 CREATE TABLE `cohort_invitations` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -209,12 +154,6 @@ CREATE TABLE `cohort_invitations` (
   `invited_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `responded_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cohort_schedules`
---
 
 CREATE TABLE `cohort_schedules` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -234,12 +173,6 @@ CREATE TABLE `cohort_schedules` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `contacts`
---
-
 CREATE TABLE `contacts` (
   `id` int(10) UNSIGNED NOT NULL,
   `uuid` char(36) NOT NULL,
@@ -257,11 +190,18 @@ CREATE TABLE `contacts` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `courses`
---
+CREATE TABLE `contact_messages` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `message` text NOT NULL,
+  `status` enum('new','read','replied','archived') DEFAULT 'new',
+  `replied_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `courses` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -270,6 +210,9 @@ CREATE TABLE `courses` (
   `slug` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `category` varchar(100) DEFAULT NULL,
+  `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `related_service_id` int(10) UNSIGNED DEFAULT NULL,
+  `service_description` text DEFAULT NULL,
   `level` enum('beginner','intermediate','advanced') DEFAULT 'beginner',
   `duration_hours` int(10) UNSIGNED DEFAULT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
@@ -285,12 +228,18 @@ CREATE TABLE `courses` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `course_progress_summary`
--- (See below for the actual view)
---
+CREATE TABLE `course_categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `color` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE `course_progress_summary` (
 `enrollment_id` int(10) unsigned
 ,`user_id` int(10) unsigned
@@ -305,11 +254,23 @@ CREATE TABLE `course_progress_summary` (
 ,`resume_lesson_id` bigint(10) unsigned
 );
 
--- --------------------------------------------------------
-
---
--- Table structure for table `email_logs`
---
+CREATE TABLE `cross_promotions` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `cta_text` varchar(100) NOT NULL,
+  `cta_url` varchar(255) NOT NULL,
+  `target_section` enum('academy','corporate','both') NOT NULL,
+  `target_user_type` enum('visitor','student','client','all') NOT NULL,
+  `display_type` enum('banner','sidebar','modal','inline') NOT NULL,
+  `color_scheme` varchar(50) DEFAULT 'blue',
+  `priority` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `email_logs` (
   `id` int(11) NOT NULL,
@@ -320,20 +281,6 @@ CREATE TABLE `email_logs` (
   `sent_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'When email was sent'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tracks all email notifications sent by the system';
 
---
--- Dumping data for table `email_logs`
---
-
-INSERT INTO `email_logs` (`id`, `type`, `recipient`, `status`, `error_message`, `sent_at`) VALUES
-(1, 'welcome_new_user', 'facilitator@gmail.com', 'sent', NULL, '2025-11-10 10:32:32'),
-(2, 'email_verification', 'facilitator@gmail.com', 'sent', NULL, '2025-11-10 10:32:37');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `email_verifications`
---
-
 CREATE TABLE `email_verifications` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -342,19 +289,6 @@ CREATE TABLE `email_verifications` (
   `verified_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `email_verifications`
---
-
-INSERT INTO `email_verifications` (`id`, `user_id`, `token`, `expires_at`, `verified_at`, `created_at`) VALUES
-(1, 1, 'fd1c627b749145faba2567a50ca987d65f4abde5f01e85bd2707827c04572c31', '2025-11-11 10:32:32', NULL, '2025-11-10 09:32:32');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `enrollments`
---
 
 CREATE TABLE `enrollments` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -366,12 +300,6 @@ CREATE TABLE `enrollments` (
   `completed_at` timestamp NULL DEFAULT NULL,
   `cohort_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_goals`
---
 
 CREATE TABLE `learning_goals` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -391,12 +319,6 @@ CREATE TABLE `learning_goals` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `learning_streaks`
---
-
 CREATE TABLE `learning_streaks` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -412,12 +334,6 @@ CREATE TABLE `learning_streaks` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `lessons`
---
-
 CREATE TABLE `lessons` (
   `id` int(10) UNSIGNED NOT NULL,
   `uuid` char(36) NOT NULL,
@@ -432,12 +348,6 @@ CREATE TABLE `lessons` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lesson_progress`
---
 
 CREATE TABLE `lesson_progress` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -462,12 +372,6 @@ CREATE TABLE `lesson_progress` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `modules`
---
-
 CREATE TABLE `modules` (
   `id` int(10) UNSIGNED NOT NULL,
   `uuid` char(36) NOT NULL,
@@ -481,13 +385,6 @@ CREATE TABLE `modules` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `module_progress_view`
--- (See below for the actual view)
---
 CREATE TABLE `module_progress_view` (
 `enrollment_id` int(10) unsigned
 ,`user_id` int(10) unsigned
@@ -500,12 +397,6 @@ CREATE TABLE `module_progress_view` (
 ,`module_progress_percentage` decimal(26,2)
 ,`total_time_spent_seconds` decimal(32,0)
 );
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notifications`
---
 
 CREATE TABLE `notifications` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -520,12 +411,6 @@ CREATE TABLE `notifications` (
   `read_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `portfolios`
---
 
 CREATE TABLE `portfolios` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -542,11 +427,24 @@ CREATE TABLE `portfolios` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `remember_tokens`
---
+CREATE TABLE `projects` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `client_name` varchar(255) DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `technologies` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`technologies`)),
+  `image` varchar(255) DEFAULT NULL,
+  `gallery` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`gallery`)),
+  `project_url` varchar(255) DEFAULT NULL,
+  `completion_date` date DEFAULT NULL,
+  `is_featured` tinyint(1) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `remember_tokens` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -556,11 +454,58 @@ CREATE TABLE `remember_tokens` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
+CREATE TABLE `services` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `short_description` text DEFAULT NULL,
+  `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `price_range` varchar(100) DEFAULT NULL,
+  `duration` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `features` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`features`)),
+  `related_course_id` int(10) UNSIGNED DEFAULT NULL,
+  `course_description` text DEFAULT NULL,
+  `is_featured` tinyint(1) DEFAULT 0,
+  `status` enum('active','inactive','draft') DEFAULT 'active',
+  `pricing_info` text DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `order_index` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `study_sessions`
---
+CREATE TABLE `service_categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `color` varchar(50) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `service_requests` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `service_id` int(10) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `status` enum('pending','contacted','in_progress','completed','cancelled') DEFAULT 'pending',
+  `assigned_to` int(10) UNSIGNED DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `study_sessions` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -578,12 +523,6 @@ CREATE TABLE `study_sessions` (
   `ip_address` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `submissions`
---
 
 CREATE TABLE `submissions` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -606,11 +545,22 @@ CREATE TABLE `submissions` (
   `graded_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
+CREATE TABLE `testimonials` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `uuid` varchar(36) NOT NULL,
+  `type` enum('service','course','general') NOT NULL,
+  `content` text NOT NULL,
+  `client_name` varchar(255) NOT NULL,
+  `client_position` varchar(255) DEFAULT NULL,
+  `client_company` varchar(255) DEFAULT NULL,
+  `client_image` varchar(255) DEFAULT NULL,
+  `rating` int(11) DEFAULT 5,
+  `is_featured` tinyint(1) DEFAULT 0,
+  `related_id` int(10) UNSIGNED DEFAULT NULL,
+  `status` enum('active','inactive','pending') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -620,6 +570,9 @@ CREATE TABLE `users` (
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `role` enum('student','facilitator','admin') DEFAULT 'student',
+  `client_type` enum('student','client','both') DEFAULT 'student',
+  `corporate_interests` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`corporate_interests`)),
+  `preferred_section` enum('academy','corporate','both') DEFAULT 'academy',
   `avatar` varchar(255) DEFAULT NULL,
   `status` enum('active','inactive','suspended') DEFAULT 'active',
   `email_verified_at` timestamp NULL DEFAULT NULL,
@@ -639,19 +592,6 @@ CREATE TABLE `users` (
   `marketing_emails` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `uuid`, `email`, `password`, `first_name`, `last_name`, `role`, `avatar`, `status`, `email_verified_at`, `created_at`, `updated_at`, `phone`, `bio`, `location`, `website`, `github`, `linkedin`, `twitter`, `timezone`, `language`, `email_notifications`, `push_notifications`, `marketing_emails`) VALUES
-(1, '494d41ba-a5e8-4450-bc82-1743a2616355', 'facilitator@gmail.com', '$2y$12$m6VwmXATAyGZ6svEcaZ0uO3gXkvd/Ogsj7PPxTKRnlrcG4sUVPLv.', 'Facilitator', 'Facilitator', 'student', NULL, 'active', NULL, '2025-11-10 09:32:14', '2025-11-10 09:32:14', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UTC', 'en', 1, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_preferences`
---
-
 CREATE TABLE `user_preferences` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -660,41 +600,20 @@ CREATE TABLE `user_preferences` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure for view `course_progress_summary`
---
 DROP TABLE IF EXISTS `course_progress_summary`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `course_progress_summary`  AS SELECT `e`.`id` AS `enrollment_id`, `e`.`user_id` AS `user_id`, `e`.`course_id` AS `course_id`, `c`.`title` AS `course_title`, count(distinct `l`.`id`) AS `total_lessons`, count(distinct case when `lp`.`status` = 'completed' then `l`.`id` end) AS `completed_lessons`, count(distinct `m`.`id`) AS `total_modules`, round(count(distinct case when `lp`.`status` = 'completed' then `l`.`id` end) * 100.0 / nullif(count(distinct `l`.`id`),0),2) AS `overall_progress_percentage`, sum(coalesce(`lp`.`time_spent_seconds`,0)) AS `total_time_spent_seconds`, max(`lp`.`last_accessed_at`) AS `last_activity`, min(case when `lp`.`status` = 'in_progress' then `l`.`id` end) AS `resume_lesson_id` FROM ((((`enrollments` `e` join `courses` `c` on(`e`.`course_id` = `c`.`id`)) left join `modules` `m` on(`c`.`id` = `m`.`course_id`)) left join `lessons` `l` on(`m`.`id` = `l`.`module_id`)) left join `lesson_progress` `lp` on(`l`.`id` = `lp`.`lesson_id` and `e`.`user_id` = `lp`.`user_id`)) GROUP BY `e`.`id`, `e`.`user_id`, `e`.`course_id`, `c`.`title` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `module_progress_view`
---
 DROP TABLE IF EXISTS `module_progress_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `module_progress_view`  AS SELECT `e`.`id` AS `enrollment_id`, `e`.`user_id` AS `user_id`, `e`.`course_id` AS `course_id`, `m`.`id` AS `module_id`, `m`.`title` AS `module_title`, `m`.`order_index` AS `order_index`, count(distinct `l`.`id`) AS `total_lessons`, count(distinct case when `lp`.`status` = 'completed' then `l`.`id` end) AS `completed_lessons`, round(count(distinct case when `lp`.`status` = 'completed' then `l`.`id` end) * 100.0 / nullif(count(distinct `l`.`id`),0),2) AS `module_progress_percentage`, sum(coalesce(`lp`.`time_spent_seconds`,0)) AS `total_time_spent_seconds` FROM ((((`enrollments` `e` join `courses` `c` on(`e`.`course_id` = `c`.`id`)) join `modules` `m` on(`c`.`id` = `m`.`course_id`)) left join `lessons` `l` on(`m`.`id` = `l`.`module_id`)) left join `lesson_progress` `lp` on(`l`.`id` = `lp`.`lesson_id` and `e`.`user_id` = `lp`.`user_id`)) GROUP BY `e`.`id`, `e`.`user_id`, `e`.`course_id`, `m`.`id`, `m`.`title`, `m`.`order_index` ;
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `activity_logs`
---
 ALTER TABLE `activity_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_user_id` (`user_id`),
   ADD KEY `idx_action` (`action`),
   ADD KEY `idx_created_at` (`created_at`);
 
---
--- Indexes for table `applications`
---
 ALTER TABLE `applications`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -704,27 +623,28 @@ ALTER TABLE `applications`
   ADD KEY `idx_program` (`program`),
   ADD KEY `idx_created_at` (`created_at`);
 
---
--- Indexes for table `approval_history`
---
 ALTER TABLE `approval_history`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_entity` (`entity_type`,`entity_id`),
   ADD KEY `idx_admin` (`admin_id`),
   ADD KEY `idx_created` (`created_at`);
 
---
--- Indexes for table `assignments`
---
 ALTER TABLE `assignments`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
   ADD KEY `idx_lesson_id` (`lesson_id`),
   ADD KEY `idx_ai_feedback_enabled` (`ai_feedback_enabled`);
 
---
--- Indexes for table `certificates`
---
+ALTER TABLE `blog_posts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD KEY `author_id` (`author_id`),
+  ADD KEY `idx_slug` (`slug`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_category` (`category`),
+  ADD KEY `idx_published` (`published_at`);
+
 ALTER TABLE `certificates`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -735,9 +655,6 @@ ALTER TABLE `certificates`
   ADD KEY `idx_revoked_at` (`revoked_at`),
   ADD KEY `idx_revoked_by` (`revoked_by`);
 
---
--- Indexes for table `cohorts`
---
 ALTER TABLE `cohorts`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -750,18 +667,12 @@ ALTER TABLE `cohorts`
   ADD KEY `idx_approval_status` (`approval_status`),
   ADD KEY `idx_facilitator_approval` (`facilitator_id`,`approval_status`);
 
---
--- Indexes for table `cohort_assignments`
---
 ALTER TABLE `cohort_assignments`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_cohort_assignment` (`cohort_id`,`user_id`),
   ADD KEY `idx_cohort_id` (`cohort_id`),
   ADD KEY `idx_user_id` (`user_id`);
 
---
--- Indexes for table `cohort_assignment_deadlines`
---
 ALTER TABLE `cohort_assignment_deadlines`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_cohort_assignment` (`cohort_id`,`assignment_id`),
@@ -769,26 +680,17 @@ ALTER TABLE `cohort_assignment_deadlines`
   ADD KEY `idx_assignment_id` (`assignment_id`),
   ADD KEY `idx_due_date` (`due_date`);
 
---
--- Indexes for table `cohort_courses`
---
 ALTER TABLE `cohort_courses`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_cohort_course` (`cohort_id`,`course_id`),
   ADD KEY `course_id` (`course_id`);
 
---
--- Indexes for table `cohort_invitations`
---
 ALTER TABLE `cohort_invitations`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_cohort_user_invitation` (`cohort_id`,`user_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `invited_by` (`invited_by`);
 
---
--- Indexes for table `cohort_schedules`
---
 ALTER TABLE `cohort_schedules`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -798,9 +700,6 @@ ALTER TABLE `cohort_schedules`
   ADD KEY `idx_scheduled_at` (`scheduled_at`),
   ADD KEY `idx_status` (`status`);
 
---
--- Indexes for table `contacts`
---
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -808,9 +707,12 @@ ALTER TABLE `contacts`
   ADD KEY `status` (`status`),
   ADD KEY `created_at` (`created_at`);
 
---
--- Indexes for table `courses`
---
+ALTER TABLE `contact_messages`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_created` (`created_at`);
+
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -823,9 +725,17 @@ ALTER TABLE `courses`
   ADD KEY `idx_approval_status` (`approval_status`),
   ADD KEY `idx_facilitator_approval` (`facilitator_id`,`approval_status`);
 
---
--- Indexes for table `email_logs`
---
+ALTER TABLE `course_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+ALTER TABLE `cross_promotions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_target_section` (`target_section`),
+  ADD KEY `idx_target_user` (`target_user_type`),
+  ADD KEY `idx_active` (`is_active`),
+  ADD KEY `idx_priority` (`priority`);
+
 ALTER TABLE `email_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_type` (`type`),
@@ -833,18 +743,12 @@ ALTER TABLE `email_logs`
   ADD KEY `idx_status` (`status`),
   ADD KEY `idx_sent_at` (`sent_at`);
 
---
--- Indexes for table `email_verifications`
---
 ALTER TABLE `email_verifications`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `token` (`token`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `expires_at` (`expires_at`);
 
---
--- Indexes for table `enrollments`
---
 ALTER TABLE `enrollments`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_enrollment` (`user_id`,`course_id`),
@@ -853,9 +757,6 @@ ALTER TABLE `enrollments`
   ADD KEY `idx_status` (`status`),
   ADD KEY `cohort_id` (`cohort_id`);
 
---
--- Indexes for table `learning_goals`
---
 ALTER TABLE `learning_goals`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -863,18 +764,12 @@ ALTER TABLE `learning_goals`
   ADD KEY `idx_status` (`status`),
   ADD KEY `idx_target_date` (`target_date`);
 
---
--- Indexes for table `learning_streaks`
---
 ALTER TABLE `learning_streaks`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_user_streak` (`user_id`),
   ADD KEY `idx_current_streak` (`current_streak_days`),
   ADD KEY `idx_last_activity` (`last_activity_date`);
 
---
--- Indexes for table `lessons`
---
 ALTER TABLE `lessons`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -882,9 +777,6 @@ ALTER TABLE `lessons`
   ADD KEY `idx_type` (`type`),
   ADD KEY `idx_order` (`order_index`);
 
---
--- Indexes for table `lesson_progress`
---
 ALTER TABLE `lesson_progress`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -896,18 +788,12 @@ ALTER TABLE `lesson_progress`
   ADD KEY `idx_last_accessed` (`last_accessed_at`),
   ADD KEY `idx_bookmarked` (`bookmarked`);
 
---
--- Indexes for table `modules`
---
 ALTER TABLE `modules`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
   ADD KEY `idx_course_id` (`course_id`),
   ADD KEY `idx_order` (`order_index`);
 
---
--- Indexes for table `notifications`
---
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -916,27 +802,50 @@ ALTER TABLE `notifications`
   ADD KEY `idx_is_read` (`is_read`),
   ADD KEY `idx_created_at` (`created_at`);
 
---
--- Indexes for table `portfolios`
---
 ALTER TABLE `portfolios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `submission_id` (`submission_id`),
   ADD KEY `idx_user_id` (`user_id`),
   ADD KEY `idx_is_public` (`is_public`);
 
---
--- Indexes for table `remember_tokens`
---
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD KEY `idx_slug` (`slug`),
+  ADD KEY `idx_category` (`category`),
+  ADD KEY `idx_featured` (`is_featured`),
+  ADD KEY `idx_active` (`is_active`);
+
 ALTER TABLE `remember_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `token` (`token`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `expires_at` (`expires_at`);
 
---
--- Indexes for table `study_sessions`
---
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD KEY `idx_slug` (`slug`),
+  ADD KEY `idx_active` (`is_active`),
+  ADD KEY `idx_order` (`order_index`),
+  ADD KEY `idx_category` (`category_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_featured` (`is_featured`);
+
+ALTER TABLE `service_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+ALTER TABLE `service_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `service_id` (`service_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_created` (`created_at`);
+
 ALTER TABLE `study_sessions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -945,9 +854,6 @@ ALTER TABLE `study_sessions`
   ADD KEY `idx_session_start` (`session_start`),
   ADD KEY `idx_duration` (`duration_seconds`);
 
---
--- Indexes for table `submissions`
---
 ALTER TABLE `submissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -957,9 +863,14 @@ ALTER TABLE `submissions`
   ADD KEY `idx_content_type` (`content_type`),
   ADD KEY `idx_graded_by` (`graded_by`);
 
---
--- Indexes for table `users`
---
+ALTER TABLE `testimonials`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `idx_type` (`type`),
+  ADD KEY `idx_featured` (`is_featured`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_related` (`related_id`);
+
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
@@ -968,341 +879,216 @@ ALTER TABLE `users`
   ADD KEY `idx_role` (`role`),
   ADD KEY `idx_status` (`status`);
 
---
--- Indexes for table `user_preferences`
---
 ALTER TABLE `user_preferences`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_user_preference` (`user_id`,`preference_key`),
   ADD KEY `idx_user_id` (`user_id`),
   ADD KEY `idx_preference_key` (`preference_key`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `activity_logs`
---
 ALTER TABLE `activity_logs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `applications`
---
 ALTER TABLE `applications`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `approval_history`
---
 ALTER TABLE `approval_history`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `assignments`
---
 ALTER TABLE `assignments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `certificates`
---
+ALTER TABLE `blog_posts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `certificates`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohorts`
---
 ALTER TABLE `cohorts`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohort_assignments`
---
 ALTER TABLE `cohort_assignments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohort_assignment_deadlines`
---
 ALTER TABLE `cohort_assignment_deadlines`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohort_courses`
---
 ALTER TABLE `cohort_courses`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohort_invitations`
---
 ALTER TABLE `cohort_invitations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `cohort_schedules`
---
 ALTER TABLE `cohort_schedules`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `contacts`
---
 ALTER TABLE `contacts`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `courses`
---
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `courses`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `email_logs`
---
+ALTER TABLE `course_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `cross_promotions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `email_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `email_verifications`
---
 ALTER TABLE `email_verifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `enrollments`
---
 ALTER TABLE `enrollments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `learning_goals`
---
 ALTER TABLE `learning_goals`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `learning_streaks`
---
 ALTER TABLE `learning_streaks`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `lessons`
---
 ALTER TABLE `lessons`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `lesson_progress`
---
 ALTER TABLE `lesson_progress`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `modules`
---
 ALTER TABLE `modules`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `notifications`
---
 ALTER TABLE `notifications`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `portfolios`
---
 ALTER TABLE `portfolios`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `remember_tokens`
---
+ALTER TABLE `projects`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `remember_tokens`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `study_sessions`
---
+ALTER TABLE `services`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `service_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `service_requests`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `study_sessions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `submissions`
---
 ALTER TABLE `submissions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `testimonials`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `user_preferences`
---
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `user_preferences`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `activity_logs`
---
 ALTER TABLE `activity_logs`
   ADD CONSTRAINT `activity_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `applications`
---
 ALTER TABLE `applications`
   ADD CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `approval_history`
---
 ALTER TABLE `approval_history`
   ADD CONSTRAINT `approval_history_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `assignments`
---
 ALTER TABLE `assignments`
   ADD CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `certificates`
---
+ALTER TABLE `blog_posts`
+  ADD CONSTRAINT `blog_posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
 ALTER TABLE `certificates`
   ADD CONSTRAINT `certificates_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `certificates_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `certificates_ibfk_3` FOREIGN KEY (`revoked_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `cohorts`
---
 ALTER TABLE `cohorts`
   ADD CONSTRAINT `cohorts_ibfk_1` FOREIGN KEY (`facilitator_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `cohorts_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_cohorts_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `cohort_assignments`
---
 ALTER TABLE `cohort_assignments`
   ADD CONSTRAINT `cohort_assignments_ibfk_1` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_assignments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `cohort_assignment_deadlines`
---
 ALTER TABLE `cohort_assignment_deadlines`
   ADD CONSTRAINT `cohort_assignment_deadlines_ibfk_1` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_assignment_deadlines_ibfk_2` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `cohort_courses`
---
 ALTER TABLE `cohort_courses`
   ADD CONSTRAINT `cohort_courses_ibfk_1` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_courses_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `cohort_invitations`
---
 ALTER TABLE `cohort_invitations`
   ADD CONSTRAINT `cohort_invitations_ibfk_1` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_invitations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_invitations_ibfk_3` FOREIGN KEY (`invited_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `cohort_schedules`
---
 ALTER TABLE `cohort_schedules`
   ADD CONSTRAINT `cohort_schedules_ibfk_1` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cohort_schedules_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `cohort_schedules_ibfk_3` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `courses`
---
 ALTER TABLE `courses`
   ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`facilitator_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_courses_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `enrollments`
---
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `enrollments_ibfk_3` FOREIGN KEY (`cohort_id`) REFERENCES `cohorts` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `learning_goals`
---
 ALTER TABLE `learning_goals`
   ADD CONSTRAINT `learning_goals_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `learning_streaks`
---
 ALTER TABLE `learning_streaks`
   ADD CONSTRAINT `learning_streaks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `lessons`
---
 ALTER TABLE `lessons`
   ADD CONSTRAINT `lessons_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `lesson_progress`
---
 ALTER TABLE `lesson_progress`
   ADD CONSTRAINT `lesson_progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `lesson_progress_ibfk_2` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `lesson_progress_ibfk_3` FOREIGN KEY (`enrollment_id`) REFERENCES `enrollments` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `modules`
---
 ALTER TABLE `modules`
   ADD CONSTRAINT `modules_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `portfolios`
---
 ALTER TABLE `portfolios`
   ADD CONSTRAINT `portfolios_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `portfolios_ibfk_2` FOREIGN KEY (`submission_id`) REFERENCES `submissions` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `study_sessions`
---
+ALTER TABLE `service_requests`
+  ADD CONSTRAINT `service_requests_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `service_requests_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
 ALTER TABLE `study_sessions`
   ADD CONSTRAINT `study_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `study_sessions_ibfk_2` FOREIGN KEY (`enrollment_id`) REFERENCES `enrollments` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `submissions`
---
 ALTER TABLE `submissions`
   ADD CONSTRAINT `submissions_ibfk_1` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `submissions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `submissions_ibfk_3` FOREIGN KEY (`graded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
---
--- Constraints for table `user_preferences`
---
 ALTER TABLE `user_preferences`
   ADD CONSTRAINT `user_preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;

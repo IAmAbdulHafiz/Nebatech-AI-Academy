@@ -1,5 +1,9 @@
 <?php
 $title = 'Edit Course - ' . htmlspecialchars($course['title']);
+
+// Load course categories from database
+$categories = \Nebatech\Models\CourseCategory::getActive();
+
 ob_start();
 include __DIR__ . '/../partials/facilitator-sidebar.php';
 $sidebarContent = ob_get_clean();
@@ -90,14 +94,12 @@ ob_start();
                             </label>
                             <select id="category" name="category" required
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
-                                <option value="frontend" <?= $course['category'] === 'frontend' ? 'selected' : '' ?>>Frontend Development</option>
-                                <option value="backend" <?= $course['category'] === 'backend' ? 'selected' : '' ?>>Backend Development</option>
-                                <option value="fullstack" <?= $course['category'] === 'fullstack' ? 'selected' : '' ?>>Full Stack Development</option>
-                                <option value="mobile" <?= $course['category'] === 'mobile' ? 'selected' : '' ?>>Mobile Development</option>
-                                <option value="ai" <?= $course['category'] === 'ai' ? 'selected' : '' ?>>AI & Machine Learning</option>
-                                <option value="data-science" <?= $course['category'] === 'data-science' ? 'selected' : '' ?>>Data Science</option>
-                                <option value="cybersecurity" <?= $course['category'] === 'cybersecurity' ? 'selected' : '' ?>>Cybersecurity</option>
-                                <option value="cloud" <?= $course['category'] === 'cloud' ? 'selected' : '' ?>>Cloud Computing</option>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= htmlspecialchars($category['slug']) ?>" 
+                                            <?= ($course['category_slug'] ?? '') === $category['slug'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($category['name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

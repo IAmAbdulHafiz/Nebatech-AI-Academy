@@ -8,6 +8,11 @@ use Nebatech\Exceptions\AuthorizationException;
 
 abstract class Controller
 {
+    public function __construct()
+    {
+        // Base constructor - can be extended by child classes
+    }
+    
     protected function view(string $view, array $data = []): string
     {
         extract($data);

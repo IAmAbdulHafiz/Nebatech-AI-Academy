@@ -62,12 +62,14 @@ class CertificateService
     {
         $sql = "SELECT c.*, 
                        co.title as course_title,
-                       co.category,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        co.level,
                        u.first_name,
                        u.last_name
                 FROM certificates c
                 INNER JOIN courses co ON c.course_id = co.id
+                LEFT JOIN course_categories cc ON co.category_id = cc.id
                 INNER JOIN users u ON c.user_id = u.id
                 WHERE c.user_id = :user_id
                 ORDER BY c.issued_at DESC";
@@ -89,12 +91,14 @@ class CertificateService
                            u.last_name,
                            u.email,
                            co.title as course_title,
-                           co.category,
+                           cc.name as category_name,
+                           cc.slug as category_slug,
                            co.level,
                            co.duration_hours
                     FROM certificates c
                     INNER JOIN users u ON c.user_id = u.id
                     INNER JOIN courses co ON c.course_id = co.id
+                    LEFT JOIN course_categories cc ON co.category_id = cc.id
                     WHERE c.uuid = :identifier AND c.verified = 1
                     LIMIT 1";
         } else {
@@ -103,12 +107,14 @@ class CertificateService
                            u.last_name,
                            u.email,
                            co.title as course_title,
-                           co.category,
+                           cc.name as category_name,
+                           cc.slug as category_slug,
                            co.level,
                            co.duration_hours
                     FROM certificates c
                     INNER JOIN users u ON c.user_id = u.id
                     INNER JOIN courses co ON c.course_id = co.id
+                    LEFT JOIN course_categories cc ON co.category_id = cc.id
                     WHERE c.certificate_number = :identifier AND c.verified = 1
                     LIMIT 1";
         }
@@ -125,11 +131,13 @@ class CertificateService
                        u.first_name,
                        u.last_name,
                        co.title as course_title,
-                       co.category,
+                       cc.name as category_name,
+                       cc.slug as category_slug,
                        co.level
                 FROM certificates c
                 INNER JOIN users u ON c.user_id = u.id
                 INNER JOIN courses co ON c.course_id = co.id
+                LEFT JOIN course_categories cc ON co.category_id = cc.id
                 WHERE c.id = :id
                 LIMIT 1";
 
