@@ -10,6 +10,62 @@ abstract class Model
     protected string $primaryKey = 'id';
     protected array $fillable = [];
     protected array $hidden = [];
+    protected $db;
+    private $_dbInstance;
+    
+    public function __construct()
+    {
+        // Initialize db property immediately
+        $this->db = $this->createDbProxy();
+        $this->_dbInstance = $this->db;
+    }
+    
+    /**
+     * Create the database proxy object
+     */
+    private function createDbProxy()
+    {
+        return new class {
+            public function query(string $sql, array $params = [])
+            {
+                return new class($sql, $params) {
+                    private $sql;
+                    private $params;
+                    
+                    public function __construct($sql, $params)
+                    {
+                        $this->sql = $sql;
+                        $this->params = $params;
+                    }
+                    
+                    public function fetchAll()
+                    {
+                        return \Nebatech\Core\Database::fetchAll($this->sql, $this->params);
+                    }
+                    
+                    public function fetch()
+                    {
+                        return \Nebatech\Core\Database::fetch($this->sql, $this->params);
+                    }
+                };
+            }
+            
+            public function insert(string $table, array $data)
+            {
+                return \Nebatech\Core\Database::insert($table, $data);
+            }
+            
+            public function update(string $table, array $data, string $where, array $params)
+            {
+                return \Nebatech\Core\Database::update($table, $data, $where, $params);
+            }
+            
+            public function delete(string $table, $id)
+            {
+                return \Nebatech\Core\Database::delete($table, "id = ?", [$id]);
+            }
+        };
+    }
     
     public function find(int $id): ?array
     {

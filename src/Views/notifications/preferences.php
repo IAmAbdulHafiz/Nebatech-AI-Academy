@@ -49,14 +49,14 @@
                     <div class="p-6 flex items-start justify-between hover:bg-gray-50 transition">
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-1">
-                                <i class="fas fa-graduation-cap text-blue-600"></i>
+                                <i class="fas fa-graduation-cap text-primary"></i>
                                 <h4 class="font-semibold text-gray-900">Grades & Feedback</h4>
                             </div>
                             <p class="text-sm text-gray-600">Get notified when assignments are graded or feedback is available</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer ml-4">
                             <input type="checkbox" name="grades" class="sr-only peer" <?= $preferences['grades'] ? 'checked' : '' ?>>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                     </div>
 
@@ -186,3 +186,5 @@
         </form>
     </div>
 </div>
+
+

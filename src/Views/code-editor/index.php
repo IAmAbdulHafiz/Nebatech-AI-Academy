@@ -79,7 +79,7 @@
     <div class="container mx-auto px-4 py-6">
         <!-- Header -->
         <div class="mb-6">
-            <a href="<?= url('/dashboard') ?>" class="text-blue-600 hover:text-blue-700 font-semibold mb-4 inline-block">
+            <a href="<?= url('/dashboard') ?>" class="text-primary hover:text-primary font-semibold mb-4 inline-block">
                 <i class="fas fa-arrow-left mr-2"></i>Back to Lesson
             </a>
             <div class="flex items-center justify-between">
@@ -94,7 +94,7 @@
                     <button @click="runCode()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                         <i class="fas fa-play mr-2"></i>Run Code
                     </button>
-                    <button @click="downloadCode()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <button @click="downloadCode()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/70 transition">
                         <i class="fas fa-download mr-2"></i>Download
                     </button>
                 </div>
@@ -140,7 +140,7 @@
                     <button @click="activeTab = 'css'" 
                             :class="activeTab === 'css' ? 'active' : ''"
                             class="tab-button flex items-center gap-2">
-                        <i class="fab fa-css3-alt text-blue-600"></i> CSS
+                        <i class="fab fa-css3-alt text-primary"></i> CSS
                     </button>
                     <button @click="activeTab = 'js'" 
                             :class="activeTab === 'js' ? 'active' : ''"
@@ -172,7 +172,7 @@
                         <button @click="clearConsole()" class="text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
                             <i class="fas fa-broom mr-1"></i>Clear Console
                         </button>
-                        <button @click="refreshPreview()" class="text-sm px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        <button @click="refreshPreview()" class="text-sm px-3 py-1 bg-primary text-white rounded hover:bg-primary/70">
                             <i class="fas fa-sync-alt mr-1"></i>Refresh
                         </button>
                     </div>
@@ -217,7 +217,7 @@
         </div>
 
         <!-- Instructions Panel -->
-        <div class="mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+        <div class="mt-6 bg-blue-50 border-l-4 border-primary/90 p-4 rounded">
             <h3 class="font-bold text-blue-900 mb-2">
                 <i class="fas fa-info-circle mr-2"></i>Instructions
             </h3>
@@ -538,3 +538,5 @@ document.addEventListener('DOMContentLoaded', () => {
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

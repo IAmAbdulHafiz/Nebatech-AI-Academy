@@ -69,9 +69,9 @@
                             <i class="fab fa-html5 text-orange-500"></i> HTML
                         </button>
                         <button @click="activeTab = 'css'" 
-                                :class="activeTab === 'css' ? 'bg-white border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+                                :class="activeTab === 'css' ? 'bg-white border-b-2 border-primary/90 text-primary' : 'text-gray-600 hover:text-gray-900'"
                                 class="px-4 py-2 text-sm font-medium rounded-t-lg">
-                            <i class="fab fa-css3-alt text-blue-500"></i> CSS
+                            <i class="fab fa-css3-alt text-primary/90"></i> CSS
                         </button>
                         <button @click="activeTab = 'js'" 
                                 :class="activeTab === 'js' ? 'bg-white border-b-2 border-yellow-500 text-yellow-600' : 'text-gray-600 hover:text-gray-900'"
@@ -84,7 +84,7 @@
                             <i class="fas fa-eye text-green-500"></i> Live Preview
                         </button>
                     </div>
-                    <button @click="downloadCode()" class="px-3 py-1 text-sm text-blue-600 hover:text-blue-800">
+                    <button @click="downloadCode()" class="px-3 py-1 text-sm text-primary hover:text-blue-800">
                         <i class="fas fa-download"></i> Download Code
                     </button>
                 </div>
@@ -113,21 +113,21 @@
                 ?>
                     <div class="bg-white rounded-lg shadow-md p-6">
                         <h2 class="text-xl font-bold text-gray-900 mb-4">
-                            <i class="fas fa-robot text-blue-600"></i> AI Feedback
+                            <i class="fas fa-robot text-primary"></i> AI Feedback
                         </h2>
                         
                         <!-- AI Score -->
                         <div class="mb-4 p-4 bg-blue-50 rounded-lg">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm text-blue-700 font-medium">AI Generated Score</p>
+                                    <p class="text-sm text-primary font-medium">AI Generated Score</p>
                                     <p class="text-3xl font-bold text-blue-900">
                                         <?= $feedback['score'] ?>/<?= $feedback['max_score'] ?>
-                                        <span class="text-lg text-blue-600">(<?= $feedback['percentage'] ?>%)</span>
+                                        <span class="text-lg text-primary">(<?= $feedback['percentage'] ?>%)</span>
                                     </p>
-                                    <p class="text-sm text-blue-700 mt-1"><?= $feedback['grade_level'] ?></p>
+                                    <p class="text-sm text-primary mt-1"><?= $feedback['grade_level'] ?></p>
                                 </div>
-                                <div class="text-right text-xs text-blue-600">
+                                <div class="text-right text-xs text-primary">
                                     Generated: <?= date('M d, g:i A', strtotime($feedback['generated_at'])) ?>
                                 </div>
                             </div>
@@ -189,7 +189,7 @@
                                             <div class="text-xs p-2 rounded mb-1 <?= 
                                                 $issue['severity'] === 'error' ? 'bg-red-50 text-red-700 border-l-2 border-red-400' :
                                                 ($issue['severity'] === 'warning' ? 'bg-yellow-50 text-yellow-700 border-l-2 border-yellow-400' : 
-                                                'bg-blue-50 text-blue-700 border-l-2 border-blue-400') 
+                                                'bg-blue-50 text-primary border-l-2 border-white/30') 
                                             ?>">
                                                 <span class="font-semibold">[<?= ucfirst($issue['severity']) ?>]</span>
                                                 <?= htmlspecialchars($issue['message']) ?>
@@ -263,7 +263,7 @@
                         <div class="flex items-center justify-between">
                             <button type="button" 
                                     @click="regenerateFeedback()"
-                                    class="px-4 py-2 text-sm text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50">
+                                    class="px-4 py-2 text-sm text-primary border border-white/20 rounded-lg hover:bg-blue-50">
                                 <i class="fas fa-sync-alt"></i> Regenerate AI Feedback
                             </button>
                             <div class="flex space-x-3">
@@ -459,3 +459,4 @@ ${html}
     </script>
 </body>
 </html>
+

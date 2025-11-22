@@ -15,7 +15,7 @@
         
         <!-- Back Navigation -->
         <div class="mb-6">
-            <a href="<?= url('/dashboard') ?>" class="text-blue-600 hover:text-blue-800">
+            <a href="<?= url('/dashboard') ?>" class="text-primary hover:text-blue-800">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -61,7 +61,7 @@
             
             <!-- Score Card -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-md p-6 text-white">
+                <div class="bg-gradient-to-br from-primary/90 to-primary rounded-lg shadow-md p-6 text-white">
                     <div class="text-sm font-medium mb-2">Your Score</div>
                     <div class="text-4xl font-bold">
                         <?= $feedback['score'] ?>/<span class="text-2xl"><?= $feedback['max_score'] ?></span>
@@ -90,13 +90,13 @@
             <!-- AI Feedback Section -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                    <i class="fas fa-robot text-blue-600"></i> AI Feedback
+                    <i class="fas fa-robot text-primary"></i> AI Feedback
                 </h2>
                 
                 <!-- Overall Feedback -->
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">Overall Assessment</h3>
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <div class="bg-blue-50 border-l-4 border-primary/90 p-4 rounded">
                         <p class="text-gray-700 leading-relaxed">
                             <?= nl2br(htmlspecialchars($feedback['ai_feedback']['overall_feedback'])) ?>
                         </p>
@@ -146,7 +146,7 @@
                         <ul class="space-y-2">
                             <?php foreach ($feedback['ai_feedback']['suggestions'] as $suggestion): ?>
                                 <li class="flex items-start">
-                                    <i class="fas fa-star text-blue-500 mt-1 mr-2"></i>
+                                    <i class="fas fa-star text-primary/90 mt-1 mr-2"></i>
                                     <span class="text-gray-700"><?= htmlspecialchars($suggestion) ?></span>
                                 </li>
                             <?php endforeach; ?>
@@ -164,7 +164,7 @@
                     
                     <div class="mb-4">
                         <p class="text-gray-700">
-                            <i class="fas fa-info-circle text-blue-500"></i> 
+                            <i class="fas fa-info-circle text-primary/90"></i> 
                             <?= htmlspecialchars($feedback['validation']['summary']) ?>
                         </p>
                     </div>
@@ -179,12 +179,12 @@
                                     <li class="flex items-start p-3 rounded <?= 
                                         $issue['severity'] === 'error' ? 'bg-red-50 border-l-4 border-red-500' :
                                         ($issue['severity'] === 'warning' ? 'bg-yellow-50 border-l-4 border-yellow-500' : 
-                                        'bg-blue-50 border-l-4 border-blue-500') 
+                                        'bg-blue-50 border-l-4 border-primary/90') 
                                     ?>">
                                         <i class="fas <?= 
                                             $issue['severity'] === 'error' ? 'fa-times-circle text-red-500' :
                                             ($issue['severity'] === 'warning' ? 'fa-exclamation-triangle text-yellow-500' : 
-                                            'fa-info-circle text-blue-500') 
+                                            'fa-info-circle text-primary/90') 
                                         ?> mt-1 mr-2"></i>
                                         <div>
                                             <span class="font-semibold text-gray-700 capitalize"><?= $issue['severity'] ?>:</span>
@@ -217,7 +217,7 @@
                 </div>
                 <div class="flex space-x-3">
                     <a href="<?= url('/assignments/' . $submission['assignment_id'] . '/code-editor') ?>" 
-                       class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                       class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/70">
                         <i class="fas fa-code"></i> View My Code
                     </a>
                     <?php if ($feedback['percentage'] < 70): ?>
@@ -235,3 +235,5 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

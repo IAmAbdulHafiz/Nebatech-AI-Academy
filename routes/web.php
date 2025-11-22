@@ -10,6 +10,8 @@ use Nebatech\Controllers\AuthController;
 use Nebatech\Controllers\CourseController;
 use Nebatech\Controllers\BlogController;
 use Nebatech\Controllers\ContactController;
+use Nebatech\Controllers\NewsletterController;
+use Nebatech\Controllers\SitemapController;
 use Nebatech\Controllers\DashboardController;
 use Nebatech\Controllers\FacilitatorController;
 use Nebatech\Controllers\AIController;
@@ -17,14 +19,78 @@ use Nebatech\Controllers\CodeEditorController;
 use Nebatech\Controllers\FeedbackController;
 use Nebatech\Controllers\NotificationController;
 use Nebatech\Controllers\ApplicationController;
+use Nebatech\Controllers\CommunityController;
+use Nebatech\Controllers\ResourceController;
+use Nebatech\Controllers\EventController;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [HomeController::class, 'about']);
 
+// SEO
+$router->get('/sitemap.xml', [SitemapController::class, 'generate']);
+$router->get('/robots.txt', [SitemapController::class, 'robots']);
+
+// Public Pages
+$router->get('/team', [HomeController::class, 'team']);
+$router->get('/services', [HomeController::class, 'services']);
+$router->get('/portfolio', [HomeController::class, 'portfolio']);
+$router->get('/faqs', [HomeController::class, 'faqs']);
+$router->get('/testimonials', [HomeController::class, 'testimonials']);
+$router->get('/sitemap', [HomeController::class, 'sitemap']);
+$router->get('/corporate', [HomeController::class, 'corporate']);
+$router->get('/career-services', [HomeController::class, 'careerServices']);
+$router->get('/support', [HomeController::class, 'support']);
+$router->get('/forum', [CommunityController::class, 'index']);
+$router->get('/live-chat', [HomeController::class, 'liveChat']);
+$router->get('/accessibility', [HomeController::class, 'accessibility']);
+
+// Legal Pages
+$router->get('/privacy', [HomeController::class, 'privacy']);
+$router->get('/terms', [HomeController::class, 'terms']);
+$router->get('/cookie-policy', [HomeController::class, 'cookiePolicy']);
+$router->get('/refund-policy', [HomeController::class, 'refundPolicy']);
+$router->get('/code-of-conduct', [HomeController::class, 'codeOfConduct']);
+
+// Community Routes
+$router->get('/community', [CommunityController::class, 'index']);
+$router->get('/community/discussions', [CommunityController::class, 'discussions']);
+$router->get('/community/guidelines', [CommunityController::class, 'guidelines']);
+$router->get('/community/create', [CommunityController::class, 'create']);
+$router->post('/community/create', [CommunityController::class, 'store']);
+$router->get('/community/category/{slug}', [CommunityController::class, 'category']);
+$router->get('/community/post/{uuid}', [CommunityController::class, 'show']);
+$router->post('/community/post/{uuid}/comment', [CommunityController::class, 'addComment']);
+$router->post('/community/post/{uuid}/like', [CommunityController::class, 'toggleLike']);
+$router->post('/community/post/{uuid}/solution', [CommunityController::class, 'markSolution']);
+$router->get('/community/search', [CommunityController::class, 'search']);
+$router->get('/community/profile/{userId}', [CommunityController::class, 'profile']);
+$router->post('/community/profile/{userId}/follow', [CommunityController::class, 'followUser']);
+$router->get('/community/leaderboard', [CommunityController::class, 'leaderboard']);
+
+// Resource Routes
+$router->get('/community/resources', [ResourceController::class, 'index']);
+$router->get('/community/resources/create', [ResourceController::class, 'create']);
+$router->post('/community/resources/create', [ResourceController::class, 'store']);
+$router->get('/community/resources/{uuid}', [ResourceController::class, 'show']);
+$router->get('/community/resources/{uuid}/download', [ResourceController::class, 'download']);
+
+// Event Routes
+$router->get('/community/events', [EventController::class, 'index']);
+$router->get('/community/events/create', [EventController::class, 'create']);
+$router->post('/community/events/create', [EventController::class, 'store']);
+$router->get('/community/events/{uuid}', [EventController::class, 'show']);
+$router->post('/community/events/{uuid}/rsvp', [EventController::class, 'rsvp']);
+$router->get('/faqs', [HomeController::class, 'faqs']);
+
 // Blog
 $router->get('/blog', [BlogController::class, 'index']);
 $router->get('/blog/{slug}', [BlogController::class, 'show']);
+$router->post('/blog/comment', [BlogController::class, 'comment']);
+
+// Newsletter
+$router->post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
+$router->get('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
 
 // Contact
 $router->get('/contact', [ContactController::class, 'index']);

@@ -14,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        echo $this->render('courses/index');
+        echo $this->render('courses/index', [], 'main');
     }
 
     /**
@@ -22,7 +22,7 @@ class CourseController extends Controller
      */
     public function frontend()
     {
-        echo $this->render('courses/frontend');
+        echo $this->render('courses/frontend', [], 'main');
     }
 
     /**
@@ -30,7 +30,7 @@ class CourseController extends Controller
      */
     public function backend()
     {
-        echo $this->render('courses/backend');
+        echo $this->render('courses/backend', [], 'main');
     }
 
     /**
@@ -38,7 +38,7 @@ class CourseController extends Controller
      */
     public function fullstack()
     {
-        echo $this->render('courses/fullstack');
+        echo $this->render('courses/fullstack', [], 'main');
     }
 
     /**
@@ -46,7 +46,7 @@ class CourseController extends Controller
      */
     public function mobile()
     {
-        echo $this->render('courses/mobile');
+        echo $this->render('courses/mobile', [], 'main');
     }
 
     /**
@@ -54,7 +54,7 @@ class CourseController extends Controller
      */
     public function ai()
     {
-        echo $this->render('courses/ai');
+        echo $this->render('courses/ai', [], 'main');
     }
 
     /**
@@ -62,7 +62,7 @@ class CourseController extends Controller
      */
     public function dataScience()
     {
-        echo $this->render('courses/data-science');
+        echo $this->render('courses/data-science', [], 'main');
     }
 
     /**
@@ -70,7 +70,7 @@ class CourseController extends Controller
      */
     public function cybersecurity()
     {
-        echo $this->render('courses/cybersecurity');
+        echo $this->render('courses/cybersecurity', [], 'main');
     }
 
     /**
@@ -78,7 +78,7 @@ class CourseController extends Controller
      */
     public function cloud()
     {
-        echo $this->render('courses/cloud');
+        echo $this->render('courses/cloud', [], 'main');
     }
 
     /**
@@ -98,7 +98,7 @@ class CourseController extends Controller
         
         if (!$course) {
             http_response_code(404);
-            echo $this->render('errors/404', ['title' => 'Course Not Found']);
+            echo $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
             return;
         }
 
@@ -129,6 +129,6 @@ class CourseController extends Controller
             'modules' => $modules,
             'isEnrolled' => $isEnrolled,
             'relatedCourses' => $relatedCourses
-        ]);
+        ], 'main');
     }
 }

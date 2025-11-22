@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= htmlspecialchars($course['description'] ?? '') ?>">
-    <title><?= htmlspecialchars($title ?? 'Course Details') ?></title>
-    
-    <!-- Tailwind CSS -->
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    
-    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <!-- Course Header -->
+<!-- Course Header -->
     <section class="bg-gradient-to-br from-purple-600 to-blue-600 text-white py-16">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
@@ -180,7 +158,7 @@
                                                         <div class="flex items-center gap-3">
                                                             <?php
                                                             $iconClass = 'fa-file-alt';
-                                                            $iconColor = 'text-blue-500';
+                                                            $iconColor = 'text-primary/90';
                                                             
                                                             if (!empty($lesson['type'])) {
                                                                 switch ($lesson['type']) {
@@ -289,13 +267,13 @@
                             <div class="mt-6 pt-6 border-t border-gray-200">
                                 <p class="text-sm font-semibold text-gray-700 mb-3">Share this course:</p>
                                 <div class="flex gap-2">
-                                    <a href="#" class="flex-1 bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700 transition">
+                                    <a href="#" class="flex-1 bg-primary text-white text-center py-2 rounded hover:bg-primary/70 transition">
                                         <i class="fab fa-facebook-f"></i>
                                     </a>
                                     <a href="#" class="flex-1 bg-sky-500 text-white text-center py-2 rounded hover:bg-sky-600 transition">
                                         <i class="fab fa-twitter"></i>
                                     </a>
-                                    <a href="#" class="flex-1 bg-blue-700 text-white text-center py-2 rounded hover:bg-blue-800 transition">
+                                    <a href="#" class="flex-1 bg-primary/70 text-white text-center py-2 rounded hover:bg-primary/80 transition">
                                         <i class="fab fa-linkedin-in"></i>
                                     </a>
                                     <a href="#" class="flex-1 bg-green-600 text-white text-center py-2 rounded hover:bg-green-700 transition">
@@ -389,6 +367,4 @@
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+

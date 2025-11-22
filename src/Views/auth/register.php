@@ -97,9 +97,9 @@
                                class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1">
                         <label for="terms" class="ml-2 text-sm text-gray-700">
                             I agree to the 
-                            <a href="<?= url('/terms') ?>" class="text-primary hover:text-blue-700 font-semibold">Terms of Service</a> 
+                            <a href="<?= url('/terms') ?>" class="text-primary hover:text-primary font-semibold">Terms of Service</a> 
                             and 
-                            <a href="<?= url('/privacy') ?>" class="text-primary hover:text-blue-700 font-semibold">Privacy Policy</a>
+                            <a href="<?= url('/privacy') ?>" class="text-primary hover:text-primary font-semibold">Privacy Policy</a>
                         </label>
                     </div>
 
@@ -143,7 +143,7 @@
                 <div class="mt-6 text-center">
                     <p class="text-gray-600">
                         Already have an account? 
-                        <a href="<?= url('/login') ?>" class="text-primary hover:text-blue-700 font-semibold">
+                        <a href="<?= url('/login') ?>" class="text-primary hover:text-primary font-semibold">
                             Sign in
                         </a>
                     </p>
@@ -192,3 +192,4 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+

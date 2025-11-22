@@ -17,7 +17,7 @@
     <div class="container mx-auto px-4 py-8 max-w-4xl">
         <!-- Header -->
         <div class="mb-8">
-            <a href="<?= url('/facilitator/dashboard') ?>" class="text-blue-600 hover:text-blue-700 font-semibold mb-4 inline-block">
+            <a href="<?= url('/facilitator/dashboard') ?>" class="text-primary hover:text-primary font-semibold mb-4 inline-block">
                 <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
             </a>
             <h1 class="text-3xl font-bold text-gray-900">Create New Course</h1>
@@ -162,9 +162,9 @@
         </div>
 
         <!-- Help Section -->
-        <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
+        <div class="mt-8 bg-blue-50 border-l-4 border-primary/90 p-6 rounded">
             <div class="flex items-start">
-                <i class="fas fa-lightbulb text-blue-500 text-2xl mr-3 mt-1"></i>
+                <i class="fas fa-lightbulb text-primary/90 text-2xl mr-3 mt-1"></i>
                 <div>
                     <h3 class="font-bold text-blue-900 mb-2">Tips for Creating a Great Course</h3>
                     <ul class="text-sm text-blue-800 space-y-1">
@@ -182,3 +182,4 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+

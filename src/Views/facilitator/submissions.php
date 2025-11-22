@@ -38,7 +38,7 @@
                 </div>
             </div>
             
-            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-primary/90">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Graded</p>
@@ -46,7 +46,7 @@
                             <?= count(array_filter($submissions, fn($s) => $s['status'] === 'graded')) ?>
                         </p>
                     </div>
-                    <i class="fas fa-check-circle text-blue-500 text-2xl"></i>
+                    <i class="fas fa-check-circle text-primary/90 text-2xl"></i>
                 </div>
             </div>
             
@@ -99,7 +99,7 @@
                 </div>
                 
                 <div class="flex items-end">
-                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/70">
                         <i class="fas fa-filter"></i> Apply Filters
                     </button>
                 </div>
@@ -152,7 +152,7 @@
                                                      alt="Avatar" 
                                                      class="w-8 h-8 rounded-full mr-3">
                                             <?php else: ?>
-                                                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold mr-3">
+                                                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-semibold mr-3">
                                                     <?= strtoupper(substr($submission['first_name'], 0, 1)) ?>
                                                 </div>
                                             <?php endif; ?>
@@ -230,7 +230,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="<?= url('/facilitator/submissions/' . $submission['id'] . '/review') ?>" 
-                                           class="text-blue-600 hover:text-blue-900 mr-3">
+                                           class="text-primary hover:text-blue-900 mr-3">
                                             <i class="fas fa-eye"></i> Review
                                         </a>
                                     </td>
@@ -246,3 +246,5 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

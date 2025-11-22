@@ -34,20 +34,25 @@
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <!-- Alpine.js Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="<?= asset('js/theme-toggle.js') ?>"></script>
 </head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/partials/header.php'; ?>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <?php include __DIR__ . '/../partials/header.php'; ?>
     
     <main>
         <?php echo $content ?? ''; ?>
     </main>
     
-    <?php include __DIR__ . '/partials/footer.php'; ?>
+    <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

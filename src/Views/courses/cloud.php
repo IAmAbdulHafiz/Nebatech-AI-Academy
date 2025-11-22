@@ -1,27 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Cloud Computing with AWS, Azure, Google Cloud Platform. Learn DevOps, serverless, containers, and cloud architecture.">
-    <meta name="keywords" content="Cloud Computing, AWS, Azure, Google Cloud, DevOps, Kubernetes, Docker, Serverless">
-    <title>Cloud Computing Courses - Nebatech AI Academy</title>
-    
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-white">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <!-- Hero Section -->
-    <section class="bg-sky-600 text-white py-20">
-        <div class="container mx-auto px-4">
+<!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-sky-900 via-sky-700 to-sky-600 text-white py-20 overflow-hidden">
+        <!-- Digital Horizon Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Horizon Glow Effect -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-sky-500/30 via-sky-400/10 to-transparent"></div>
+            <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-sky-800/50 via-transparent to-transparent"></div>
+            
+            <!-- Geometric Light Beams -->
+            <div class="absolute inset-0">
+                <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-sky-400/40 via-sky-400/20 to-transparent transform -skew-x-12 animate-pulse" style="animation-duration: 3s;"></div>
+                <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-sky-300/30 via-sky-300/10 to-transparent transform skew-x-12 animate-pulse" style="animation-duration: 4s; animation-delay: 1s;"></div>
+                <div class="absolute top-0 left-2/3 w-0.5 h-full bg-gradient-to-b from-sky-400/30 via-transparent to-transparent transform -skew-x-6 animate-pulse" style="animation-duration: 5s; animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Dynamic Glowing Orbs -->
+            <div class="absolute top-20 left-10 w-96 h-96 bg-sky-500/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+            <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-sky-400/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s; animation-delay: 1s;"></div>
+            
+            <!-- Cloud Icons Floating -->
+            <div class="absolute top-1/4 left-[10%] opacity-20 animate-float" style="animation-duration: 6s;">
+                <i class="fas fa-cloud text-6xl text-sky-300"></i>
+            </div>
+            <div class="absolute top-1/3 right-[15%] opacity-20 animate-float" style="animation-duration: 7s; animation-delay: 1s;">
+                <i class="fab fa-aws text-6xl text-sky-200"></i>
+            </div>
+            <div class="absolute bottom-1/4 left-[20%] opacity-20 animate-float" style="animation-duration: 8s; animation-delay: 2s;">
+                <i class="fab fa-docker text-6xl text-sky-300"></i>
+            </div>
+            <div class="absolute bottom-1/3 right-[12%] opacity-20 animate-float" style="animation-duration: 6.5s; animation-delay: 0.5s;">
+                <i class="fas fa-server text-6xl text-sky-200"></i>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <div class="inline-block bg-sky-700 text-sky-100 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                <div class="inline-block bg-sky-800/60 backdrop-blur-sm text-sky-100 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-sky-400/30">
                     <i class="fas fa-cloud mr-2"></i>Cloud Computing
                 </div>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -31,29 +45,29 @@
                     Build, deploy, and manage applications on AWS, Azure, and Google Cloud Platform
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#courses" class="bg-white text-sky-600 px-8 py-4 rounded-lg font-semibold hover:bg-sky-50 transition inline-flex items-center">
+                    <a href="#courses" class="bg-white text-sky-600 px-8 py-4 rounded-lg font-semibold hover:bg-sky-50 transition inline-flex items-center shadow-lg hover:shadow-xl">
                         <i class="fas fa-rocket mr-2"></i>Browse Courses
                     </a>
-                    <a href="<?= url('/register') ?>" class="bg-sky-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-sky-800 transition inline-flex items-center border-2 border-sky-500">
+                    <a href="<?= url('/register') ?>" class="bg-sky-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-sky-800 transition inline-flex items-center border-2 border-sky-400/50 shadow-lg">
                         <i class="fas fa-user-plus mr-2"></i>Get Started Free
                     </a>
                 </div>
 
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-sky-400/20">
                         <div class="text-3xl font-bold">26+</div>
-                        <div class="text-sky-200 text-sm">Courses</div>
+                        <div class="text-sky-200 text-sm">Modules</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-sky-400/20">
                         <div class="text-3xl font-bold">11,200+</div>
                         <div class="text-sky-200 text-sm">Students</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-sky-400/20">
                         <div class="text-3xl font-bold">360+</div>
                         <div class="text-sky-200 text-sm">Hours Content</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-sky-400/20">
                         <div class="text-3xl font-bold">96%</div>
                         <div class="text-sky-200 text-sm">Success Rate</div>
                     </div>
@@ -84,7 +98,7 @@
                             <p class="text-gray-600 mb-4">Learn cloud computing basics and core services</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">AWS Basics</span>
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Azure Fundamentals</span>
+                                <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Azure Fundamentals</span>
                                 <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">GCP Intro</span>
                                 <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">Cloud Concepts</span>
                                 <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg text-sm font-medium">Pricing & Cost</span>
@@ -93,18 +107,18 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-primary/90">
                     <div class="flex items-start gap-4">
-                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+                        <div class="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
                                 <h3 class="text-xl font-bold text-gray-900">Core Cloud Services</h3>
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">4-8 months</span>
+                                <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">4-8 months</span>
                             </div>
                             <p class="text-gray-600 mb-4">Master compute, storage, networking, and databases</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">EC2 / VMs</span>
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">S3 / Storage</span>
+                                <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">S3 / Storage</span>
                                 <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">VPC / Networking</span>
                                 <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">RDS / Databases</span>
                                 <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">IAM / Security</span>
@@ -123,7 +137,7 @@
                             </div>
                             <p class="text-gray-600 mb-4">Implement CI/CD, containers, and infrastructure as code</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Docker</span>
+                                <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Docker</span>
                                 <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">Kubernetes</span>
                                 <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">Terraform</span>
                                 <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Jenkins</span>
@@ -144,7 +158,7 @@
                             <p class="text-gray-600 mb-4">Architect cloud solutions and earn certifications</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">AWS Solutions Architect</span>
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Azure Architect</span>
+                                <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Azure Architect</span>
                                 <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Serverless</span>
                                 <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">Microservices</span>
                                 <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">Multi-Cloud</span>
@@ -173,8 +187,8 @@
                     <p class="text-gray-600">Master Amazon Web Services and its extensive service ecosystem.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
-                    <div class="text-blue-600 text-4xl mb-4"><i class="fab fa-microsoft"></i></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary/90">
+                    <div class="text-primary text-4xl mb-4"><i class="fab fa-microsoft"></i></div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Azure Mastery</h3>
                     <p class="text-gray-600">Build and manage applications on Microsoft Azure platform.</p>
                 </div>
@@ -209,9 +223,31 @@
     <!-- Courses Listing -->
     <section id="courses" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
+            <!-- Bundle Pricing Banner -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="bg-gradient-to-r from-sky-600 to-sky-700 rounded-2xl p-8 text-white shadow-xl">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Complete Cloud Computing Track Bundle</h3>
+                            <p class="text-sky-100 mb-3">Get all 6 courses + certifications + lifetime access</p>
+                            <div class="flex items-center gap-4 justify-center md:justify-start">
+                                <span class="text-lg line-through text-sky-200">GHS 18,750</span>
+                                <span class="bg-orange-500 text-white px-4 py-1 rounded-full font-bold text-sm">Save 28%</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-bold mb-2">GHS 13,500</div>
+                            <a href="<?= url('/courses/cloud/enroll') ?>" class="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-bold hover:bg-sky-50 transition shadow-lg">
+                                Enroll in Bundle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Cloud Computing Courses</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Master cloud platforms and modern infrastructure</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Individual Courses</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Or choose individual courses - each sold separately</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -235,14 +271,14 @@
                             <span><i class="fas fa-users mr-1"></i>13.5K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$159</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 3,230</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-600 h-48 flex items-center justify-center">
+                    <div class="bg-primary h-48 flex items-center justify-center">
                         <i class="fab fa-microsoft text-white text-8xl"></i>
                     </div>
                     <div class="p-6">
@@ -261,7 +297,7 @@
                             <span><i class="fas fa-users mr-1"></i>10.8K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$149</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 3,030</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
@@ -273,7 +309,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                                 <span class="text-gray-600 text-sm ml-1">(3,240)</span>
@@ -287,19 +323,19 @@
                             <span><i class="fas fa-users mr-1"></i>7.2K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$139</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 2,830</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-800 h-48 flex items-center justify-center">
+                    <div class="bg-primary/80 h-48 flex items-center justify-center">
                         <i class="fab fa-docker text-white text-8xl"></i>
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                                 <span class="text-gray-600 text-sm ml-1">(4,120)</span>
@@ -313,7 +349,7 @@
                             <span><i class="fas fa-users mr-1"></i>9.6K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$129</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 2,630</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
@@ -325,7 +361,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                                 <span class="text-gray-600 text-sm ml-1">(3,680)</span>
@@ -339,7 +375,7 @@
                             <span><i class="fas fa-users mr-1"></i>8.4K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$169</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 3,440</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
@@ -365,7 +401,7 @@
                             <span><i class="fas fa-users mr-1"></i>6.8K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-sky-600">$189</div>
+                            <div class="text-2xl font-bold text-sky-600">GHS 3,850</div>
                             <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
@@ -453,7 +489,7 @@
                                     <span class="font-bold text-sky-600">$90K - $135K</span>
                                 </div>
                                 <div class="bg-gray-200 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-blue-500 h-full rounded-full" style="width: 72%"></div>
+                                    <div class="bg-primary/90 h-full rounded-full" style="width: 72%"></div>
                                 </div>
                             </div>
                             
@@ -506,6 +542,4 @@
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+

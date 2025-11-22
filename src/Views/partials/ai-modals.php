@@ -54,8 +54,8 @@
                     </select>
                 </div>
                 
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                    <p class="text-sm text-blue-700">
+                <div class="bg-blue-50 border-l-4 border-primary/90 p-4 rounded">
+                    <p class="text-sm text-primary">
                         <i class="fas fa-info-circle mr-2"></i>
                         AI will generate a complete course outline with modules, learning objectives, and estimated durations.
                     </p>
@@ -80,7 +80,7 @@
 <div id="aiLessonModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-lg p-8 max-w-2xl w-full">
         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
-            <i class="fas fa-robot text-blue-600"></i>
+            <i class="fas fa-robot text-primary"></i>
             AI Lesson Content Generator
         </h3>
         
@@ -131,8 +131,8 @@
                     <p class="text-xs text-gray-500 mt-1">These will be converted to JSON array automatically</p>
                 </div>
                 
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                    <p class="text-sm text-blue-700">
+                <div class="bg-blue-50 border-l-4 border-primary/90 p-4 rounded">
+                    <p class="text-sm text-primary">
                         <i class="fas fa-info-circle mr-2"></i>
                         AI will generate comprehensive lesson content including explanations, examples, and exercises.
                     </p>
@@ -140,7 +140,7 @@
                 
                 <div class="flex gap-3 pt-4">
                     <button type="submit" 
-                            class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition flex-1">
+                            class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/70 transition flex-1">
                         <i class="fas fa-magic mr-2"></i>Generate Lesson
                     </button>
                     <button type="button" onclick="hideAILessonModal()" 
@@ -224,3 +224,5 @@
         </form>
     </div>
 </div>
+
+

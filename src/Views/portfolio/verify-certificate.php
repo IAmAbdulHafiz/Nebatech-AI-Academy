@@ -88,7 +88,7 @@
                         </div>
                         
                         <?php if (isset($certificate['metadata']) && !empty($certificate['metadata'])): ?>
-                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                            <div class="bg-blue-50 border-l-4 border-primary/90 p-4">
                                 <h4 class="font-semibold text-blue-900 mb-2">
                                     <i class="fas fa-info-circle mr-2"></i>Completion Details
                                 </h4>
@@ -181,3 +181,4 @@
     </div>
 </body>
 </html>
+

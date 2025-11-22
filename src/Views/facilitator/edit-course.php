@@ -17,7 +17,7 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
         <div class="mb-8">
-            <a href="<?= url('/facilitator/dashboard') ?>" class="text-blue-600 hover:text-blue-700 font-semibold mb-4 inline-block">
+            <a href="<?= url('/facilitator/dashboard') ?>" class="text-primary hover:text-primary font-semibold mb-4 inline-block">
                 <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
             </a>
             <div class="flex items-center justify-between">
@@ -41,7 +41,7 @@
                             </button>
                         </form>
                     <?php endif; ?>
-                    <a href="<?= url('/courses/' . $course['slug']) ?>" target="_blank" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    <a href="<?= url('/courses/' . $course['slug']) ?>" target="_blank" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/70 transition">
                         <i class="fas fa-eye mr-2"></i>Preview
                     </a>
                 </div>
@@ -207,7 +207,7 @@
                                             </div>
                                         </div>
                                         <div class="flex gap-2">
-                                            <button onclick="showAddLessonModal(<?= $module['id'] ?>)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm">
+                                            <button onclick="showAddLessonModal(<?= $module['id'] ?>)" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/70 transition text-sm">
                                                 <i class="fas fa-plus mr-1"></i>Add Lesson
                                             </button>
                                         </div>
@@ -310,3 +310,5 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

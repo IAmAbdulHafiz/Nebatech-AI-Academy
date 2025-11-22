@@ -22,14 +22,14 @@
 
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-primary/90">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600 mb-1">Total Applications</p>
                         <p class="text-3xl font-bold text-gray-900"><?= $stats['total'] ?></p>
                     </div>
                     <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                        <i class="fas fa-file-alt text-primary text-xl"></i>
                     </div>
                 </div>
             </div>
@@ -338,3 +338,4 @@
     <?php include __DIR__ . '/../../partials/footer.php'; ?>
 </body>
 </html>
+

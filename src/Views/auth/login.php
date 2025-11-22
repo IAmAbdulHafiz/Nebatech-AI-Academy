@@ -70,14 +70,14 @@
                                 Remember me
                             </label>
                         </div>
-                        <a href="<?= url('/forgot-password') ?>" class="text-sm text-primary hover:text-blue-700 font-semibold">
+                        <a href="<?= url('/forgot-password') ?>" class="text-sm text-primary hover:text-primary font-semibold">
                             Forgot password?
                         </a>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" 
-                            class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
+                            class="w-full bg-primary hover:bg-primary/70 text-white font-bold py-3 rounded-lg transition-colors">
                         Sign In
                     </button>
                 </form>
@@ -115,7 +115,7 @@
                 <div class="mt-6 text-center">
                     <p class="text-gray-600">
                         Don't have an account? 
-                        <a href="<?= url('/register') ?>" class="text-primary hover:text-blue-700 font-semibold">
+                        <a href="<?= url('/register') ?>" class="text-primary hover:text-primary font-semibold">
                             Sign up for free
                         </a>
                     </p>
@@ -123,7 +123,7 @@
             </div>
 
             <!-- Benefits -->
-            <div class="mt-8 bg-blue-50 p-6 rounded-xl border-2 border-blue-100">
+            <div class="mt-8 bg-blue-50 p-6 rounded-xl border-2 border-white/10">
                 <h3 class="font-bold text-gray-800 mb-3">Why Students Love Nebatech AI Academy</h3>
                 <ul class="space-y-2 text-sm text-gray-700">
                     <li class="flex items-start">
@@ -152,3 +152,5 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

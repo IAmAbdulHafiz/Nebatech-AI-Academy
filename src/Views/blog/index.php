@@ -14,12 +14,69 @@
     <?php include __DIR__ . '/../partials/header.php'; ?>
 
     <!-- Hero Section -->
-    <section class="bg-primary text-white py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-5xl font-bold mb-6">Blog & Resources</h1>
-            <p class="text-xl max-w-3xl mx-auto">
+    <section class="relative bg-gradient-to-br from-primary via-blue-900 to-indigo-900 text-white py-20 overflow-hidden">
+        <!-- Digital Horizon Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Horizon Glow -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-blue-500/30 via-blue-400/10 to-transparent"></div>
+            
+            <!-- Geometric Light Beams -->
+            <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-blue-400/40 via-blue-400/20 to-transparent transform -skew-x-12 animate-pulse" style="animation-duration: 4s;"></div>
+            <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-indigo-400/30 via-indigo-400/15 to-transparent transform skew-x-12 animate-pulse" style="animation-duration: 5s;"></div>
+            <div class="absolute top-0 left-2/3 w-1 h-full bg-gradient-to-b from-blue-400/25 via-blue-400/10 to-transparent transform -skew-x-6 animate-pulse" style="animation-duration: 3s;"></div>
+            
+            <!-- Glowing Orbs -->
+            <div class="absolute top-20 left-10 w-96 h-96 bg-primary/90/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+            <div class="absolute bottom-20 right-20 w-80 h-80 bg-indigo-500/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-primary/90/20 rounded-full blur-3xl animate-pulse" style="animation-duration: 7s;"></div>
+            
+            <!-- Floating Blog Icons -->
+            <div class="absolute top-1/4 left-[10%] opacity-20 animate-float" style="animation-duration: 6s;">
+                <i class="fas fa-newspaper text-6xl text-white/80"></i>
+            </div>
+            <div class="absolute top-1/3 right-[15%] opacity-20 animate-float" style="animation-duration: 7s; animation-delay: 1s;">
+                <i class="fas fa-pen-fancy text-6xl text-indigo-300"></i>
+            </div>
+            <div class="absolute bottom-1/4 left-[20%] opacity-20 animate-float" style="animation-duration: 8s; animation-delay: 0.5s;">
+                <i class="fas fa-book-open text-6xl text-white/80"></i>
+            </div>
+            <div class="absolute top-1/2 right-[25%] opacity-20 animate-float" style="animation-duration: 6.5s; animation-delay: 1.5s;">
+                <i class="fas fa-lightbulb text-6xl text-indigo-300"></i>
+            </div>
+            <div class="absolute bottom-1/3 right-[10%] opacity-20 animate-float" style="animation-duration: 7.5s; animation-delay: 0.8s;">
+                <i class="fas fa-graduation-cap text-6xl text-white/80"></i>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="inline-block bg-primary/80/60 backdrop-blur-sm px-6 py-2 rounded-full text-white text-sm font-semibold mb-6 border border-white/30/30">
+                <i class="fas fa-newspaper mr-2"></i>Knowledge Hub
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">Blog & Resources</h1>
+            <p class="text-xl text-white/90 max-w-3xl mx-auto mb-12">
                 Learn from industry insights, tutorials, and expert advice to accelerate your tech career
             </p>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">100+</div>
+                    <div class="text-white/70 text-sm">Articles</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-indigo-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">50+</div>
+                    <div class="text-white/70 text-sm">Tutorials</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">10+</div>
+                    <div class="text-white/70 text-sm">Authors</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-indigo-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">Weekly</div>
+                    <div class="text-white/70 text-sm">Updates</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -57,7 +114,7 @@
                                 <span>⏱️ 15 min read</span>
                                 <span>👁️ 1.2k views</span>
                             </div>
-                            <a href="<?= url('/blog/full-stack-guide-2025') ?>" class="text-primary font-bold hover:text-blue-700">Read More →</a>
+                            <a href="<?= url('/blog/full-stack-guide-2025') ?>" class="text-primary font-bold hover:text-primary">Read More →</a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +143,7 @@
                             <span>Nov 6, 2025</span>
                             <span>532 views</span>
                         </div>
-                        <a href="<?= url('/blog/javascript-tips-2025') ?>" class="text-primary font-semibold hover:text-blue-700">Read Article →</a>
+                        <a href="<?= url('/blog/javascript-tips-2025') ?>" class="text-primary font-semibold hover:text-primary">Read Article →</a>
                     </div>
                 </article>
 
@@ -213,3 +270,5 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+
+

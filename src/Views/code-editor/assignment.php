@@ -57,17 +57,17 @@
             <div class="flex items-center justify-between">
                 <div class="flex space-x-2">
                     <button @click="layout = 'horizontal'" 
-                            :class="layout === 'horizontal' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'"
+                            :class="layout === 'horizontal' ? 'bg-blue-100 text-primary' : 'bg-gray-100 text-gray-700'"
                             class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50">
                         <i class="fas fa-columns"></i> Horizontal Split
                     </button>
                     <button @click="layout = 'vertical'" 
-                            :class="layout === 'vertical' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'"
+                            :class="layout === 'vertical' ? 'bg-blue-100 text-primary' : 'bg-gray-100 text-gray-700'"
                             class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50">
                         <i class="fas fa-grip-lines"></i> Vertical Split
                     </button>
                     <button @click="layout = 'tabs'" 
-                            :class="layout === 'tabs' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'"
+                            :class="layout === 'tabs' ? 'bg-blue-100 text-primary' : 'bg-gray-100 text-gray-700'"
                             class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50">
                         <i class="fas fa-window-maximize"></i> Tabbed View
                     </button>
@@ -94,9 +94,9 @@
                                 <i class="fab fa-html5 text-orange-500"></i> HTML
                             </button>
                             <button @click="activeTab = 'css'" 
-                                    :class="activeTab === 'css' ? 'bg-white border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+                                    :class="activeTab === 'css' ? 'bg-white border-b-2 border-primary/90 text-primary' : 'text-gray-600 hover:text-gray-900'"
                                     class="px-4 py-2 text-sm font-medium rounded-t-lg">
-                                <i class="fab fa-css3-alt text-blue-500"></i> CSS
+                                <i class="fab fa-css3-alt text-primary/90"></i> CSS
                             </button>
                             <button @click="activeTab = 'js'" 
                                     :class="activeTab === 'js' ? 'bg-white border-b-2 border-yellow-500 text-yellow-600' : 'text-gray-600 hover:text-gray-900'"
@@ -138,7 +138,7 @@
                                 'text-gray-300': msg.type === 'log',
                                 'text-red-400': msg.type === 'error',
                                 'text-yellow-400': msg.type === 'warn',
-                                'text-blue-400': msg.type === 'info'
+                                'text-primary/80': msg.type === 'info'
                             }" class="mb-1">
                                 <span class="text-gray-500" x-text="msg.time"></span>
                                 <span x-text="msg.message"></span>
@@ -164,9 +164,9 @@
                                 <i class="fab fa-html5 text-orange-500"></i> HTML
                             </button>
                             <button @click="activeTab = 'css'" 
-                                    :class="activeTab === 'css' ? 'bg-white border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+                                    :class="activeTab === 'css' ? 'bg-white border-b-2 border-primary/90 text-primary' : 'text-gray-600 hover:text-gray-900'"
                                     class="px-4 py-2 text-sm font-medium rounded-t-lg">
-                                <i class="fab fa-css3-alt text-blue-500"></i> CSS
+                                <i class="fab fa-css3-alt text-primary/90"></i> CSS
                             </button>
                             <button @click="activeTab = 'js'" 
                                     :class="activeTab === 'js' ? 'bg-white border-b-2 border-yellow-500 text-yellow-600' : 'text-gray-600 hover:text-gray-900'"
@@ -207,7 +207,7 @@
                                     'text-gray-300': msg.type === 'log',
                                     'text-red-400': msg.type === 'error',
                                     'text-yellow-400': msg.type === 'warn',
-                                    'text-blue-400': msg.type === 'info'
+                                    'text-primary/80': msg.type === 'info'
                                 }" class="mb-1 text-xs break-words">
                                     <span class="text-gray-500" x-text="msg.time"></span>
                                     <span x-text="msg.message"></span>
@@ -226,7 +226,7 @@
                 <div class="flex-shrink-0 bg-gray-50 border-b border-gray-200">
                     <div class="flex space-x-1 px-2 py-2">
                         <button @click="activeMainTab = 'code'" 
-                                :class="activeMainTab === 'code' ? 'bg-white border-b-2 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+                                :class="activeMainTab === 'code' ? 'bg-white border-b-2 border-primary/90 text-primary' : 'text-gray-600 hover:text-gray-900'"
                                 class="px-4 py-2 text-sm font-medium rounded-t-lg">
                             <i class="fas fa-code"></i> Code Editor
                         </button>
@@ -248,9 +248,9 @@
                                 <i class="fab fa-html5 text-orange-500"></i> HTML
                             </button>
                             <button @click="activeTab = 'css'" 
-                                    :class="activeTab === 'css' ? 'bg-white text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+                                    :class="activeTab === 'css' ? 'bg-white text-primary' : 'text-gray-600 hover:text-gray-900'"
                                     class="px-4 py-2 text-sm font-medium rounded-lg">
-                                <i class="fab fa-css3-alt text-blue-500"></i> CSS
+                                <i class="fab fa-css3-alt text-primary/90"></i> CSS
                             </button>
                             <button @click="activeTab = 'js'" 
                                     :class="activeTab === 'js' ? 'bg-white text-yellow-600' : 'text-gray-600 hover:text-gray-900'"
@@ -290,7 +290,7 @@
                                 'text-gray-300': msg.type === 'log',
                                 'text-red-400': msg.type === 'error',
                                 'text-yellow-400': msg.type === 'warn',
-                                'text-blue-400': msg.type === 'info'
+                                'text-primary/80': msg.type === 'info'
                             }" class="mb-1">
                                 <span class="text-gray-500" x-text="msg.time"></span>
                                 <span x-text="msg.message"></span>
@@ -305,10 +305,10 @@
         </div>
 
         <!-- Assignment Instructions Panel -->
-        <div class="bg-blue-50 border-t border-blue-200 px-6 py-4">
+        <div class="bg-blue-50 border-t border-white/20 px-6 py-4">
             <div class="flex items-start space-x-3">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-info-circle text-blue-600 text-xl"></i>
+                    <i class="fas fa-info-circle text-primary text-xl"></i>
                 </div>
                 <div class="flex-1">
                     <h3 class="text-sm font-semibold text-blue-900 mb-2">Assignment Instructions:</h3>
@@ -329,7 +329,7 @@
                             </ul>
                         </div>
                     <?php endif; ?>
-                    <div class="mt-3 flex items-center space-x-4 text-sm text-blue-700">
+                    <div class="mt-3 flex items-center space-x-4 text-sm text-primary">
                         <span><i class="fas fa-trophy"></i> Max Score: <?= $assignment['max_score'] ?> points</span>
                         <?php if ($assignment['due_date']): ?>
                             <span><i class="fas fa-calendar"></i> Due: <?= date('M d, Y', strtotime($assignment['due_date'])) ?></span>
@@ -645,3 +645,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+

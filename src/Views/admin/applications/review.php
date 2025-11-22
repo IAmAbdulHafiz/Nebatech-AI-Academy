@@ -149,7 +149,7 @@
                             <a href="<?= url('/' . $application['id_document_path']) ?>" target="_blank"
                                class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                                 <div class="flex items-center">
-                                    <i class="fas fa-id-card text-blue-600 mr-3"></i>
+                                    <i class="fas fa-id-card text-primary mr-3"></i>
                                     <span class="text-gray-900">ID Document</span>
                                 </div>
                                 <i class="fas fa-download text-gray-500"></i>
@@ -447,11 +447,35 @@
 
         async function saveNotes() {
             const notes = document.getElementById('internalNotes').value;
-            // TODO: Implement save notes API endpoint
-            alert('Notes saved (feature pending backend implementation)');
+            const applicationId = '<?= $application['uuid'] ?>';
+            
+            try {
+                const response = await fetch('/admin/applications/notes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        application_id: applicationId,
+                        notes: notes
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Notes saved successfully!');
+                } else {
+                    alert('Error: ' + (data.message || 'Failed to save notes'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while saving notes.');
+            }
         }
     </script>
 
     <?php include __DIR__ . '/../../partials/footer.php'; ?>
 </body>
 </html>
+

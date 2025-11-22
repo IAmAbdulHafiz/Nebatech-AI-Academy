@@ -1,156 +1,215 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Nebatech AI Academy</title>
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
+<!-- Contact Us Page -->
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Hero Section -->
-    <section class="bg-primary text-white py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-5xl font-bold mb-6">Get in Touch</h1>
-            <p class="text-xl max-w-3xl mx-auto">
-                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+    <section class="relative bg-gradient-to-br from-green-900 via-teal-900 to-cyan-900 text-white py-20 overflow-hidden">
+        <!-- Digital Horizon Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Horizon Glow -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-green-500/30 via-teal-400/10 to-transparent"></div>
+            
+            <!-- Geometric Light Beams -->
+            <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-green-400/40 via-green-400/20 to-transparent transform -skew-x-12 animate-pulse" style="animation-duration: 4s;"></div>
+            <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-teal-400/30 via-teal-400/15 to-transparent transform skew-x-12 animate-pulse" style="animation-duration: 5s;"></div>
+            <div class="absolute top-0 left-2/3 w-1 h-full bg-gradient-to-b from-cyan-400/25 via-cyan-400/10 to-transparent transform -skew-x-6 animate-pulse" style="animation-duration: 3s;"></div>
+            
+            <!-- Glowing Orbs -->
+            <div class="absolute top-20 left-10 w-96 h-96 bg-green-500/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+            <div class="absolute bottom-20 right-20 w-80 h-80 bg-teal-500/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style="animation-duration: 7s;"></div>
+            
+            <!-- Floating Communication Icons -->
+            <div class="absolute top-1/4 left-[10%] opacity-20 animate-float" style="animation-duration: 6s;">
+                <i class="fas fa-envelope text-6xl text-green-300"></i>
+            </div>
+            <div class="absolute top-1/3 right-[15%] opacity-20 animate-float" style="animation-duration: 7s; animation-delay: 1s;">
+                <i class="fas fa-phone text-6xl text-teal-300"></i>
+            </div>
+            <div class="absolute bottom-1/4 left-[20%] opacity-20 animate-float" style="animation-duration: 8s; animation-delay: 0.5s;">
+                <i class="fas fa-map-marker-alt text-6xl text-cyan-300"></i>
+            </div>
+            <div class="absolute top-1/2 right-[25%] opacity-20 animate-float" style="animation-duration: 6.5s; animation-delay: 1.5s;">
+                <i class="fas fa-comments text-6xl text-green-300"></i>
+            </div>
+            <div class="absolute bottom-1/3 right-[10%] opacity-20 animate-float" style="animation-duration: 7.5s; animation-delay: 0.8s;">
+                <i class="fas fa-paper-plane text-6xl text-teal-300"></i>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="inline-block bg-teal-800/60 backdrop-blur-sm px-6 py-2 rounded-full text-white text-sm font-semibold mb-6 border border-green-400/30">
+                📞 Get in Touch
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                Contact Us
+            </h1>
+            <p class="text-xl text-green-100 max-w-3xl mx-auto mb-12">
+                Have a project in mind or questions about our services? We'd love to hear from you. 
+                Reach out to discuss how we can help transform your digital vision into reality.
             </p>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold"><2h</div>
+                    <div class="text-green-200 text-sm">Response Time</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-teal-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">5+</div>
+                    <div class="text-green-200 text-sm">Support Channels</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-cyan-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">24/7</div>
+                    <div class="text-green-200 text-sm">Availability</div>
+                </div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20 hover:bg-white/15 transition-all">
+                    <div class="text-3xl font-bold">100%</div>
+                    <div class="text-green-200 text-sm">Satisfaction</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Main Content -->
+    <!-- Contact Content -->
     <section class="py-16">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                
-                <!-- Contact Form -->
-                <div class="bg-white rounded-2xl shadow-xl p-8">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Send us a Message</h2>
-                    
-                    <?php if (isset($_GET['success'])): ?>
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                        <strong>Success!</strong> Your message has been sent. We'll get back to you soon.
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
+                <!-- Contact Information Cards -->
+                <div class="space-y-6">
+                    <!-- Office Address -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700">
+                        <div class="w-14 h-14 bg-gradient-to-br from-primary to-primary/90 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Office Location</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            Choggu Yapalsi, Tamale<br>
+                            Northern Region, Ghana
+                        </p>
                     </div>
-                    <?php endif; ?>
 
-                    <form method="POST" action="<?= url('/contact') ?>" class="space-y-6">
-                        <!-- Name -->
-                        <div>
-                            <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-                            <input type="text" id="name" name="name" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                   placeholder="John Doe">
+                    <!-- Phone Numbers -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700">
+                        <div class="w-14 h-14 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
                         </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Phone Numbers</h3>
+                        <p class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <a href="tel:+233247636080" class="block hover:text-primary transition-colors">+233 24 763 6080</a>
+                            <a href="tel:+233206789600" class="block hover:text-primary transition-colors">+233 20 678 9600</a>
+                        </p>
+                    </div>
 
-                        <!-- Email -->
-                        <div>
-                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="email" name="email" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                   placeholder="you@example.com">
+                    <!-- Email -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
                         </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Email Address</h3>
+                        <a href="mailto:info@nebatech.com" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                            info@nebatech.com
+                        </a>
+                    </div>
 
-                        <!-- Subject -->
-                        <div>
-                            <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">Subject *</label>
-                            <select id="subject" name="subject" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">Select a subject</option>
-                                <option value="general">General Inquiry</option>
-                                <option value="technical">Technical Support</option>
-                                <option value="course">Course Question</option>
-                                <option value="partnership">Partnership Opportunity</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="other">Other</option>
-                            </select>
+                    <!-- Business Hours -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700">
+                        <div class="w-14 h-14 bg-gradient-to-br from-orange-600 to-yellow-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
                         </div>
-
-                        <!-- Message -->
-                        <div>
-                            <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
-                            <textarea id="message" name="message" required rows="6"
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                      placeholder="Tell us how we can help you..."></textarea>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Business Hours</h3>
+                        <div class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <p><strong>Mon - Fri:</strong> 8:00 AM - 6:00 PM</p>
+                            <p><strong>Saturday:</strong> 9:00 AM - 4:00 PM</p>
+                            <p><strong>Sunday:</strong> Closed</p>
                         </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" 
-                                class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                            Send Message
-                        </button>
-                    </form>
+                    </div>
                 </div>
-
-                <!-- Contact Information -->
-                <div class="space-y-8">
-                    <!-- Info Cards -->
-                    <div class="bg-white rounded-2xl shadow-xl p-8">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Contact Information</h2>
-                        
-                        <div class="space-y-6">
-                            <!-- Email -->
-                            <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-1">Email</h3>
-                                    <a href="mailto:support@nebatech.com" class="text-primary hover:text-blue-700">support@nebatech.com</a>
-                                    <p class="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
-                                </div>
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-1">Phone</h3>
-                                    <a href="tel:+233501234567" class="text-primary hover:text-blue-700">+233 50 123 4567</a>
-                                    <p class="text-sm text-gray-500 mt-1">Mon-Fri, 9AM-6PM GMT</p>
-                                </div>
-                            </div>
-
-                            <!-- Location -->
-                            <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-1">Office</h3>
-                                    <p class="text-gray-600">Accra, Ghana</p>
-                                    <p class="text-sm text-gray-500 mt-1">Remote-first organization</p>
-                                </div>
-                            </div>
-
-                            <!-- Live Chat -->
-                            <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-1">Live Chat</h3>
-                                    <button class="text-primary hover:text-blue-700 font-semibold">Start a conversation</button>
-                                    <p class="text-sm text-gray-500 mt-1">Available 24/7</p>
-                                </div>
-                            </div>
+                <!-- Contact Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 md:p-12 shadow-lg border border-gray-200 dark:border-gray-700">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">Send Us a Message</h2>
+                            <p class="text-gray-600 dark:text-gray-400">Fill out the form below and we'll get back to you within 24 hours.</p>
                         </div>
+
+                        <?php if (isset($_GET['success'])): ?>
+                        <div class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 px-4 py-3 rounded mb-6">
+                            <strong>Success!</strong> Your message has been sent. We'll get back to you soon.
+                        </div>
+                        <?php endif; ?>
+
+                        <form method="POST" action="<?= url('/contact') ?>" class="space-y-6">
+                            <!-- Name & Email Row -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name *</label>
+                                    <input type="text" id="name" name="name" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                        placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
+                                    <input type="email" id="email" name="email" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                        placeholder="john@example.com">
+                                </div>
+                            </div>
+
+                            <!-- Phone & Subject Row -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone"
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                        placeholder="+233 XX XXX XXXX">
+                                </div>
+                                <div>
+                                    <label for="subject" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Subject *</label>
+                                    <select id="subject" name="subject" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                        <option value="">Select a subject</option>
+                                        <option value="software">Software Development</option>
+                                        <option value="training">AI Academy Training</option>
+                                        <option value="repairs">Hardware Repairs</option>
+                                        <option value="consultation">IT Consultation</option>
+                                        <option value="partnership">Partnership Inquiry</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div>
+                                <label for="message" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Message *</label>
+                                <textarea id="message" name="message" rows="6" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                                    placeholder="Tell us about your project or inquiry..."></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="flex items-center gap-4">
+                                <button type="submit" 
+                                    class="flex-1 md:flex-none bg-gradient-to-r from-primary to-primary/90 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                                    <span class="flex items-center justify-center gap-2">
+                                        Send Message
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
                     <!-- Social Media -->
                     <div class="bg-white rounded-2xl shadow-xl p-8">
@@ -203,17 +262,73 @@
                     </div>
 
                     <!-- FAQ Link -->
-                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-100">
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-white/10">
                         <h3 class="font-bold text-gray-800 mb-2">Looking for quick answers?</h3>
                         <p class="text-sm text-gray-600 mb-4">Check out our FAQ page for commonly asked questions</p>
-                        <a href="<?= url('/faq') ?>" class="text-primary font-semibold hover:text-blue-700">Visit FAQ →</a>
+                        <a href="<?= url('/faq') ?>" class="text-primary font-semibold hover:text-primary">Visit FAQ →</a>
                     </div>
                 </div>
 
             </div>
+
+            <!-- Map Section -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 mt-12">
+                <div class="aspect-video rounded-xl overflow-hidden">
+                    <!-- Google Maps Embed - Tamale, Ghana -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125478.97841247887!2d-0.9383476!3d9.4034104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfd43c4d85e95e43%3A0x240c0848a61b3d0b!2sTamale%2C%20Ghana!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="w-full h-full">
+                    </iframe>
+                </div>
+            </div>
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+    <!-- Quick Links Section -->
+    <section class="py-16 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Software Services</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Custom software development, SaaS platforms, and enterprise solutions</p>
+                    <a href="/services" class="text-primary hover:text-primary font-semibold">Learn More →</a>
+                </div>
+
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">AI Academy</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Free competency-based training in software development and AI</p>
+                    <a href="/student/register" class="text-primary hover:text-primary font-semibold">Join Free →</a>
+                </div>
+
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Our Portfolio</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Explore our delivered projects and success stories</p>
+                    <a href="/portfolio" class="text-primary hover:text-primary font-semibold">View Projects →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+

@@ -35,10 +35,10 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm">Total Courses</p>
-                        <p class="text-3xl font-bold text-blue-600"><?= $stats['total_courses'] ?></p>
+                        <p class="text-3xl font-bold text-primary"><?= $stats['total_courses'] ?></p>
                     </div>
                     <div class="bg-blue-100 rounded-full p-3">
-                        <i class="fas fa-book text-blue-600 text-xl"></i>
+                        <i class="fas fa-book text-primary text-xl"></i>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex gap-2 ml-4">
-                                                <a href="<?= url('/facilitator/courses/' . $course['id'] . '/edit') ?>" class="bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 transition" title="Edit Course">
+                                                <a href="<?= url('/facilitator/courses/' . $course['id'] . '/edit') ?>" class="bg-blue-100 text-primary px-3 py-2 rounded hover:bg-blue-200 transition" title="Edit Course">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a href="<?= url('/courses/' . $course['slug']) ?>" class="bg-gray-100 text-gray-700 px-3 py-2 rounded hover:bg-gray-200 transition" title="View Course" target="_blank">
@@ -173,7 +173,7 @@
                         <a href="<?= url('/facilitator/courses/create') ?>" class="block w-full text-left px-4 py-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition">
                             <i class="fas fa-plus-circle mr-2"></i>Create New Course
                         </a>
-                        <a href="<?= url('/facilitator/courses') ?>" class="block w-full text-left px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
+                        <a href="<?= url('/facilitator/courses') ?>" class="block w-full text-left px-4 py-3 bg-blue-50 text-primary rounded-lg hover:bg-blue-100 transition">
                             <i class="fas fa-book mr-2"></i>Manage Courses
                         </a>
                         <a href="<?= url('/facilitator/submissions') ?>" class="block w-full text-left px-4 py-3 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition">
@@ -188,11 +188,11 @@
                 <!-- AI Tools -->
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="font-bold text-gray-900 mb-4">
-                        <i class="fas fa-robot text-blue-600 mr-2"></i>AI Tools
+                        <i class="fas fa-robot text-primary mr-2"></i>AI Tools
                     </h3>
                     <p class="text-sm text-gray-600 mb-4">Use AI to accelerate course creation</p>
                     <div class="space-y-2">
-                        <button onclick="showAICourseOutlineModal()" class="block w-full text-left px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 rounded-lg hover:from-blue-100 hover:to-purple-100 transition">
+                        <button onclick="showAICourseOutlineModal()" class="block w-full text-left px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 text-primary rounded-lg hover:from-blue-100 hover:to-purple-100 transition">
                             <i class="fas fa-magic mr-2"></i>Generate Course Outline
                         </button>
                         <button onclick="showAILessonModal()" class="block w-full text-left px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 text-purple-700 rounded-lg hover:from-blue-100 hover:to-purple-100 transition">
@@ -208,19 +208,19 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="font-bold text-gray-900 mb-4">Help & Resources</h3>
                     <div class="space-y-3">
-                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-primary">
                             <i class="fas fa-book-reader mr-2 text-gray-400"></i>
                             Facilitator Guide
                         </a>
-                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-primary">
                             <i class="fas fa-video mr-2 text-gray-400"></i>
                             Video Tutorials
                         </a>
-                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-primary">
                             <i class="fas fa-question-circle mr-2 text-gray-400"></i>
                             FAQs
                         </a>
-                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-sm text-gray-700 hover:text-primary">
                             <i class="fas fa-headset mr-2 text-gray-400"></i>
                             Contact Support
                         </a>
@@ -236,3 +236,4 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+

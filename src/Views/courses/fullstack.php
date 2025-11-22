@@ -1,27 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Full Stack Development with frontend and backend technologies. Learn HTML, CSS, JavaScript, React, Node.js, databases, and become a complete developer.">
-    <meta name="keywords" content="Full Stack Development, MERN Stack, MEAN Stack, React, Node.js, MongoDB, Full Stack Developer">
-    <title>Full Stack Development Courses - Nebatech AI Academy</title>
-    
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-white">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <!-- Hero Section -->
-    <section class="bg-purple-600 text-white py-20">
-        <div class="container mx-auto px-4">
+<!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-purple-900 via-purple-700 to-purple-600 text-white py-20 overflow-hidden">
+        <!-- Digital Horizon Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Horizon Glow Effect -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-purple-500/30 via-purple-400/10 to-transparent"></div>
+            <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-800/50 via-transparent to-transparent"></div>
+            
+            <!-- Geometric Light Beams -->
+            <div class="absolute inset-0">
+                <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-purple-400/40 via-purple-400/20 to-transparent transform -skew-x-12 animate-pulse" style="animation-duration: 3s;"></div>
+                <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-purple-300/30 via-purple-300/10 to-transparent transform skew-x-12 animate-pulse" style="animation-duration: 4s; animation-delay: 1s;"></div>
+                <div class="absolute top-0 left-2/3 w-0.5 h-full bg-gradient-to-b from-purple-400/30 via-transparent to-transparent transform -skew-x-6 animate-pulse" style="animation-duration: 5s; animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Dynamic Glowing Orbs -->
+            <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+            <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple-400/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s; animation-delay: 1s;"></div>
+            
+            <!-- Full Stack Icons Floating -->
+            <div class="absolute top-1/4 left-[10%] opacity-20 animate-float" style="animation-duration: 6s;">
+                <i class="fas fa-layer-group text-6xl text-purple-300"></i>
+            </div>
+            <div class="absolute top-1/3 right-[15%] opacity-20 animate-float" style="animation-duration: 7s; animation-delay: 1s;">
+                <i class="fas fa-code text-6xl text-purple-200"></i>
+            </div>
+            <div class="absolute bottom-1/4 left-[20%] opacity-20 animate-float" style="animation-duration: 8s; animation-delay: 2s;">
+                <i class="fas fa-server text-6xl text-purple-300"></i>
+            </div>
+            <div class="absolute bottom-1/3 right-[12%] opacity-20 animate-float" style="animation-duration: 6.5s; animation-delay: 0.5s;">
+                <i class="fas fa-database text-6xl text-purple-200"></i>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <div class="inline-block bg-purple-700 text-purple-100 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                <div class="inline-block bg-purple-800/60 backdrop-blur-sm text-purple-100 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-purple-400/30">
                     <i class="fas fa-layer-group mr-2"></i>Full Stack Development
                 </div>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -31,29 +45,29 @@
                     Become a complete developer by mastering both frontend and backend technologies - from UI to database
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#courses" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-purple-50 transition inline-flex items-center">
+                    <a href="#courses" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-purple-50 transition inline-flex items-center shadow-lg hover:shadow-xl">
                         <i class="fas fa-rocket mr-2"></i>Browse Courses
                     </a>
-                    <a href="<?= url('/register') ?>" class="bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-purple-800 transition inline-flex items-center border-2 border-purple-500">
+                    <a href="<?= url('/register') ?>" class="bg-purple-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-purple-800 transition inline-flex items-center border-2 border-purple-400/50 shadow-lg">
                         <i class="fas fa-user-plus mr-2"></i>Get Started Free
                     </a>
                 </div>
 
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-purple-400/20">
                         <div class="text-3xl font-bold">25+</div>
-                        <div class="text-purple-200 text-sm">Courses</div>
+                        <div class="text-purple-200 text-sm">Modules</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-purple-400/20">
                         <div class="text-3xl font-bold">8,200+</div>
                         <div class="text-purple-200 text-sm">Students</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-purple-400/20">
                         <div class="text-3xl font-bold">350+</div>
                         <div class="text-purple-200 text-sm">Hours Content</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-purple-400/20">
                         <div class="text-3xl font-bold">98%</div>
                         <div class="text-purple-200 text-sm">Success Rate</div>
                     </div>
@@ -75,21 +89,21 @@
             <div class="max-w-5xl mx-auto">
                 <div class="space-y-8">
                     <!-- Level 1: Frontend Foundation -->
-                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-primary/90">
                         <div class="flex items-start gap-4">
-                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            <div class="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">
                                 1
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-center gap-2 mb-2">
                                     <h3 class="text-xl font-bold text-gray-900">Frontend Foundation</h3>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">3-6 months</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">3-6 months</span>
                                 </div>
                                 <p class="text-gray-600 mb-4">Build stunning user interfaces and responsive designs</p>
                                 <div class="flex flex-wrap gap-2">
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">HTML5 & CSS3</span>
                                     <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg text-sm font-medium">JavaScript ES6+</span>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">React.js</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">React.js</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Tailwind CSS</span>
                                     <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">Responsive Design</span>
                                 </div>
@@ -111,7 +125,7 @@
                                 <p class="text-gray-600 mb-4">Build robust server-side applications and APIs</p>
                                 <div class="flex flex-wrap gap-2">
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Node.js</span>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Express.js</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Express.js</span>
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">MongoDB</span>
                                     <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">SQL & PostgreSQL</span>
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">RESTful APIs</span>
@@ -134,7 +148,7 @@
                                 </div>
                                 <p class="text-gray-600 mb-4">Connect frontend and backend into complete applications</p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">MERN Stack</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">MERN Stack</span>
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">MEAN Stack</span>
                                     <span class="bg-black text-white px-3 py-1 rounded-lg text-sm font-medium">Next.js</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">GraphQL</span>
@@ -158,7 +172,7 @@
                                 </div>
                                 <p class="text-gray-600 mb-4">Deploy and manage production applications</p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Docker</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Docker</span>
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">AWS</span>
                                     <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">CI/CD</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Nginx</span>
@@ -184,8 +198,8 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
-                    <div class="text-blue-600 text-4xl mb-4">
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary/90">
+                    <div class="text-primary text-4xl mb-4">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Frontend Development</h3>
@@ -238,17 +252,39 @@
     <!-- Courses Listing -->
     <section id="courses" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
+            <!-- Bundle Pricing Banner -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-8 text-white shadow-xl">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Complete Full Stack Track Bundle</h3>
+                            <p class="text-purple-100 mb-3">Get all 6 courses + certifications + lifetime access</p>
+                            <div class="flex items-center gap-4 justify-center md:justify-start">
+                                <span class="text-lg line-through text-purple-200">GHS 12,840</span>
+                                <span class="bg-yellow-400 text-gray-900 px-4 py-1 rounded-full font-bold text-sm">Save 35%</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-bold mb-2">GHS 8,300</div>
+                            <a href="<?= url('/courses/fullstack/enroll') ?>" class="inline-block bg-white text-purple-600 px-8 py-3 rounded-lg font-bold hover:bg-purple-50 transition shadow-lg">
+                                Enroll in Bundle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Full Stack Development Courses</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Individual Courses</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Complete programs covering both frontend and backend development
+                    Or choose individual courses - each sold separately
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 <!-- Course 1 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-600 h-48 flex items-center justify-center">
+                    <div class="bg-primary h-48 flex items-center justify-center">
                         <div class="text-white text-center">
                             <i class="fas fa-layer-group text-6xl mb-2"></i>
                             <div class="text-xl font-bold">MERN Stack</div>
@@ -256,7 +292,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -274,7 +310,7 @@
                             <span><i class="fas fa-users mr-1"></i>7.8K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$179</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 2,150</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -307,7 +343,7 @@
                             <span><i class="fas fa-users mr-1"></i>5.2K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$169</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 2,030</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -325,7 +361,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -343,7 +379,7 @@
                             <span><i class="fas fa-users mr-1"></i>4.1K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$159</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 1,910</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -358,7 +394,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -376,7 +412,7 @@
                             <span><i class="fas fa-users mr-1"></i>3.6K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$129</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 1,550</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -386,7 +422,7 @@
 
                 <!-- Course 5 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-800 h-48 flex items-center justify-center">
+                    <div class="bg-primary/80 h-48 flex items-center justify-center">
                         <i class="fab fa-docker text-white text-8xl"></i>
                     </div>
                     <div class="p-6">
@@ -409,7 +445,7 @@
                             <span><i class="fas fa-users mr-1"></i>2.8K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$149</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 1,790</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -442,7 +478,7 @@
                             <span><i class="fas fa-users mr-1"></i>9.2K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-purple-600">$249</div>
+                            <div class="text-2xl font-bold text-purple-600">GHS 2,990</div>
                             <a href="#" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -532,7 +568,7 @@
                                     <span class="font-bold text-purple-600">$75K - $110K</span>
                                 </div>
                                 <div class="bg-gray-200 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-blue-500 h-full rounded-full" style="width: 70%"></div>
+                                    <div class="bg-primary/90 h-full rounded-full" style="width: 70%"></div>
                                 </div>
                             </div>
                             
@@ -585,6 +621,4 @@
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+

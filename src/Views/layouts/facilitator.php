@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="<?= asset('js/theme-toggle.js') ?>"></script>
 </head>
 <body class="bg-gray-50" x-data="{ sidebarOpen: false }">
     
@@ -195,7 +196,7 @@
         </header>
 
         <!-- Page Content -->
-        <main class="flex-1 p-6 bg-gray-50">
+        <main class="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
             <?php if (isset($_SESSION['success'])): ?>
             <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center justify-between">
                 <div class="flex items-center">

@@ -39,13 +39,13 @@
                 </div>
             </div>
             
-            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-600">
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-primary">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm mb-1">Certificates</p>
                         <p class="text-3xl font-bold text-gray-900"><?= count($certificates) ?></p>
                     </div>
-                    <i class="fas fa-certificate text-blue-600 text-3xl"></i>
+                    <i class="fas fa-certificate text-primary text-3xl"></i>
                 </div>
             </div>
             
@@ -445,3 +445,4 @@ function deleteItem(itemId) {
 <style>
 [x-cloak] { display: none !important; }
 </style>
+

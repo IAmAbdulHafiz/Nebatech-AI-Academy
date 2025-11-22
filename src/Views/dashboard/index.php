@@ -3,7 +3,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold mb-2">Welcome back, <?= htmlspecialchars($user['first_name']) ?>!</h1>
-                    <p class="text-blue-100">Continue your learning journey</p>
+                    <p class="text-white/90">Continue your learning journey</p>
                 </div>
                 <div class="hidden md:block">
                     <i class="fas fa-graduation-cap text-6xl opacity-20"></i>
@@ -17,10 +17,10 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600 text-sm">Enrolled Courses</p>
-                        <p class="text-3xl font-bold text-blue-600">0</p>
+                        <p class="text-3xl font-bold text-primary">0</p>
                     </div>
                     <div class="bg-blue-100 rounded-full p-3">
-                        <i class="fas fa-book text-blue-600 text-xl"></i>
+                        <i class="fas fa-book text-primary text-xl"></i>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         <div class="text-center py-12">
                             <i class="fas fa-book-open text-6xl text-gray-300 mb-4"></i>
                             <p class="text-gray-600 mb-4">You haven't enrolled in any courses yet</p>
-                            <a href="<?= url('/courses') ?>" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                            <a href="<?= url('/courses') ?>" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/70 transition">
                                 Browse Courses
                             </a>
                         </div>
@@ -90,13 +90,13 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <!-- Sample Course Card -->
                             <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition">
-                                <div class="bg-blue-600 h-32 flex items-center justify-center">
+                                <div class="bg-primary h-32 flex items-center justify-center">
                                     <i class="fas fa-code text-white text-4xl"></i>
                                 </div>
                                 <div class="p-4">
                                     <h3 class="font-bold text-gray-900 mb-2">Frontend Development</h3>
                                     <p class="text-sm text-gray-600 mb-3">15+ courses • 5,000+ students</p>
-                                    <a href="<?= url('/courses/frontend') ?>" class="text-blue-600 font-semibold text-sm hover:underline">
+                                    <a href="<?= url('/courses/frontend') ?>" class="text-primary font-semibold text-sm hover:underline">
                                         Explore →
                                     </a>
                                 </div>
@@ -150,7 +150,7 @@
                 <!-- Profile Card -->
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-blue-600 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold mb-3">
+                        <div class="w-20 h-20 bg-primary rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold mb-3">
                             <?= strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1)) ?>
                         </div>
                         <h3 class="font-bold text-gray-900"><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h3>
@@ -159,7 +159,7 @@
                             <i class="fas fa-user-circle mr-1"></i>
                             <?= ucfirst($user['role']) ?>
                         </p>
-                        <a href="<?= url('/profile') ?>" class="mt-4 inline-block text-blue-600 font-semibold text-sm hover:underline">
+                        <a href="<?= url('/profile') ?>" class="mt-4 inline-block text-primary font-semibold text-sm hover:underline">
                             Edit Profile
                         </a>
                     </div>
@@ -184,7 +184,7 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="font-bold text-gray-900 mb-4">Quick Actions</h3>
                     <div class="space-y-2">
-                        <a href="<?= url('/courses') ?>" class="block w-full text-left px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
+                        <a href="<?= url('/courses') ?>" class="block w-full text-left px-4 py-3 bg-blue-50 text-primary rounded-lg hover:bg-blue-100 transition">
                             <i class="fas fa-search mr-2"></i>Browse Courses
                         </a>
                         <a href="<?= url('/my-courses') ?>" class="block w-full text-left px-4 py-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition">
@@ -197,5 +197,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
+

@@ -91,9 +91,10 @@ class Router
                 if (is_array($route['handler'])) {
                     [$controller, $method] = $route['handler'];
                     $controllerInstance = new $controller();
-                    echo $controllerInstance->$method($params);
+                    // Pass individual parameters instead of the array
+                    echo $controllerInstance->$method(...array_values($params));
                 } else {
-                    echo $route['handler']($params);
+                    echo $route['handler'](...array_values($params));
                 }
                 return;
             }

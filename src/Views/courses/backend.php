@@ -1,27 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Backend Development with PHP, Node.js, Python, databases, APIs, and server-side technologies. Build scalable backend systems.">
-    <meta name="keywords" content="Backend Development, PHP, Node.js, Python, Databases, APIs, Server-Side, RESTful">
-    <title>Backend Development Courses - Nebatech AI Academy</title>
-    
-    <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
-    <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-white">
-    <?php include __DIR__ . '/../partials/header.php'; ?>
-
-    <!-- Hero Section -->
-    <section class="bg-green-600 text-white py-20">
-        <div class="container mx-auto px-4">
+<!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-green-900 via-green-700 to-green-600 text-white py-20 overflow-hidden">
+        <!-- Digital Horizon Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Horizon Glow Effect -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-green-500/30 via-green-400/10 to-transparent"></div>
+            <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-green-800/50 via-transparent to-transparent"></div>
+            
+            <!-- Geometric Light Beams -->
+            <div class="absolute inset-0">
+                <div class="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-green-400/40 via-green-400/20 to-transparent transform -skew-x-12 animate-pulse" style="animation-duration: 3s;"></div>
+                <div class="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-green-300/30 via-green-300/10 to-transparent transform skew-x-12 animate-pulse" style="animation-duration: 4s; animation-delay: 1s;"></div>
+                <div class="absolute top-0 left-2/3 w-0.5 h-full bg-gradient-to-b from-green-400/30 via-transparent to-transparent transform -skew-x-6 animate-pulse" style="animation-duration: 5s; animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Dynamic Glowing Orbs -->
+            <div class="absolute top-20 left-10 w-96 h-96 bg-green-500/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+            <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-green-400/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s; animation-delay: 1s;"></div>
+            
+            <!-- Backend Tech Icons Floating -->
+            <div class="absolute top-1/4 left-[10%] opacity-20 animate-float" style="animation-duration: 6s;">
+                <i class="fas fa-server text-6xl text-green-300"></i>
+            </div>
+            <div class="absolute top-1/3 right-[15%] opacity-20 animate-float" style="animation-duration: 7s; animation-delay: 1s;">
+                <i class="fab fa-node-js text-6xl text-green-200"></i>
+            </div>
+            <div class="absolute bottom-1/4 left-[20%] opacity-20 animate-float" style="animation-duration: 8s; animation-delay: 2s;">
+                <i class="fas fa-database text-6xl text-green-300"></i>
+            </div>
+            <div class="absolute bottom-1/3 right-[12%] opacity-20 animate-float" style="animation-duration: 6.5s; animation-delay: 0.5s;">
+                <i class="fab fa-php text-6xl text-green-200"></i>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <div class="inline-block bg-green-700 text-green-100 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                <div class="inline-block bg-green-800/60 backdrop-blur-sm text-green-100 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-green-400/30">
                     <i class="fas fa-server mr-2"></i>Backend Development
                 </div>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -31,29 +45,29 @@
                     Build powerful server-side applications, APIs, and databases with PHP, Node.js, Python, and modern backend technologies
                 </p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#courses" class="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-green-50 transition inline-flex items-center">
+                    <a href="#courses" class="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-green-50 transition inline-flex items-center shadow-lg hover:shadow-xl">
                         <i class="fas fa-rocket mr-2"></i>Browse Courses
                     </a>
-                    <a href="<?= url('/register') ?>" class="bg-green-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-800 transition inline-flex items-center border-2 border-green-500">
+                    <a href="<?= url('/register') ?>" class="bg-green-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-800 transition inline-flex items-center border-2 border-green-400/50 shadow-lg">
                         <i class="fas fa-user-plus mr-2"></i>Get Started Free
                     </a>
                 </div>
 
                 <!-- Quick Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20">
                         <div class="text-3xl font-bold">18+</div>
-                        <div class="text-green-200 text-sm">Courses</div>
+                        <div class="text-green-200 text-sm">Modules</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20">
                         <div class="text-3xl font-bold">6,500+</div>
                         <div class="text-green-200 text-sm">Students</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20">
                         <div class="text-3xl font-bold">250+</div>
                         <div class="text-green-200 text-sm">Hours Content</div>
                     </div>
-                    <div>
+                    <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-green-400/20">
                         <div class="text-3xl font-bold">97%</div>
                         <div class="text-green-200 text-sm">Success Rate</div>
                     </div>
@@ -89,7 +103,7 @@
                                 <div class="flex flex-wrap gap-2">
                                     <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">PHP Basics</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Node.js Intro</span>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">SQL & MySQL</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">SQL & MySQL</span>
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">HTTP & APIs</span>
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">RESTful Design</span>
                                 </div>
@@ -98,21 +112,21 @@
                     </div>
 
                     <!-- Level 2: Intermediate -->
-                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-primary/90">
                         <div class="flex items-start gap-4">
-                            <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                            <div class="bg-blue-100 text-primary w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0">
                                 2
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-center gap-2 mb-2">
                                     <h3 class="text-xl font-bold text-gray-900">Intermediate Level</h3>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">4-8 months</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">4-8 months</span>
                                 </div>
                                 <p class="text-gray-600 mb-4">Build scalable applications with frameworks</p>
                                 <div class="flex flex-wrap gap-2">
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">Laravel</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Express.js</span>
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Django</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Django</span>
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">MongoDB</span>
                                     <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-medium">PostgreSQL</span>
                                     <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg text-sm font-medium">Authentication</span>
@@ -134,7 +148,7 @@
                                 </div>
                                 <p class="text-gray-600 mb-4">Master architecture and DevOps practices</p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Microservices</span>
+                                    <span class="bg-blue-100 text-primary px-3 py-1 rounded-lg text-sm font-medium">Microservices</span>
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-medium">Docker</span>
                                     <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium">GraphQL</span>
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-medium">Redis</span>
@@ -177,8 +191,8 @@
                     <p class="text-gray-600">Build RESTful and GraphQL APIs that power web and mobile applications.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
-                    <div class="text-blue-600 text-4xl mb-4">
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-primary/90">
+                    <div class="text-primary text-4xl mb-4">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Security</h3>
@@ -215,10 +229,32 @@
     <!-- Courses Listing -->
     <section id="courses" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
+            <!-- Bundle Pricing Banner -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 text-white shadow-xl">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Complete Backend Track Bundle</h3>
+                            <p class="text-green-100 mb-3">Get all 6 courses + certifications + lifetime access</p>
+                            <div class="flex items-center gap-4 justify-center md:justify-start">
+                                <span class="text-lg line-through text-green-200">GHS 8,130</span>
+                                <span class="bg-yellow-500 text-gray-900 px-4 py-1 rounded-full font-bold text-sm">Save 40%</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-5xl font-bold mb-2">GHS 4,850</div>
+                            <a href="<?= url('/courses/backend/enroll') ?>" class="inline-block bg-white text-green-600 px-8 py-3 rounded-lg font-bold hover:bg-green-50 transition shadow-lg">
+                                Enroll in Bundle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Backend Development Courses</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Individual Courses</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Choose from our comprehensive selection of backend courses
+                    Or choose individual courses - each sold separately
                 </p>
             </div>
 
@@ -248,7 +284,7 @@
                             <span><i class="fas fa-users mr-1"></i>4.2K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$69</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 830</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -263,7 +299,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -281,7 +317,7 @@
                             <span><i class="fas fa-users mr-1"></i>5.8K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$99</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 1,190</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -296,7 +332,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -314,7 +350,7 @@
                             <span><i class="fas fa-users mr-1"></i>4.5K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$139</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 1,670</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -324,7 +360,7 @@
 
                 <!-- Course 4 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-600 h-48 flex items-center justify-center">
+                    <div class="bg-primary h-48 flex items-center justify-center">
                         <i class="fas fa-database text-white text-8xl"></i>
                     </div>
                     <div class="p-6">
@@ -347,7 +383,7 @@
                             <span><i class="fas fa-users mr-1"></i>6.1K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$79</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 950</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -362,7 +398,7 @@
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
+                            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-semibold">Intermediate</span>
                             <span class="text-yellow-500">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -380,7 +416,7 @@
                             <span><i class="fas fa-users mr-1"></i>3.4K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$89</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 1,070</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -390,7 +426,7 @@
 
                 <!-- Course 6 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
-                    <div class="bg-blue-800 h-48 flex items-center justify-center">
+                    <div class="bg-primary/80 h-48 flex items-center justify-center">
                         <i class="fab fa-docker text-white text-8xl"></i>
                     </div>
                     <div class="p-6">
@@ -413,7 +449,7 @@
                             <span><i class="fas fa-users mr-1"></i>2.1K</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="text-2xl font-bold text-green-600">$159</div>
+                            <div class="text-2xl font-bold text-green-600">GHS 1,910</div>
                             <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
@@ -503,7 +539,7 @@
                                     <span class="font-bold text-green-600">$70K - $105K</span>
                                 </div>
                                 <div class="bg-gray-200 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-blue-500 h-full rounded-full" style="width: 65%"></div>
+                                    <div class="bg-primary/90 h-full rounded-full" style="width: 65%"></div>
                                 </div>
                             </div>
                             
@@ -556,6 +592,4 @@
         </div>
     </section>
 
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
-</body>
-</html>
+

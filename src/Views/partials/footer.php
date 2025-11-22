@@ -5,11 +5,35 @@
             <div class="max-w-3xl mx-auto text-center">
                 <h3 class="text-2xl font-bold mb-4">Stay Updated with Latest Courses & Tech Tips</h3>
                 <p class="text-gray-400 mb-6">Join 25,000+ learners getting weekly insights delivered to their inbox</p>
-                <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                
+                <?php if (isset($_SESSION['newsletter_success'])): ?>
+                <div class="bg-green-500/20 border border-green-500 text-green-200 px-6 py-3 rounded-lg mb-4">
+                    <?= htmlspecialchars($_SESSION['newsletter_success']) ?>
+                    <?php unset($_SESSION['newsletter_success']); ?>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['newsletter_error'])): ?>
+                <div class="bg-red-500/20 border border-red-500 text-red-200 px-6 py-3 rounded-lg mb-4">
+                    <?= htmlspecialchars($_SESSION['newsletter_error']) ?>
+                    <?php unset($_SESSION['newsletter_error']); ?>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['newsletter_info'])): ?>
+                <div class="bg-primary/20 border border-primary text-white/90 px-6 py-3 rounded-lg mb-4">
+                    <?= htmlspecialchars($_SESSION['newsletter_info']) ?>
+                    <?php unset($_SESSION['newsletter_info']); ?>
+                </div>
+                <?php endif; ?>
+                
+                <form action="<?= url('/newsletter/subscribe') ?>" method="POST" class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
                     <input type="email" 
+                           name="email"
                            placeholder="Enter your email" 
                            class="flex-1 px-6 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-secondary" 
                            required>
+                    <input type="hidden" name="source" value="footer">
                     <button type="submit" 
                             class="bg-secondary hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-lg transition-colors whitespace-nowrap">
                         Subscribe
@@ -35,7 +59,8 @@
                     </h3>
                 </div>
                 <p class="text-gray-400 mb-4">
-                    AI-powered, competency-based eLearning platform empowering students with hands-on IT skills. Learn by doing, master by practicing.
+                    Ghana-based technology company delivering innovative IT solutions and AI-powered training. 
+                    Empowering businesses and individuals through software development, blockchain, and competency-based education since 2019.
                 </p>
                 
                 <!-- Trust Badges -->
@@ -47,7 +72,7 @@
                         <span class="text-gray-300">SSL Secured</span>
                     </div>
                     <div class="flex items-center space-x-1 text-xs bg-gray-700 px-3 py-1 rounded">
-                        <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4 text-primary/80" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
@@ -130,7 +155,7 @@
                 <ul class="space-y-2">
                     <li><a href="<?= url('/support') ?>" class="text-gray-400 hover:text-secondary transition-colors">Help Center</a></li>
                     <li><a href="<?= url('/faq') ?>" class="text-gray-400 hover:text-secondary transition-colors">FAQ</a></li>
-                    <li><a href="https://discord.gg/nebatech" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">Discord Community</a></li>
+                    <li><a href="https://discord.gg/gMFwuTDW" target="_blank" class="text-gray-400 hover:text-secondary transition-colors">Discord Community</a></li>
                     <li><a href="<?= url('/forum') ?>" class="text-gray-400 hover:text-secondary transition-colors">Student Forum</a></li>
                     <li><a href="<?= url('/live-chat') ?>" class="text-gray-400 hover:text-secondary transition-colors">Live Chat</a></li>
                     <li><a href="<?= url('/accessibility') ?>" class="text-gray-400 hover:text-secondary transition-colors">Accessibility</a></li>
@@ -148,7 +173,7 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Email Support</div>
-                        <a href="mailto:support@nebatech.com" class="hover:text-secondary">support@nebatech.com</a>
+                        <a href="mailto:info@nebatech.com" class="hover:text-secondary">info@nebatech.com</a>
                         <div class="text-sm text-gray-500">Response within 24hrs</div>
                     </div>
                 </div>
@@ -158,8 +183,9 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Phone Support</div>
-                        <a href="tel:+2348012345678" class="hover:text-secondary">+234 801 234 5678</a>
-                        <div class="text-sm text-gray-500">Mon-Fri, 9AM-6PM WAT</div>
+                        <a href="tel:+233247636080" class="hover:text-secondary">+233 24 763 6080</a><br>
+                        <a href="tel:+233206789600" class="hover:text-secondary">+233 20 678 9600</a>
+                        <div class="text-sm text-gray-500">Mon-Fri, 8AM-6PM GMT</div>
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
@@ -169,8 +195,9 @@
                     </svg>
                     <div>
                         <div class="font-semibold text-white">Office Address</div>
-                        <p>Accra, Ghana</p>
-                        <div class="text-sm text-gray-500">Remote-first organization</div>
+                        <p>Choggu Yapalsi, Tamale</p>
+                        <p>Northern Region, Ghana</p>
+                        <div class="text-sm text-gray-500">Est. 2019</div>
                     </div>
                 </div>
             </div>
@@ -180,8 +207,8 @@
         <div class="border-t border-gray-700 mt-8 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="text-gray-400 text-sm text-center md:text-left">
-                    <p>&copy; <?= date('Y') ?> Nebatech AI Academy. All rights reserved.</p>
-                    <p class="mt-1">Developed by <a href="https://nebatech.com" target="_blank" class="text-secondary hover:text-orange-400 font-semibold">Nebatech</a> • Empowering Tech Education Globally</p>
+                    <p>&copy; <?= date('Y') ?> Nebatech Software Solution Ltd. All rights reserved.</p>
+                    <p class="mt-1">Innovative Technology Solutions & AI Education | Since 2019 | <a href="https://nebatech.com" target="_blank" class="text-secondary hover:text-orange-400 font-semibold">www.nebatech.com</a></p>
                 </div>
                 
                 <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
@@ -214,4 +241,30 @@
         </svg>
         <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
     </button>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" 
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="fixed bottom-6 left-6 bg-primary hover:bg-primary/70 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-40 opacity-0 invisible"
+            aria-label="Back to top">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
+    <script>
+        // Back to Top Button visibility
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+    </script>
 </footer>
+
+

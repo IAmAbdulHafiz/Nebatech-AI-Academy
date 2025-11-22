@@ -4,6 +4,13 @@ namespace Nebatech\Core;
 
 abstract class Controller
 {
+    protected $db;
+
+    public function __construct()
+    {
+        $this->db = Database::connect();
+    }
+
     /**
      * Render a view with the default layout
      */
@@ -16,11 +23,11 @@ abstract class Controller
         
         if (file_exists($viewFile)) {
             require $viewFile;
+            return ob_get_clean();
         } else {
+            ob_get_clean();
             throw new \Exception("View not found: {$view}");
         }
-        
-        return ob_get_clean();
     }
 
     /**
@@ -190,5 +197,24 @@ abstract class Controller
         }
 
         return $data;
+    }
+
+    /**
+     * Check if user is authenticated
+     */
+    protected function isAuthenticated(): bool
+    {
+        return isset($_SESSION['user_id']);
+    }
+
+    /**
+     * Return JSON response
+     */
+    protected function jsonResponse(array $data, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
     }
 }

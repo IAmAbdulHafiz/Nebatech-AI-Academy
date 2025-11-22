@@ -26,14 +26,14 @@
 
         <!-- Available Cohorts -->
         <?php if (!empty($cohorts)): ?>
-        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+        <div class="bg-blue-50 border-l-4 border-primary/90 p-4 mb-8">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-users text-blue-500 text-xl"></i>
+                    <i class="fas fa-users text-primary/90 text-xl"></i>
                 </div>
                 <div class="ml-3">
                     <h3 class="text-sm font-medium text-blue-800">Available Cohorts</h3>
-                    <div class="mt-2 text-sm text-blue-700">
+                    <div class="mt-2 text-sm text-primary">
                         <?php foreach ($cohorts as $cohort): ?>
                             <div class="mb-2">
                                 <strong><?= htmlspecialchars($cohort['name']) ?></strong> 
@@ -319,3 +319,4 @@
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+

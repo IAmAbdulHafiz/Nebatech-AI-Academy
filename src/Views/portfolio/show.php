@@ -234,7 +234,7 @@ $badgeStats = $portfolio['badge_stats'];
         <?php if ($settings['show_certificates'] && !empty($certificates)): ?>
             <section class="mb-16">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
-                    <i class="fas fa-certificate text-blue-600 mr-3"></i>
+                    <i class="fas fa-certificate text-primary mr-3"></i>
                     Certificates
                 </h2>
                 
@@ -308,3 +308,4 @@ $badgeStats = $portfolio['badge_stats'];
     </footer>
 </body>
 </html>
+
