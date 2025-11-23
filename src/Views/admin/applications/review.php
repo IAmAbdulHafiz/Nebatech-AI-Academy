@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review Application - Nebatech AI Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../../partials/header.php'; ?>
+<?php
+$title = 'Review Application';
+ob_start();
+include __DIR__ . '/../../partials/admin-sidebar.php';
+$sidebarContent = ob_get_clean();
+ob_start();
+?>
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Breadcrumb -->
-        <div class="mb-6">
-            <a href="<?= url('/admin/applications') ?>" class="text-purple-600 hover:text-purple-700">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Applications
-            </a>
-        </div>
+<!-- Breadcrumb -->
+<div class="mb-6">
+    <a href="<?= url('/admin/applications') ?>" class="text-purple-600 hover:text-purple-700">
+        <i class="fas fa-arrow-left mr-2"></i>Back to Applications
+    </a>
+</div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Main Content -->
@@ -475,7 +470,7 @@
         }
     </script>
 
-    <?php include __DIR__ . '/../../partials/footer.php'; ?>
-</body>
-</html>
-
+<?php
+$content = ob_get_clean();
+include __DIR__ . '/../../layouts/dashboard.php';
+?>

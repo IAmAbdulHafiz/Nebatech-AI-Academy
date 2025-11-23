@@ -36,7 +36,7 @@ class Application extends Model
     /**
      * Get all applications with optional filters
      */
-    public static function getAll(array $filters = []): array
+    public static function getAll(array $filters = [], ?int $limit = null, ?int $offset = null): array
     {
         $sql = "SELECT a.*, 
                        u.first_name,
@@ -62,6 +62,21 @@ class Application extends Model
             $params['program'] = $filters['program'];
         }
 
+        if (!empty($filters['program_id'])) {
+            $conditions[] = "a.program_id = :program_id";
+            $params['program_id'] = $filters['program_id'];
+        }
+
+        if (!empty($filters['priority'])) {
+            $conditions[] = "a.priority = :priority";
+            $params['priority'] = $filters['priority'];
+        }
+
+        if (!empty($filters['search'])) {
+            $conditions[] = "(u.first_name LIKE :search OR u.last_name LIKE :search OR u.email LIKE :search)";
+            $params['search'] = '%' . $filters['search'] . '%';
+        }
+
         if (!empty($filters['user_id'])) {
             $conditions[] = "a.user_id = :user_id";
             $params['user_id'] = $filters['user_id'];
@@ -73,11 +88,66 @@ class Application extends Model
 
         $sql .= " ORDER BY a.created_at DESC";
 
-        if (!empty($filters['limit'])) {
+        if ($limit !== null) {
+            $sql .= " LIMIT " . (int)$limit;
+            if ($offset !== null) {
+                $sql .= " OFFSET " . (int)$offset;
+            }
+        } elseif (!empty($filters['limit'])) {
             $sql .= " LIMIT " . (int)$filters['limit'];
         }
 
         return Database::fetchAll($sql, $params);
+    }
+
+    /**
+     * Get total count of applications with filters
+     */
+    public static function getTotalCount(array $filters = []): int
+    {
+        $sql = "SELECT COUNT(*) as count
+                FROM " . 'applications' . " a
+                INNER JOIN users u ON a.user_id = u.id";
+        
+        $params = [];
+        $conditions = [];
+
+        if (!empty($filters['status'])) {
+            $conditions[] = "a.status = :status";
+            $params['status'] = $filters['status'];
+        }
+
+        if (!empty($filters['program'])) {
+            $conditions[] = "a.program = :program";
+            $params['program'] = $filters['program'];
+        }
+
+        if (!empty($filters['program_id'])) {
+            $conditions[] = "a.program_id = :program_id";
+            $params['program_id'] = $filters['program_id'];
+        }
+
+        if (!empty($filters['priority'])) {
+            $conditions[] = "a.priority = :priority";
+            $params['priority'] = $filters['priority'];
+        }
+
+        if (!empty($filters['search'])) {
+            $conditions[] = "(u.first_name LIKE :search OR u.last_name LIKE :search OR u.email LIKE :search)";
+            $params['search'] = '%' . $filters['search'] . '%';
+        }
+
+        if (!empty($filters['user_id'])) {
+            $conditions[] = "a.user_id = :user_id";
+            $params['user_id'] = $filters['user_id'];
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+        }
+
+        $result = Database::fetch($sql, $params);
+        return (int)($result['count'] ?? 0);
     }
 
     /**
@@ -260,6 +330,14 @@ class Application extends Model
             'rejected' => 0,
             'info_requested' => 0
         ];
+    }
+
+    /**
+     * Alias for getStats()
+     */
+    public static function getStatistics(): array
+    {
+        return self::getStats();
     }
 
     /**

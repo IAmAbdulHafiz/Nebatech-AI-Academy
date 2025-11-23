@@ -7,12 +7,12 @@ use PDO;
 
 class Certificate
 {
-    private static ?Database $db = null;
+    private static ?PDO $db = null;
     
-    private static function getDb(): Database
+    private static function getDb(): PDO
     {
         if (self::$db === null) {
-            self::$db = Database::getInstance();
+            self::$db = Database::connect();
         }
         return self::$db;
     }

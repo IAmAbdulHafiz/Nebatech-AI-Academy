@@ -99,7 +99,7 @@ abstract class Controller
         $db = \Nebatech\Core\Database::connect();
         $stmt = $db->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
         $stmt->execute(['id' => $_SESSION['user_id']]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if ($user) {
             $_SESSION['user'] = $user;
@@ -121,6 +121,24 @@ abstract class Controller
         }
     }
 
+    /**
+     * Require specific role
+     */
+    protected function requireRole(string $role): void
+    {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        
+        if (!$user || $user['role'] !== $role) {
+            http_response_code(403);
+            echo $this->view('errors/403', [
+                'message' => 'You do not have permission to access this page.',
+                'required_role' => $role
+            ]);
+            exit;
+        }
+    }
+
     protected function json(array $data, int $statusCode = 200): string
     {
         http_response_code($statusCode);
@@ -138,6 +156,27 @@ abstract class Controller
     {
         $referer = $_SERVER['HTTP_REFERER'] ?? '/';
         $this->redirect($referer);
+    }
+
+    protected function setFlashMessage(string $type, string $message): void
+    {
+        if (!isset($_SESSION['flash'])) {
+            $_SESSION['flash'] = [];
+        }
+        $_SESSION['flash'][$type] = $message;
+    }
+
+    protected function getFlashMessage(string $type = null): mixed
+    {
+        if ($type === null) {
+            $flash = $_SESSION['flash'] ?? [];
+            unset($_SESSION['flash']);
+            return $flash;
+        }
+        
+        $message = $_SESSION['flash'][$type] ?? null;
+        unset($_SESSION['flash'][$type]);
+        return $message;
     }
 
     protected function request(string $key = null, $default = null)

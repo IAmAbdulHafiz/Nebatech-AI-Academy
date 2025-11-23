@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applications Management - Nebatech AI Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-50">
-    <?php include __DIR__ . '/../../partials/header.php'; ?>
+<?php
+$title = 'Applications Management';
+ob_start();
+include __DIR__ . '/../../partials/admin-sidebar.php';
+$sidebarContent = ob_get_clean();
+ob_start();
+?>
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">
-                <i class="fas fa-file-alt text-purple-600 mr-2"></i>
-                Applications Management
-            </h1>
-            <p class="text-gray-600">Review and manage student applications</p>
-        </div>
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+        <i class="fas fa-file-alt text-purple-600 mr-2"></i>
+        Applications Management
+    </h1>
+    <p class="text-gray-600">Review and manage student applications</p>
+</div>
 
-        <!-- Statistics Cards -->
+<!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-primary/90">
                 <div class="flex items-center justify-between">
@@ -335,7 +330,7 @@
         }
     </script>
 
-    <?php include __DIR__ . '/../../partials/footer.php'; ?>
-</body>
-</html>
-
+<?php
+$content = ob_get_clean();
+include __DIR__ . '/../../layouts/dashboard.php';
+?>

@@ -44,7 +44,8 @@ class ApplicationController extends Controller
         }
 
         // Check if user already applied
-        $userId = $_SESSION['user_id'];
+        $user = $this->getCurrentUser();
+        $userId = $user['id'];
         if ($this->applicationModel->hasApplied($userId, $program['id'])) {
             $this->setFlashMessage('info', 'You have already applied for this program');
             $this->redirect('/dashboard');
@@ -54,7 +55,7 @@ class ApplicationController extends Controller
         // Get available cohorts
         $cohorts = $this->cohortModel->getAvailableForProgram($program['id']);
 
-        $this->render('applications/apply', [
+        echo $this->render('applications/apply', [
             'program' => $program,
             'cohorts' => $cohorts,
             'user' => $this->getCurrentUser()
@@ -74,7 +75,8 @@ class ApplicationController extends Controller
             return $this->json(['success' => false, 'message' => 'Invalid request method'], 405);
         }
 
-        $userId = $_SESSION['user_id'];
+        $user = $this->getCurrentUser();
+        $userId = $user['id'];
         $programId = $_POST['program_id'] ?? null;
 
         if (!$programId) {
@@ -144,7 +146,7 @@ class ApplicationController extends Controller
     /**
      * View application details
      */
-    public function view(array $params = [])
+    public function viewApplication(array $params = [])
     {
         $uuid = $params['uuid'] ?? '';
         if (empty($uuid)) {
@@ -167,7 +169,8 @@ class ApplicationController extends Controller
         }
 
         // Check permissions (user must own this application or be admin)
-        if ($application['user_id'] != $_SESSION['user_id'] && $_SESSION['role'] !== 'admin') {
+        $user = $this->getCurrentUser();
+        if ($application['user_id'] != $user['id'] && $user['role'] !== 'admin') {
             $this->setFlashMessage('error', 'Access denied');
             $this->redirect('/dashboard');
             return;
@@ -176,7 +179,7 @@ class ApplicationController extends Controller
         // Get timeline
         $timeline = $this->applicationModel->getTimeline($application['id']);
 
-        $this->render('applications/view', [
+        echo $this->render('applications/view', [
             'application' => $application,
             'timeline' => $timeline
         ]);
@@ -192,10 +195,11 @@ class ApplicationController extends Controller
             return;
         }
 
-        $userId = $_SESSION['user_id'];
+        $user = $this->getCurrentUser();
+        $userId = $user['id'];
         $applications = $this->applicationModel->getUserApplications($userId);
 
-        $this->render('applications/my-applications', [
+        echo $this->render('applications/my-applications', [
             'applications' => $applications
         ]);
     }
@@ -235,11 +239,7 @@ class ApplicationController extends Controller
      */
     public function adminDashboard()
     {
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
-            $this->setFlashMessage('error', 'Access denied');
-            $this->redirect('/dashboard');
-            return;
-        }
+        $this->requireRole('admin');
 
         // Get filter parameters
         $filters = [
@@ -264,7 +264,7 @@ class ApplicationController extends Controller
         // Get available programs
         $programs = $this->db->query("SELECT id, title FROM courses WHERE status = 'published' ORDER BY title")->fetchAll();
 
-        $this->render('admin/applications/dashboard', [
+        echo $this->view('admin/applications/dashboard', [
             'applications' => $applications,
             'stats' => $stats,
             'programs' => $programs,
@@ -287,11 +287,7 @@ class ApplicationController extends Controller
             return;
         }
 
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
-            $this->setFlashMessage('error', 'Access denied');
-            $this->redirect('/dashboard');
-            return;
-        }
+        $this->requireRole('admin');
 
         $application = $this->applicationModel->findById($id);
 
@@ -312,7 +308,7 @@ class ApplicationController extends Controller
             "SELECT id, first_name, last_name, email FROM users WHERE role = 'facilitator' ORDER BY first_name"
         )->fetchAll();
 
-        $this->render('admin/applications/review', [
+        echo $this->view('admin/applications/review', [
             'application' => $application,
             'cohorts' => $cohorts,
             'facilitators' => $facilitators,
@@ -325,7 +321,9 @@ class ApplicationController extends Controller
      */
     public function approve()
     {
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        if ($user['role'] !== 'admin') {
             return $this->json(['success' => false, 'message' => 'Access denied'], 403);
         }
 
@@ -343,7 +341,7 @@ class ApplicationController extends Controller
         }
 
         try {
-            $reviewerId = $_SESSION['user_id'];
+            $reviewerId = $user['id'];
 
             // Approve and enroll
             $this->applicationModel->approve($applicationId, $reviewerId, $cohortId, $facilitatorId, $notes);
@@ -389,7 +387,9 @@ class ApplicationController extends Controller
      */
     public function reject()
     {
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        if ($user['role'] !== 'admin') {
             return $this->json(['success' => false, 'message' => 'Access denied'], 403);
         }
 
@@ -406,7 +406,7 @@ class ApplicationController extends Controller
         }
 
         try {
-            $reviewerId = $_SESSION['user_id'];
+            $reviewerId = $user['id'];
 
             // Reject application
             $this->applicationModel->reject($applicationId, $reviewerId, $reason, $notes);
@@ -446,7 +446,9 @@ class ApplicationController extends Controller
      */
     public function waitlist()
     {
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        if ($user['role'] !== 'admin') {
             return $this->json(['success' => false, 'message' => 'Access denied'], 403);
         }
 
@@ -462,7 +464,7 @@ class ApplicationController extends Controller
         }
 
         try {
-            $reviewerId = $_SESSION['user_id'];
+            $reviewerId = $user['id'];
             $this->applicationModel->waitlist($applicationId, $reviewerId, $notes);
 
             return $this->json([
@@ -484,7 +486,9 @@ class ApplicationController extends Controller
      */
     public function updatePriority()
     {
-        if (!$this->isAuthenticated() || $_SESSION['role'] !== 'admin') {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        if ($user['role'] !== 'admin') {
             return $this->json(['success' => false, 'message' => 'Access denied'], 403);
         }
 
