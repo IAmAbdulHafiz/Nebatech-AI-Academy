@@ -14,6 +14,7 @@ use Nebatech\Controllers\NewsletterController;
 use Nebatech\Controllers\SitemapController;
 use Nebatech\Controllers\DashboardController;
 use Nebatech\Controllers\FacilitatorController;
+use Nebatech\Controllers\AdminController;
 use Nebatech\Controllers\AIController;
 use Nebatech\Controllers\CodeEditorController;
 use Nebatech\Controllers\FeedbackController;
@@ -121,6 +122,15 @@ $router->get('/facilitator/submissions', [FacilitatorController::class, 'submiss
 $router->get('/facilitator/submissions/{id}/review', [FacilitatorController::class, 'reviewSubmission']);
 $router->post('/facilitator/submissions/update', [FacilitatorController::class, 'updateSubmission']);
 
+// Admin Routes (protected)
+$router->get('/admin/dashboard', [AdminController::class, 'dashboard']);
+$router->get('/admin/users', [AdminController::class, 'users']);
+$router->get('/admin/courses', [AdminController::class, 'courses']);
+$router->get('/admin/enrollments', [AdminController::class, 'enrollments']);
+$router->get('/admin/certificates', [AdminController::class, 'certificates']);
+$router->get('/admin/certificates/issue', [AdminController::class, 'issueCertificate']);
+$router->get('/admin/approvals', [AdminController::class, 'approvals']);
+
 // AI Generation Routes (facilitator only)
 $router->post('/ai/generate-course-outline', [AIController::class, 'generateCourseOutline']);
 $router->post('/ai/generate-lesson-content', [AIController::class, 'generateLessonContent']);
@@ -178,7 +188,7 @@ $router->get('/certificates/verify/{code}', [PortfolioController::class, 'verify
 $router->get('/apply/{programSlug}', [ApplicationController::class, 'apply']);
 $router->post('/applications/submit', [ApplicationController::class, 'submit']);
 $router->get('/applications/my', [ApplicationController::class, 'myApplications']);
-$router->get('/applications/{uuid}', [ApplicationController::class, 'view']);
+$router->get('/applications/{uuid}', [ApplicationController::class, 'viewApplication']);
 
 // Admin application management routes
 $router->get('/admin/applications', [ApplicationController::class, 'adminDashboard']);
