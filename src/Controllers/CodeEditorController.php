@@ -331,7 +331,7 @@ class CodeEditorController extends Controller
     /**
      * Helper method to send JSON response
      */
-    private function jsonResponse(array $data, int $statusCode = 200)
+    protected function jsonResponse(array $data, int $statusCode = 200): void
     {
         http_response_code($statusCode);
         header('Content-Type: application/json');
