@@ -365,7 +365,7 @@ class CodeEditorController extends Controller
     /**
      * Get current authenticated user
      */
-    private function getCurrentUser()
+    protected function getCurrentUser(): ?array
     {
         return $_SESSION['user'] ?? null;
     }
@@ -373,7 +373,7 @@ class CodeEditorController extends Controller
     /**
      * Require authentication
      */
-    private function requireAuth()
+    protected function requireAuth(): void
     {
         if (!isset($_SESSION['user'])) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {

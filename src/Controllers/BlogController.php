@@ -55,20 +55,28 @@ class BlogController extends Controller
         }
         
         // Get categories
-        $categories = Database::fetchAll(
-            "SELECT * FROM blog_categories WHERE status = 'active' ORDER BY order_index ASC"
-        );
+        try {
+            $categories = Database::fetchAll(
+                "SELECT * FROM blog_categories ORDER BY order_index ASC"
+            );
+        } catch (\Exception $e) {
+            $categories = [];
+        }
         
         // Get featured post
-        $featuredPost = Database::fetch(
-            "SELECT bp.*, bc.name as category_name,
-                    u.first_name, u.last_name, u.avatar as author_avatar
-             FROM blog_posts bp
-             LEFT JOIN blog_categories bc ON bp.category_id = bc.id
-             LEFT JOIN users u ON bp.author_id = u.id
-             WHERE bp.status = 'published' AND bp.is_featured = 1
-             ORDER BY bp.published_at DESC LIMIT 1"
-        );
+        try {
+            $featuredPost = Database::fetch(
+                "SELECT bp.*, bc.name as category_name,
+                        u.first_name, u.last_name, u.avatar as author_avatar
+                 FROM blog_posts bp
+                 LEFT JOIN blog_categories bc ON bp.category_id = bc.id
+                 LEFT JOIN users u ON bp.author_id = u.id
+                 WHERE bp.status = 'published'
+                 ORDER BY bp.published_at DESC LIMIT 1"
+            );
+        } catch (\Exception $e) {
+            $featuredPost = null;
+        }
         
         if ($featuredPost) {
             $featuredPost['author_name'] = $featuredPost['first_name'] . ' ' . $featuredPost['last_name'];
