@@ -22,7 +22,7 @@ class CourseController extends Controller
         $offset = ($page - 1) * $perPage;
         
         // Build query with filters
-        $where = ["status = 'published'"];
+        $where = ["status = 'published'", "is_bundle = 1"];
         $params = [];
         
         // Search filter
