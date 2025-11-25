@@ -94,6 +94,80 @@ class PortfolioController extends Controller
             'available_submissions' => $availableSubmissions
         ]);
     }
+
+    /**
+     * Display student's portfolio (alias for manage)
+     */
+    public function myPortfolio()
+    {
+        $this->requireAuth();
+        
+        $userId = $_SESSION['user']['id'];
+        
+        // Get portfolio data
+        $settings = Portfolio::getSettings($userId);
+        $items = Portfolio::getItems($userId, false); // Include private items
+        $certificates = Certificate::getUserCertificates($userId);
+        $badges = Badge::getUserBadges($userId);
+        $badgeStats = Badge::getUserStats($userId);
+        
+        // Get graded submissions not in portfolio
+        $availableSubmissions = $this->getAvailableSubmissions($userId);
+        
+        // Calculate stats
+        $stats = [
+            'total_projects' => count($items),
+            'public_projects' => count(array_filter($items, fn($item) => $item['is_visible'] == 1)),
+            'featured_projects' => count(array_filter($items, fn($item) => $item['is_featured'] == 1))
+        ];
+        
+        $this->render('portfolio/my-portfolio', [
+            'title' => 'My Portfolio',
+            'pageTitle' => 'My Portfolio',
+            'settings' => $settings,
+            'portfolio' => $items,
+            'stats' => $stats,
+            'items' => $items,
+            'certificates' => $certificates,
+            'badges' => $badges,
+            'badge_stats' => $badgeStats,
+            'available_submissions' => $availableSubmissions
+        ]);
+    }
+
+    /**
+     * Display student's certificates
+     */
+    public function myCertificates()
+    {
+        $this->requireAuth();
+        
+        $userId = $_SESSION['user']['id'];
+        
+        // Get certificates
+        $certificates = Certificate::getUserCertificates($userId);
+        
+        $this->render('portfolio/my-certificates', [
+            'title' => 'My Certificates',
+            'pageTitle' => 'My Certificates',
+            'certificates' => $certificates
+        ]);
+    }
+
+    /**
+     * Display student showcase (public portfolios)
+     */
+    public function showcase()
+    {
+        // Get all public portfolios
+        $portfolios = Portfolio::getPublicPortfolios();
+        
+        $this->render('portfolio/showcase', [
+            'title' => 'Student Showcase',
+            'pageTitle' => 'Student Showcase',
+            'portfolios' => $portfolios
+        ]);
+    }
     
     /**
      * Update portfolio settings

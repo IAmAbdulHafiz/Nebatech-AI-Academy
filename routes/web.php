@@ -23,6 +23,7 @@ use Nebatech\Controllers\ApplicationController;
 use Nebatech\Controllers\CommunityController;
 use Nebatech\Controllers\ResourceController;
 use Nebatech\Controllers\EventController;
+use Nebatech\Controllers\EnrollmentController;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
@@ -106,6 +107,16 @@ $router->get('/logout', [AuthController::class, 'logout']);
 
 // Dashboard (protected routes)
 $router->get('/dashboard', [DashboardController::class, 'index']);
+
+// Student Routes (protected)
+$router->get('/my-courses', [DashboardController::class, 'myCourses']);
+$router->get('/my-cohorts', [DashboardController::class, 'myCohorts']);
+$router->get('/progress/dashboard', [DashboardController::class, 'progressDashboard']);
+$router->get('/my-applications', [ApplicationController::class, 'myApplications']);
+$router->get('/my-portfolio', [PortfolioController::class, 'myPortfolio']);
+$router->get('/my-certificates', [PortfolioController::class, 'myCertificates']);
+$router->get('/playground', [CodeEditorController::class, 'playground']);
+$router->get('/showcase', [PortfolioController::class, 'showcase']);
 
 // Facilitator Routes (protected)
 $router->get('/facilitator/dashboard', [FacilitatorController::class, 'dashboard']);
@@ -201,6 +212,10 @@ $router->post('/admin/applications/priority', [ApplicationController::class, 'up
 // Courses
 $router->get('/courses', [CourseController::class, 'index']);
 
+// Course Enrollment Routes
+$router->get('/courses/{slug}/enroll', [EnrollmentController::class, 'show']);
+$router->post('/courses/{slug}/enroll', [EnrollmentController::class, 'process']);
+
 // Course Categories
 $router->get('/courses/frontend', [CourseController::class, 'frontend']);
 $router->get('/courses/backend', [CourseController::class, 'backend']);
@@ -210,6 +225,13 @@ $router->get('/courses/ai', [CourseController::class, 'ai']);
 $router->get('/courses/data-science', [CourseController::class, 'dataScience']);
 $router->get('/courses/cybersecurity', [CourseController::class, 'cybersecurity']);
 $router->get('/courses/cloud', [CourseController::class, 'cloud']);
+$router->get('/courses/database', [CourseController::class, 'database']);
+$router->get('/courses/microsoft-office', [CourseController::class, 'microsoftOffice']);
+$router->get('/courses/networking', [CourseController::class, 'networking']);
+$router->get('/courses/hardware', [CourseController::class, 'hardware']);
+$router->get('/courses/digital-literacy', [CourseController::class, 'digitalLiteracy']);
+$router->get('/courses/video-editing', [CourseController::class, 'videoEditing']);
+$router->get('/courses/graphic-design', [CourseController::class, 'graphicDesign']);
 
 // Individual Course
 $router->get('/courses/{slug}', [CourseController::class, 'show']);

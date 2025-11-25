@@ -49,7 +49,7 @@
 <body class="bg-gray-50 dark:bg-gray-900">
     <?php include __DIR__ . '/../partials/header.php'; ?>
     
-    <main>
+    <main class="relative">
         <?php echo $content ?? ''; ?>
     </main>
     

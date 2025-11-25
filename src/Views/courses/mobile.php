@@ -305,7 +305,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 2,750</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/ios-development-swift/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -338,7 +338,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 2,750</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/android-kotlin/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -371,7 +371,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 3,150</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/react-native-complete/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -404,7 +404,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 3,150</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/flutter-dart-mastery/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -437,7 +437,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 2,510</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/firebase-mobile-apps/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -470,7 +470,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-teal-600">GHS 3,050</div>
-                            <a href="#" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
+                            <a href="<?= url('/courses/publishing-app-stores/enroll') ?>" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>

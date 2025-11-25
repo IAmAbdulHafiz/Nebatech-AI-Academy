@@ -272,7 +272,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 3,620</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/ethical-hacking-bootcamp/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 2,890</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/network-security-fundamentals/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -324,7 +324,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 4,110</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/penetration-testing-pro/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -350,7 +350,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 3,380</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/malware-analysis/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -376,7 +376,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 3,140</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/incident-response-forensics/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -402,7 +402,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-red-600">GHS 4,600</div>
-                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/cissp-certification-prep/enroll') ?>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>

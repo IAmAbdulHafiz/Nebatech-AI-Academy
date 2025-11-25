@@ -73,6 +73,21 @@ class CodeEditorController extends Controller
             'submission' => $existingSubmission
         ]);
     }
+
+    /**
+     * Show code playground (free code editor)
+     */
+    public function playground()
+    {
+        $this->requireAuth();
+        $user = $this->getCurrentUser();
+        
+        echo $this->render('code/playground', [
+            'title' => 'Code Playground',
+            'pageTitle' => 'Code Playground',
+            'user' => $user
+        ]);
+    }
     
     /**
      * Save code submission

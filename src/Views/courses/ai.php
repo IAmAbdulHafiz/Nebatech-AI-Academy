@@ -306,7 +306,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 1,910</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/machine-learning-a-z/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -339,7 +339,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 2,150</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/deep-learning-tensorflow/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -372,7 +372,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 2,030</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/pytorch-complete-guide/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -405,7 +405,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 1,790</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/computer-vision-mastery/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -438,7 +438,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 2,270</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/nlp-transformers/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -471,7 +471,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-indigo-600">GHS 1,910</div>
-                            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
+                            <a href="<?= url('/courses/reinforcement-learning/enroll') ?>" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>

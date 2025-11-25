@@ -273,7 +273,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 2,030</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/data-science-python/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -299,7 +299,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 1,190</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/sql-data-science/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 1,550</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/data-visualization-mastery/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 1,670</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/statistics-data-science/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -377,7 +377,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 2,630</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/ml-data-scientists/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -403,7 +403,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-pink-600">GHS 2,390</div>
-                            <a href="#" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/big-data-spark/enroll') ?>" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>

@@ -40,6 +40,48 @@ class DashboardController extends Controller
     }
 
     /**
+     * Display student's enrolled courses
+     */
+    public function myCourses()
+    {
+        $user = $this->getCurrentUser();
+        
+        echo $this->render('courses/my-courses', [
+            'title' => 'My Courses',
+            'pageTitle' => 'My Courses',
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Display student's cohorts
+     */
+    public function myCohorts()
+    {
+        $user = $this->getCurrentUser();
+        
+        echo $this->render('cohorts/my-cohorts', [
+            'title' => 'My Cohorts',
+            'pageTitle' => 'My Cohorts',
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Display student's progress dashboard
+     */
+    public function progressDashboard()
+    {
+        $user = $this->getCurrentUser();
+        
+        echo $this->render('progress/dashboard', [
+            'title' => 'My Progress',
+            'pageTitle' => 'My Progress',
+            'user' => $user
+        ]);
+    }
+
+    /**
      * Check if user is authenticated
      */
     protected function requireAuth(): void

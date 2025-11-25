@@ -285,7 +285,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 830</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/php-programming-complete/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -318,7 +318,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 1,190</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/node-js-express-js/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 1,670</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/laravel-mastery/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -384,7 +384,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 950</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/sql-database-design/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -417,7 +417,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 1,070</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/restful-api-development/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -450,7 +450,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-green-600">GHS 1,910</div>
-                            <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                            <a href="<?= url('/courses/microservices-architecture/enroll') ?>" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>

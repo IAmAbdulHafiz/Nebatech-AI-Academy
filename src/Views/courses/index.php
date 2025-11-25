@@ -1,4 +1,4 @@
-<!-- Hero Section -->
+﻿<!-- Hero Section -->
 <section class="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white py-20 overflow-hidden mb-16">
     <!-- Digital Horizon Background -->
     <div class="absolute inset-0 overflow-hidden">
@@ -52,20 +52,20 @@
             <!-- Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
                 <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                    <div class="text-3xl font-bold">8</div>
+                    <div class="text-3xl font-bold"><?= count($allCategories ?? []) ?></div>
                     <div class="text-white/70 text-sm">Course Tracks</div>
                 </div>
                 <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                    <div class="text-3xl font-bold">50,000+</div>
-                    <div class="text-white/70 text-sm">Students</div>
+                    <div class="text-3xl font-bold"><?= number_format($totalEnrollments ?? 0) ?>+</div>
+                    <div class="text-white/70 text-sm">Enrollments</div>
                 </div>
                 <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                    <div class="text-3xl font-bold">200+</div>
-                    <div class="text-white/70 text-sm">Modules</div>
+                    <div class="text-3xl font-bold"><?= $totalCourses ?? 0 ?></div>
+                    <div class="text-white/70 text-sm">Courses</div>
                 </div>
                 <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                    <div class="text-3xl font-bold">97%</div>
-                    <div class="text-white/70 text-sm">Success Rate</div>
+                    <div class="text-3xl font-bold"><?= number_format($avgRating ?? 4.7, 1) ?></div>
+                    <div class="text-white/70 text-sm">Avg Rating</div>
                 </div>
             </div>
         </div>
@@ -73,333 +73,368 @@
 </section>
 
 <div class="container mx-auto px-4 py-12">
+    <!-- Search and Filter Section -->
+    <div class="mb-12">
+        <!-- Search Bar -->
+        <div class="max-w-3xl mx-auto mb-8">
+            <form method="GET" action="<?= url('/courses') ?>" class="relative">
+                <input type="text" 
+                       name="search" 
+                       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+                       placeholder="Search courses by name, skill, or topic..." 
+                       class="w-full px-6 py-4 pr-32 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-900 shadow-lg">
+                <button type="submit" 
+                        class="absolute right-2 top-2 bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition font-semibold">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="<?= url('/courses') ?>" 
+                   class="px-6 py-3 rounded-lg font-semibold transition <?= empty($_GET['category']) ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
+                    <i class="fas fa-th mr-2"></i>All Courses
+                </a>
+                <?php foreach ($allCategories ?? [] as $cat): ?>
+                <a href="<?= url('/courses?category=' . urlencode($cat)) ?>" 
+                   class="px-6 py-3 rounded-lg font-semibold transition <?= ($_GET['category'] ?? '') === $cat ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
+                    <?= htmlspecialchars($cat) ?>
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Filters Row -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <!-- Level Filter -->
+            <div class="relative">
+                <select name="level" 
+                        onchange="window.location.href='<?= url('/courses') ?>?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), level: this.value}).toString()"
+                        class="px-6 py-3 pr-10 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-700 font-semibold bg-white shadow-md appearance-none cursor-pointer">
+                    <option value="">All Levels</option>
+                    <option value="beginner" <?= ($_GET['level'] ?? '') === 'beginner' ? 'selected' : '' ?>>Beginner</option>
+                    <option value="intermediate" <?= ($_GET['level'] ?? '') === 'intermediate' ? 'selected' : '' ?>>Intermediate</option>
+                    <option value="advanced" <?= ($_GET['level'] ?? '') === 'advanced' ? 'selected' : '' ?>>Advanced</option>
+                </select>
+                <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-500"></i>
+            </div>
+
+            <!-- Sort Filter -->
+            <div class="relative">
+                <select name="sort" 
+                        onchange="window.location.href='<?= url('/courses') ?>?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), sort: this.value}).toString()"
+                        class="px-6 py-3 pr-10 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-700 font-semibold bg-white shadow-md appearance-none cursor-pointer">
+                    <option value="">Sort By</option>
+                    <option value="popular" <?= ($_GET['sort'] ?? '') === 'popular' ? 'selected' : '' ?>>Most Popular</option>
+                    <option value="rating" <?= ($_GET['sort'] ?? '') === 'rating' ? 'selected' : '' ?>>Highest Rated</option>
+                    <option value="newest" <?= ($_GET['sort'] ?? '') === 'newest' ? 'selected' : '' ?>>Newest First</option>
+                    <option value="title" <?= ($_GET['sort'] ?? '') === 'title' ? 'selected' : '' ?>>A to Z</option>
+                </select>
+                <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-500"></i>
+            </div>
+
+            <!-- Clear Filters -->
+            <?php if (!empty($_GET['search']) || !empty($_GET['category']) || !empty($_GET['level']) || !empty($_GET['sort'])): ?>
+            <a href="<?= url('/courses') ?>" 
+               class="px-6 py-3 rounded-lg font-semibold bg-red-500 text-white hover:bg-red-600 transition shadow-md">
+                <i class="fas fa-times mr-2"></i>Clear Filters
+            </a>
+            <?php endif; ?>
+        </div>
+
+        <!-- Results Info -->
+        <div class="text-center text-gray-600 mb-8">
+            <p class="text-lg">
+                Showing <span class="font-bold text-gray-900"><?= count($courses) ?></span> 
+                <?= count($courses) === 1 ? 'course' : 'courses' ?>
+                <?php if (!empty($_GET['search'])): ?>
+                    for "<span class="font-bold text-primary"><?= htmlspecialchars($_GET['search']) ?></span>"
+                <?php endif; ?>
+            </p>
+        </div>
+    </div>
+
     <!-- Course Categories -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Frontend Development -->
-        <a href="<?= url('/courses/frontend') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-primary/90 to-primary p-8">
+        <?php if (!empty($courses)): ?>
+            <?php foreach ($courses as $course): ?>
+        <!-- <?= htmlspecialchars($course['title']) ?> -->
+        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden relative">
+            <!-- Enrollment Badge -->
+            <?php if (!empty($course['is_enrolled'])): ?>
+            <div class="absolute top-4 left-4 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <i class="fas fa-check-circle mr-1"></i>ENROLLED
+            </div>
+            <?php endif; ?>
+            
+            <!-- New Badge -->
+            <?php if (!empty($course['is_new'])): ?>
+            <div class="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <i class="fas fa-star mr-1"></i>NEW
+            </div>
+            <?php endif; ?>
+            
+            <a href="<?= url('/courses/' . $course['slug']) ?>" class="block">
+            <div class="bg-gradient-to-br <?= $course['card_color_from'] ?> <?= $course['card_color_to'] ?> p-8 relative">
                 <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<?= $course['card_icon'] ?>"/>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Frontend Development</h3>
-                <p class="text-white/90">Build stunning, responsive user interfaces</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        15+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        React, Vue, Angular
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        200+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">13-26 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
+                <h3 class="text-2xl font-bold text-white mb-2"><?= htmlspecialchars($course['title']) ?></h3>
+                <p class="text-white/90 text-sm"><?= htmlspecialchars($course['description']) ?></p>
+                
+                <!-- Rating and Enrollment -->
+                <div class="flex items-center gap-4 mt-4 text-white/90 text-sm">
+                    <div class="flex items-center gap-1">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        <span class="font-semibold"><?= number_format($course['rating'] ?? 4.5, 1) ?></span>
+                        <span class="text-white/70">(<?= number_format($course['review_count'] ?? 0) ?>)</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="fas fa-users"></i>
+                        <span><?= number_format($course['enrollment_count'] ?? 0) ?>+ enrolled</span>
+                    </div>
                 </div>
             </div>
-        </a>
+            </a>
+            <div class="p-6">
+                <!-- Facilitator & AI Tutor -->
+                <div class="mb-4 pb-4 border-b border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-robot text-primary text-lg"></i>
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500">AI-Powered Learning</div>
+                            <div class="font-semibold text-gray-900 text-sm">Nebatech AI Tutor</div>
+                        </div>
+                    </div>
+                    <?php if (!empty($course['facilitator_name'])): ?>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                            <?= strtoupper(substr($course['facilitator_name'], 0, 1)) ?>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500">Mentor & Facilitator</div>
+                            <div class="font-semibold text-gray-900 text-sm"><?= htmlspecialchars($course['facilitator_name']) ?></div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
 
-        <!-- Backend Development -->
-        <a href="<?= url('/courses/backend') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-green-500 to-green-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Backend Development</h3>
-                <p class="text-green-100">Build powerful server-side applications</p>
-            </div>
-            <div class="p-6">
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
                     <li class="flex items-center">
                         <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                        18+ Modules
+                        <?= $course['card_modules'] ?>+ Modules
                     </li>
                     <li class="flex items-center">
                         <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                        PHP, Node.js, Python
+                        <?= htmlspecialchars($course['card_features']) ?>
                     </li>
                     <li class="flex items-center">
                         <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                        250+ Hours Content
+                        <?= $course['duration_hours'] ?>+ Hours Content
                     </li>
                 </ul>
                 <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">13-26 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
+                    <div>
+                        <span class="text-2xl font-bold text-primary">GHS <?= isset($course['price']) ? number_format($course['price'], 0) : '749' ?></span>
+                        <div class="text-xs text-gray-500 mt-1">One-time payment</div>
+                    </div>
+                    <?php if (!empty($course['is_enrolled'])): ?>
+                        <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" class="text-green-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center">
+                            <i class="fas fa-play-circle mr-1"></i>Continue Learning →
+                        </a>
+                    <?php else: ?>
+                        <a href="<?= url('/courses/' . $course['slug'] . '/enroll') ?>" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition text-sm">
+                            <i class="fas fa-rocket mr-1"></i>Enroll Now
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
-        </a>
-
-        <!-- Full Stack Development -->
-        <a href="<?= url('/courses/fullstack') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Full Stack Development</h3>
-                <p class="text-purple-100">Master frontend & backend</p>
+        </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-span-full text-center py-16">
+                <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">No courses found</h3>
+                <p class="text-gray-600 mb-6">Try adjusting your search or filters</p>
+                <a href="<?= url('/courses') ?>" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition">
+                    View All Courses
+                </a>
             </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        25+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Frontend & Backend
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        350+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">13-26 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- AI & Machine Learning -->
-        <a href="<?= url('/courses/ai') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-pink-500 to-pink-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">AI & Machine Learning</h3>
-                <p class="text-pink-100">Build intelligent applications</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        30+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Deep Learning & NLP
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        400+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">15-30 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Data Science -->
-        <a href="<?= url('/courses/data-science') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Data Science</h3>
-                <p class="text-indigo-100">Extract insights from data</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        28+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Python, Statistics, ML
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        380+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">13-26 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Mobile Development -->
-        <a href="<?= url('/courses/mobile') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Mobile Development</h3>
-                <p class="text-orange-100">Build native iOS and Android apps</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        20+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        React Native, Flutter
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        280+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">4-12 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Cloud Computing -->
-        <a href="<?= url('/courses/cloud') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-cyan-500 to-cyan-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Cloud Computing</h3>
-                <p class="text-cyan-100">Deploy and manage applications</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        26+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        AWS, Azure, GCP
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        360+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">12-24 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Cybersecurity -->
-        <a href="<?= url('/courses/cybersecurity') ?>" class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <div class="bg-gradient-to-br from-red-500 to-red-600 p-8">
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Cybersecurity</h3>
-                <p class="text-red-100">Protect systems and data</p>
-            </div>
-            <div class="p-6">
-                <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        22+ Modules
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Ethical Hacking & Defense
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        320+ Hours Content
-                    </li>
-                </ul>
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-gray-500 dark:text-gray-400">15-30 months</span>
-                    <span class="text-primary font-semibold group-hover:translate-x-1 transition-transform">Learn More →</span>
-                </div>
-            </div>
-        </a>
+        <?php endif; ?>
     </div>
+
+    <!-- Pagination -->
+    <?php if (($totalPages ?? 1) > 1): ?>
+    <div class="mt-12 flex justify-center">
+        <nav class="flex items-center gap-2">
+            <!-- Previous Button -->
+            <?php if ($currentPage > 1): ?>
+                <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $currentPage - 1]))) ?>" 
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            <?php else: ?>
+                <span class="px-4 py-2 rounded-lg bg-gray-100 border-2 border-gray-200 text-gray-400 font-semibold cursor-not-allowed">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+            <?php endif; ?>
+
+            <!-- Page Numbers -->
+            <?php
+            $startPage = max(1, $currentPage - 2);
+            $endPage = min($totalPages, $currentPage + 2);
+            
+            if ($startPage > 1): ?>
+                <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => 1]))) ?>" 
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                    1
+                </a>
+                <?php if ($startPage > 2): ?>
+                    <span class="px-2 text-gray-500">...</span>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                <?php if ($i == $currentPage): ?>
+                    <span class="px-4 py-2 rounded-lg bg-primary text-white font-bold border-2 border-primary">
+                        <?= $i ?>
+                    </span>
+                <?php else: ?>
+                    <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $i]))) ?>" 
+                       class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                        <?= $i ?>
+                    </a>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($endPage < $totalPages): ?>
+                <?php if ($endPage < $totalPages - 1): ?>
+                    <span class="px-2 text-gray-500">...</span>
+                <?php endif; ?>
+                <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $totalPages]))) ?>" 
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                    <?= $totalPages ?>
+                </a>
+            <?php endif; ?>
+
+            <!-- Next Button -->
+            <?php if ($currentPage < $totalPages): ?>
+                <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $currentPage + 1]))) ?>" 
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            <?php else: ?>
+                <span class="px-4 py-2 rounded-lg bg-gray-100 border-2 border-gray-200 text-gray-400 font-semibold cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                </span>
+            <?php endif; ?>
+        </nav>
+    </div>
+    <?php endif; ?>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50 rounded-2xl mt-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Everything you need to know about our courses
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+            <!-- FAQ Item 1 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>How much do courses cost?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Course prices range from GHS 1,485 to GHS 15,500 depending on the complexity and number of courses in the track. Bundle packages offer significant savings (up to 46% off) and give you lifetime access to all materials, updates, AI tutoring, and mentorship support. We also offer flexible payment plans.
+                </div>
+            </details>
+
+            <!-- FAQ Item 2 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>Do I get a certificate?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Absolutely! Upon completing any course, you'll receive a verified certificate that you can share on LinkedIn, add to your resume, or showcase in your portfolio.
+                </div>
+            </details>
+
+            <!-- FAQ Item 3 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>What support do I get?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Every course includes 24/7 AI-powered tutoring for personalized help. You'll also have access to dedicated mentors and facilitators who provide guidance, code reviews, and career advice. Plus, join our community forum to connect with fellow students.
+                </div>
+            </details>
+
+            <!-- FAQ Item 4 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>How long do I have access to the courses?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Once you enroll, you have lifetime access to the course. Learn at your own pace, revisit lessons anytime, and access new content updates as they're released - all at no additional cost.
+                </div>
+            </details>
+
+            <!-- FAQ Item 5 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>What are the prerequisites?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Most beginner courses have no prerequisites - just bring your enthusiasm to learn! For intermediate and advanced courses, we recommend completing the prerequisite courses listed in the course details.
+                </div>
+            </details>
+
+            <!-- FAQ Item 6 -->
+            <details class="bg-white rounded-lg shadow-md group">
+                <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
+                    <span><i class="fas fa-question-circle text-primary mr-3"></i>Can I access courses on mobile devices?</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-700">
+                    Yes! Our platform is fully responsive and works seamlessly on smartphones, tablets, and desktops. Learn anywhere, anytime, on any device.
+                </div>
+            </details>
+        </div>
+    </section>
 
     <!-- CTA Section -->
     <div class="mt-16 bg-gradient-to-r from-primary to-secondary rounded-2xl p-12 text-center text-white">
-        <h2 class="text-3xl font-bold mb-4">Ready to Start Your Learning Journey?</h2>
-        <p class="text-xl mb-8 opacity-90">Join thousands of students mastering tech skills with AI-powered learning</p>
+        <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Career?</h2>
+        <p class="text-xl mb-8 opacity-90">Join thousands of students mastering tech skills with AI-powered learning and expert mentorship</p>
         <div class="flex justify-center gap-4">
             <a href="<?= url('/register') ?>" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                Get Started Free
+                Browse All Courses
             </a>
             <a href="<?= url('/contact') ?>" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition">
-                Contact Us
+                Talk to an Advisor
             </a>
         </div>
+        <p class="text-sm mt-6 opacity-75">
+            <i class="fas fa-shield-alt mr-2"></i>30-day money-back guarantee • Lifetime access • AI tutor + mentors
+        </p>
     </div>
 </div>
 

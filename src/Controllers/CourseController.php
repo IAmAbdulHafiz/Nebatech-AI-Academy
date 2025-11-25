@@ -14,7 +14,103 @@ class CourseController extends Controller
      */
     public function index()
     {
-        echo $this->render('courses/index', [], 'main');
+        $db = \Nebatech\Core\Database::connect();
+        
+        // Pagination
+        $perPage = 9;
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $offset = ($page - 1) * $perPage;
+        
+        // Build query with filters
+        $where = ["status = 'published'"];
+        $params = [];
+        
+        // Search filter
+        if (!empty($_GET['search'])) {
+            $where[] = "(title LIKE ? OR description LIKE ?)";
+            $searchTerm = '%' . $_GET['search'] . '%';
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+        
+        // Category filter
+        if (!empty($_GET['category'])) {
+            $where[] = "category = ?";
+            $params[] = $_GET['category'];
+        }
+        
+        // Level filter
+        if (!empty($_GET['level'])) {
+            $where[] = "level = ?";
+            $params[] = $_GET['level'];
+        }
+        
+        // Get total count for pagination
+        $countSql = "SELECT COUNT(*) FROM courses WHERE " . implode(" AND ", $where);
+        $countStmt = $db->prepare($countSql);
+        $countStmt->execute($params);
+        $totalCourses = $countStmt->fetchColumn();
+        $totalPages = ceil($totalCourses / $perPage);
+        
+        // Build ORDER BY
+        $orderBy = "created_at DESC";
+        if (!empty($_GET['sort'])) {
+            switch ($_GET['sort']) {
+                case 'popular':
+                    $orderBy = "enrollment_count DESC";
+                    break;
+                case 'rating':
+                    $orderBy = "rating DESC";
+                    break;
+                case 'newest':
+                    $orderBy = "created_at DESC";
+                    break;
+                case 'title':
+                    $orderBy = "title ASC";
+                    break;
+            }
+        }
+        
+        $sql = "SELECT * FROM courses WHERE " . implode(" AND ", $where) . " ORDER BY " . $orderBy . " LIMIT ? OFFSET ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array_merge($params, [$perPage, $offset]));
+        $courses = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        // Check enrollment status if user is logged in
+        if (isset($_SESSION['user_id'])) {
+            $enrolledStmt = $db->prepare("SELECT course_id FROM enrollments WHERE user_id = ?");
+            $enrolledStmt->execute([$_SESSION['user_id']]);
+            $enrolledCourses = $enrolledStmt->fetchAll(\PDO::FETCH_COLUMN);
+            
+            // Add enrollment status to each course
+            foreach ($courses as &$course) {
+                $course['is_enrolled'] = in_array($course['id'], $enrolledCourses);
+            }
+            unset($course);
+        }
+        
+        // Get all categories
+        $categoriesStmt = $db->query("SELECT DISTINCT category FROM courses WHERE status = 'published' ORDER BY category");
+        $allCategories = $categoriesStmt->fetchAll(\PDO::FETCH_COLUMN);
+        
+        // Get stats
+        $statsStmt = $db->query("SELECT 
+            COUNT(*) as total_courses,
+            SUM(enrollment_count) as total_enrollments,
+            AVG(rating) as avg_rating
+            FROM courses WHERE status = 'published'");
+        $stats = $statsStmt->fetch(\PDO::FETCH_ASSOC);
+        
+        echo $this->render('courses/index', [
+            'courses' => $courses,
+            'allCategories' => $allCategories,
+            'totalCourses' => $stats['total_courses'],
+            'totalEnrollments' => $stats['total_enrollments'],
+            'avgRating' => $stats['avg_rating'],
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'perPage' => $perPage
+        ], 'main');
     }
 
     /**
@@ -82,11 +178,66 @@ class CourseController extends Controller
     }
 
     /**
+     * Show Database Design & Administration
+     */
+    public function database()
+    {
+        echo $this->render('courses/database', [], 'main');
+    }
+
+    /**
+     * Show Microsoft Office Suite
+     */
+    public function microsoftOffice()
+    {
+        echo $this->render('courses/microsoft-office', [], 'main');
+    }
+
+    /**
+     * Show Networking Engineering
+     */
+    public function networking()
+    {
+        echo $this->render('courses/networking', [], 'main');
+    }
+
+    /**
+     * Show Computer Hardware
+     */
+    public function hardware()
+    {
+        echo $this->render('courses/hardware', [], 'main');
+    }
+
+    /**
+     * Show Digital Literacy
+     */
+    public function digitalLiteracy()
+    {
+        echo $this->render('courses/digital-literacy', [], 'main');
+    }
+
+    /**
+     * Show Video Editing & Production
+     */
+    public function videoEditing()
+    {
+        echo $this->render('courses/video-editing', [], 'main');
+    }
+
+    /**
+     * Show Graphic Design & Digital Arts
+     */
+    public function graphicDesign()
+    {
+        echo $this->render('courses/graphic-design', [], 'main');
+    }
+
+    /**
      * Show individual course details
      */
-    public function show(array $params = [])
+    public function show(string $slug = '')
     {
-        $slug = $params['slug'] ?? '';
         if (empty($slug)) {
             http_response_code(404);
             echo $this->render('errors/404', ['title' => 'Course Not Found']);
@@ -112,16 +263,19 @@ class CourseController extends Controller
         }
 
         // Get related courses (same category, excluding current course)
-        $relatedCourses = Course::getAll([
-            'category' => $course['category'],
-            'status' => 'published',
-            'limit' => 3
-        ]);
-        
-        // Filter out current course
-        $relatedCourses = array_filter($relatedCourses, function($c) use ($course) {
-            return $c['id'] !== $course['id'];
-        });
+        $relatedCourses = [];
+        if (!empty($course['category'])) {
+            $relatedCourses = Course::getAll([
+                'category' => $course['category'],
+                'status' => 'published',
+                'limit' => 3
+            ]);
+            
+            // Filter out current course
+            $relatedCourses = array_filter($relatedCourses, function($c) use ($course) {
+                return $c['id'] !== $course['id'];
+            });
+        }
 
         echo $this->render('courses/show', [
             'title' => $course['title'] . ' - Nebatech AI Academy',

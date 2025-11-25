@@ -285,7 +285,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 590</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/html-css-fundamentals/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -318,7 +318,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 950</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/javascript-essentials/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 1,550</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/react-js-complete-guide/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -384,7 +384,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 1,430</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/vue-js-mastery/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -417,7 +417,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 710</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/tailwind-css-fundamentals/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>
@@ -450,7 +450,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-primary">GHS 1,790</div>
-                            <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
+                            <a href="<?= url('/courses/next-js-full-course/enroll') ?>" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition font-semibold">
                                 Enroll Now
                             </a>
                         </div>

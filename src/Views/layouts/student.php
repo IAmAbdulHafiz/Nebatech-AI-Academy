@@ -44,7 +44,7 @@
             </a>
 
             <!-- My Courses -->
-            <a href="<?= url('/dashboard/courses') ?>" 
+            <a href="<?= url('/my-courses') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-book text-lg w-5"></i>
                 <span class="ml-3 font-medium">My Courses</span>
@@ -58,7 +58,7 @@
             </a>
 
             <!-- Assignments -->
-            <a href="<?= url('/dashboard/assignments') ?>" 
+            <a href="<?= url('/my-courses') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-tasks text-lg w-5"></i>
                 <span class="ml-3 font-medium">Assignments</span>
@@ -70,28 +70,28 @@
             </a>
 
             <!-- Code Editor -->
-            <a href="<?= url('/code-editor') ?>" 
+            <a href="<?= url('/playground') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-code text-lg w-5"></i>
-                <span class="ml-3 font-medium">Code Editor</span>
+                <span class="ml-3 font-medium">Code Playground</span>
             </a>
 
             <!-- My Progress -->
-            <a href="<?= url('/dashboard/progress') ?>" 
+            <a href="<?= url('/progress/dashboard') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-chart-line text-lg w-5"></i>
                 <span class="ml-3 font-medium">My Progress</span>
             </a>
 
             <!-- Certificates -->
-            <a href="<?= url('/dashboard/certificates') ?>" 
+            <a href="<?= url('/my-certificates') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-certificate text-lg w-5"></i>
                 <span class="ml-3 font-medium">Certificates</span>
             </a>
 
             <!-- Portfolio -->
-            <a href="<?= url('/portfolio/manage') ?>" 
+            <a href="<?= url('/my-portfolio') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-briefcase text-lg w-5"></i>
                 <span class="ml-3 font-medium">My Portfolio</span>
@@ -100,7 +100,7 @@
             <div class="border-t border-gray-200 my-4"></div>
 
             <!-- Applications -->
-            <a href="<?= url('/applications/my-applications') ?>" 
+            <a href="<?= url('/my-applications') ?>" 
                class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
                 <i class="fas fa-file-alt text-lg w-5"></i>
                 <span class="ml-3 font-medium">My Applications</span>

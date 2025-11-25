@@ -286,7 +286,7 @@ class Portfolio
     }
     
     /**
-     * Check if submission is in portfolio
+     * Check if user has a submission in their portfolio
      */
     public static function hasSubmission(string $userId, string $submissionId): bool
     {
@@ -297,6 +297,36 @@ class Portfolio
         ");
         $stmt->execute([$userId, $submissionId]);
         return $stmt->fetchColumn() > 0;
+    }
+
+    /**
+     * Get all public portfolios for showcase
+     */
+    public static function getPublicPortfolios(): array
+    {
+        $db = self::getDb();
+        
+        $stmt = $db->prepare("
+            SELECT 
+                u.id as user_id,
+                u.first_name,
+                u.last_name,
+                u.email,
+                ps.bio,
+                ps.tagline,
+                ps.github_url,
+                ps.linkedin_url,
+                ps.created_at,
+                (SELECT COUNT(*) FROM portfolio_items WHERE user_id = u.id AND is_visible = 1) as project_count
+            FROM users u
+            INNER JOIN portfolio_settings ps ON u.id = ps.user_id
+            WHERE ps.is_public = 1
+            ORDER BY ps.updated_at DESC
+            LIMIT 50
+        ");
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**

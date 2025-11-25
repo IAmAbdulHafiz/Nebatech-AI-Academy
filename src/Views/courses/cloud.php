@@ -272,7 +272,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 3,230</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/aws-complete-guide/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 3,030</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/azure-fundamentals/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -324,7 +324,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 2,830</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/google-cloud-platform/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -350,7 +350,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 2,630</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/docker-kubernetes/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -376,7 +376,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 3,440</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/devops-complete-course/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -402,7 +402,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="text-2xl font-bold text-sky-600">GHS 3,850</div>
-                            <a href="#" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
+                            <a href="<?= url('/courses/aws-solutions-architect/enroll') ?>" class="bg-sky-600 text-white px-6 py-2 rounded-lg hover:bg-sky-700 transition font-semibold">Enroll Now</a>
                         </div>
                     </div>
                 </div>
