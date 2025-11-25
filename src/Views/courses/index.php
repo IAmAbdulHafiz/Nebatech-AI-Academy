@@ -253,8 +253,8 @@
                             <i class="fas fa-play-circle mr-1"></i>Continue Learning →
                         </a>
                     <?php else: ?>
-                        <a href="<?= url('/courses/' . $course['slug'] . '/enroll') ?>" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition text-sm">
-                            <i class="fas fa-rocket mr-1"></i>Enroll Now
+                        <a href="<?= url('/courses/' . $course['slug']) ?>" class="text-primary font-semibold group-hover:translate-x-1 transition-transform flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
                         </a>
                     <?php endif; ?>
                 </div>
