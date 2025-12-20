@@ -1,4 +1,4 @@
-<!-- Enrollment Page -->
+<!-- Enrollment Page - Hubtel Payment Integration -->
 <div class="bg-gray-50 min-h-screen py-12">
     <div class="container mx-auto px-4">
         <!-- Progress Steps -->
@@ -15,7 +15,7 @@
                     <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold mb-2">
                         2
                     </div>
-                    <span class="text-sm font-semibold text-primary">Payment</span>
+                    <span class="text-sm font-semibold text-primary">Checkout</span>
                 </div>
                 <div class="flex-1 h-1 bg-gray-300"></div>
                 <div class="flex flex-col items-center flex-1">
@@ -35,8 +35,8 @@
                     
                     <!-- Course Image -->
                     <div class="relative mb-4 rounded-lg overflow-hidden">
-                        <div class="bg-gradient-to-br <?= htmlspecialchars($course['card_color_from']) ?> <?= htmlspecialchars($course['card_color_to']) ?> p-8 text-white text-center">
-                            <i class="<?= htmlspecialchars($course['card_icon']) ?> text-5xl mb-3"></i>
+                        <div class="bg-gradient-to-br <?= htmlspecialchars($course['card_color_from'] ?? 'from-blue-500') ?> <?= htmlspecialchars($course['card_color_to'] ?? 'to-blue-700') ?> p-8 text-white text-center">
+                            <i class="<?= htmlspecialchars($course['card_icon'] ?? 'fas fa-laptop-code') ?> text-5xl mb-3"></i>
                             <h4 class="text-lg font-bold"><?= htmlspecialchars($course['title']) ?></h4>
                         </div>
                     </div>
@@ -45,27 +45,29 @@
                     <div class="space-y-3 mb-6">
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-signal w-5"></i>
-                            <span class="ml-2"><?= htmlspecialchars($course['level']) ?></span>
+                            <span class="ml-2"><?= htmlspecialchars($course['level'] ?? 'All Levels') ?></span>
                         </div>
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-clock w-5"></i>
-                            <span class="ml-2"><?= htmlspecialchars($course['card_duration']) ?></span>
+                            <span class="ml-2"><?= htmlspecialchars($course['card_duration'] ?? '8 weeks') ?></span>
                         </div>
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-book w-5"></i>
-                            <span class="ml-2"><?= htmlspecialchars($course['card_modules']) ?> modules</span>
+                            <span class="ml-2"><?= htmlspecialchars($course['card_modules'] ?? '10') ?> modules</span>
                         </div>
+                        <?php if (!empty($course['rating'])): ?>
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-star text-yellow-400 w-5"></i>
-                            <span class="ml-2"><?= number_format($course['rating'], 1) ?> (<?= number_format($course['review_count']) ?> reviews)</span>
+                            <span class="ml-2"><?= number_format($course['rating'], 1) ?> (<?= number_format($course['review_count'] ?? 0) ?> reviews)</span>
                         </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Pricing -->
                     <div class="border-t pt-4 mb-4">
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-gray-600">Course Price:</span>
-                            <span class="text-2xl font-bold text-primary">GHS <?= number_format($course['price'], 2) ?></span>
+                            <span class="text-2xl font-bold text-primary"><?= $currency ?? 'GH₵' ?> <?= number_format($course['price'], 2) ?></span>
                         </div>
                     </div>
 
@@ -99,189 +101,132 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Payment Methods Accepted -->
+                    <div class="border-t pt-4 mt-4">
+                        <h4 class="font-semibold text-gray-900 mb-3">We Accept:</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fas fa-mobile-alt text-yellow-500"></i>
+                                <span>MTN MoMo</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fas fa-mobile-alt text-red-500"></i>
+                                <span>Vodafone Cash</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fas fa-mobile-alt text-blue-500"></i>
+                                <span>AirtelTigo</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fab fa-cc-visa text-blue-600"></i>
+                                <span>Visa</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fab fa-cc-mastercard text-orange-500"></i>
+                                <span>Mastercard</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                                <i class="fas fa-qrcode text-green-600"></i>
+                                <span>GhQR</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Column: Payment Form -->
+            <!-- Right Column: Checkout Form -->
             <div class="lg:col-span-2">
+                <?php if (!empty($pendingEnrollment)): ?>
+                <!-- Pending Payment Notice -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-clock text-yellow-500 text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-yellow-800 mb-2">Pending Payment</h3>
+                            <p class="text-yellow-700 text-sm mb-3">
+                                You have a pending enrollment from <?= date('M d, Y h:i A', strtotime($pendingEnrollment['created_at'])) ?>.
+                            </p>
+                            <div class="flex gap-3">
+                                <a href="<?= url('/payments/status?ref=' . $pendingEnrollment['transaction_id']) ?>" 
+                                   class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                    Check Payment Status
+                                </a>
+                                <span class="text-yellow-600 text-sm self-center">or continue with a new payment below</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <div class="bg-white rounded-xl shadow-lg p-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Complete Your Enrollment</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Complete Your Enrollment</h2>
+                    <p class="text-gray-600 mb-6">Enter your details below and you'll be redirected to our secure payment page.</p>
 
                     <form id="enrollmentForm" method="POST" action="<?= url('/courses/' . $course['slug'] . '/enroll') ?>">
+                        <?= csrf_field() ?>
+                        
                         <!-- Student Information -->
                         <div class="mb-8">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                                 <i class="fas fa-user-circle text-primary mr-2"></i>
-                                Student Information
+                                Your Information
                             </h3>
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
                                     <input type="text" name="full_name" required
-                                           value="<?= htmlspecialchars($_SESSION['user']['name'] ?? '') ?>"
+                                           value="<?= htmlspecialchars(($_SESSION['user']['first_name'] ?? '') . ' ' . ($_SESSION['user']['last_name'] ?? '')) ?>"
                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                           placeholder="John Doe">
+                                           placeholder="Enter your full name">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                                     <input type="email" name="email" required
                                            value="<?= htmlspecialchars($_SESSION['user']['email'] ?? '') ?>"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                           placeholder="john@example.com">
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                                           readonly>
+                                    <p class="text-xs text-gray-500 mt-1">Receipt will be sent to this email</p>
                                 </div>
-                                <div>
+                                <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
                                     <input type="tel" name="phone" required
                                            value="<?= htmlspecialchars($_SESSION['user']['phone'] ?? '') ?>"
                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                           placeholder="+233 24 123 4567">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                                    <input type="text" name="location"
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                           placeholder="Accra, Ghana">
+                                           placeholder="e.g. 024 123 4567">
+                                    <p class="text-xs text-gray-500 mt-1">For payment verification via Mobile Money</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Payment Method Selection -->
-                        <div class="mb-8" x-data="{ paymentMethod: 'mobile_money' }">
+                        <!-- Payment Info -->
+                        <div class="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                                <i class="fas fa-credit-card text-primary mr-2"></i>
-                                Payment Method
+                                <i class="fas fa-shield-alt text-green-500 mr-2"></i>
+                                Secure Payment via Hubtel
                             </h3>
-
-                            <!-- Payment Method Options -->
-                            <div class="grid md:grid-cols-3 gap-4 mb-6">
-                                <!-- Mobile Money -->
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="payment_method" value="mobile_money" 
-                                           x-model="paymentMethod" class="peer sr-only">
-                                    <div class="border-2 border-gray-300 rounded-lg p-4 peer-checked:border-primary peer-checked:bg-blue-50 hover:border-primary transition">
-                                        <div class="flex flex-col items-center text-center">
-                                            <i class="fas fa-mobile-alt text-3xl text-primary mb-2"></i>
-                                            <span class="font-semibold text-gray-900">Mobile Money</span>
-                                            <span class="text-xs text-gray-500 mt-1">MTN, Vodafone, AirtelTigo</span>
-                                        </div>
-                                    </div>
-                                </label>
-
-                                <!-- Card Payment -->
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="payment_method" value="card" 
-                                           x-model="paymentMethod" class="peer sr-only">
-                                    <div class="border-2 border-gray-300 rounded-lg p-4 peer-checked:border-primary peer-checked:bg-blue-50 hover:border-primary transition">
-                                        <div class="flex flex-col items-center text-center">
-                                            <i class="fas fa-credit-card text-3xl text-primary mb-2"></i>
-                                            <span class="font-semibold text-gray-900">Card Payment</span>
-                                            <span class="text-xs text-gray-500 mt-1">Visa, Mastercard</span>
-                                        </div>
-                                    </div>
-                                </label>
-
-                                <!-- Bank Transfer -->
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="payment_method" value="bank_transfer" 
-                                           x-model="paymentMethod" class="peer sr-only">
-                                    <div class="border-2 border-gray-300 rounded-lg p-4 peer-checked:border-primary peer-checked:bg-blue-50 hover:border-primary transition">
-                                        <div class="flex flex-col items-center text-center">
-                                            <i class="fas fa-university text-3xl text-primary mb-2"></i>
-                                            <span class="font-semibold text-gray-900">Bank Transfer</span>
-                                            <span class="text-xs text-gray-500 mt-1">Direct bank deposit</span>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <!-- Mobile Money Details -->
-                            <div x-show="paymentMethod === 'mobile_money'" x-transition class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-semibold text-gray-900 mb-4">Mobile Money Details</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Network *</label>
-                                        <select name="momo_network" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                            <option value="">Select Network</option>
-                                            <option value="mtn">MTN Mobile Money</option>
-                                            <option value="vodafone">Vodafone Cash</option>
-                                            <option value="airteltigo">AirtelTigo Money</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number *</label>
-                                        <input type="tel" name="momo_number" required
-                                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                               placeholder="024 123 4567">
-                                    </div>
+                            <p class="text-gray-600 mb-4">
+                                After clicking "Proceed to Payment", you will be redirected to Hubtel's secure payment page 
+                                where you can choose your preferred payment method:
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <i class="fas fa-mobile-alt text-2xl text-primary mb-2"></i>
+                                    <p class="text-xs text-gray-600">Mobile Money</p>
                                 </div>
-                                <p class="text-sm text-gray-600 mt-4">
-                                    <i class="fas fa-info-circle text-primary mr-1"></i>
-                                    You will receive a prompt on your phone to authorize the payment.
-                                </p>
-                            </div>
-
-                            <!-- Card Payment Details -->
-                            <div x-show="paymentMethod === 'card'" x-transition class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-semibold text-gray-900 mb-4">Card Details</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Card Number *</label>
-                                        <input type="text" name="card_number" required
-                                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                               placeholder="1234 5678 9012 3456">
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
-                                            <input type="text" name="card_expiry" required
-                                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                                   placeholder="MM/YY">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
-                                            <input type="text" name="card_cvv" required
-                                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                                   placeholder="123">
-                                        </div>
-                                    </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <i class="fas fa-credit-card text-2xl text-primary mb-2"></i>
+                                    <p class="text-xs text-gray-600">Bank Card</p>
                                 </div>
-                                <div class="flex items-center gap-3 mt-4 text-gray-500">
-                                    <i class="fab fa-cc-visa text-3xl"></i>
-                                    <i class="fab fa-cc-mastercard text-3xl"></i>
-                                    <span class="text-sm">Secured by SSL encryption</span>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <i class="fas fa-wallet text-2xl text-primary mb-2"></i>
+                                    <p class="text-xs text-gray-600">Digital Wallet</p>
                                 </div>
-                            </div>
-
-                            <!-- Bank Transfer Details -->
-                            <div x-show="paymentMethod === 'bank_transfer'" x-transition class="bg-gray-50 rounded-lg p-6">
-                                <h4 class="font-semibold text-gray-900 mb-4">Bank Transfer Instructions</h4>
-                                <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-                                    <p class="text-sm text-gray-600 mb-3">Please transfer <strong class="text-primary">GHS <?= number_format($course['price'], 2) ?></strong> to:</p>
-                                    <div class="space-y-2 text-sm">
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Bank Name:</span>
-                                            <span class="font-semibold">Access Bank Ghana</span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Account Name:</span>
-                                            <span class="font-semibold">Nebatech AI Academy</span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Account Number:</span>
-                                            <span class="font-semibold">1234567890</span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Branch:</span>
-                                            <span class="font-semibold">Tamale Branch</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Transaction Reference *</label>
-                                    <input type="text" name="bank_reference" required
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                           placeholder="Enter bank transaction reference">
-                                    <p class="text-xs text-gray-500 mt-1">Your enrollment will be activated after verification (1-2 business days)</p>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <i class="fas fa-qrcode text-2xl text-primary mb-2"></i>
+                                    <p class="text-xs text-gray-600">Ghana QR</p>
                                 </div>
                             </div>
                         </div>
@@ -304,9 +249,11 @@
                                class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-4 px-6 rounded-lg transition text-center">
                                 <i class="fas fa-arrow-left mr-2"></i>Back to Course
                             </a>
-                            <button type="submit" 
-                                    class="flex-1 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-lg transition shadow-lg hover:shadow-xl">
-                                <i class="fas fa-lock mr-2"></i>Complete Enrollment
+                            <button type="submit" id="submitBtn"
+                                    class="flex-1 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-lg transition shadow-lg hover:shadow-xl flex items-center justify-center">
+                                <i class="fas fa-lock mr-2"></i>
+                                <span>Proceed to Payment</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
                             </button>
                         </div>
                     </form>
@@ -316,7 +263,7 @@
                         <i class="fas fa-shield-alt text-green-500"></i>
                         <span>Secure 256-bit SSL encryption</span>
                         <span>•</span>
-                        <span>Money-back guarantee</span>
+                        <span>Powered by Hubtel</span>
                     </div>
                 </div>
 
@@ -356,21 +303,19 @@
 <div id="processingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
         <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Processing Payment...</h3>
-        <p class="text-gray-600">Please wait while we process your enrollment. Do not close this window.</p>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Preparing Checkout...</h3>
+        <p class="text-gray-600">Please wait while we redirect you to the secure payment page.</p>
     </div>
 </div>
 
 <script>
 document.getElementById('enrollmentForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
     // Show processing overlay
     document.getElementById('processingOverlay').classList.remove('hidden');
     
-    // Submit form after short delay (simulate processing)
-    setTimeout(() => {
-        this.submit();
-    }, 1000);
+    // Disable submit button to prevent double submission
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
 });
 </script>

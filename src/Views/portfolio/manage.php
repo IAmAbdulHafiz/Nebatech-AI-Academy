@@ -242,6 +242,7 @@
                 <h2 class="text-xl font-bold text-gray-900 mb-6">Portfolio Settings</h2>
                 
                 <form action="<?= url('/portfolio/settings') ?>" method="POST" class="space-y-6 max-w-2xl">
+                    <?= csrf_field() ?>
                     <!-- Bio -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Bio</label>

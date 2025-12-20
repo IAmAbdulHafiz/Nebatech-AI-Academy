@@ -133,6 +133,26 @@ $router->get('/facilitator/submissions', [FacilitatorController::class, 'submiss
 $router->get('/facilitator/submissions/{id}/review', [FacilitatorController::class, 'reviewSubmission']);
 $router->post('/facilitator/submissions/update', [FacilitatorController::class, 'updateSubmission']);
 
+// Facilitator Cohort Routes
+use Nebatech\Controllers\CohortController;
+
+$router->get('/facilitator/cohorts', [CohortController::class, 'index']);
+$router->get('/facilitator/cohorts/create', [CohortController::class, 'create']);
+$router->post('/facilitator/cohorts/create', [CohortController::class, 'store']);
+$router->get('/facilitator/cohorts/{id}', [CohortController::class, 'show']);
+$router->post('/facilitator/cohorts/submit-approval', [CohortController::class, 'submitForApproval']);
+$router->get('/facilitator/cohorts/{id}/invite', [CohortController::class, 'inviteForm']);
+$router->post('/facilitator/cohorts/invite', [CohortController::class, 'sendInvitations']);
+$router->post('/facilitator/cohorts/resend-invitation', [CohortController::class, 'resendInvitation']);
+$router->post('/facilitator/cohorts/cancel-invitation', [CohortController::class, 'cancelInvitation']);
+$router->post('/facilitator/cohorts/remove-member', [CohortController::class, 'removeMember']);
+$router->post('/facilitator/cohorts/add-course', [CohortController::class, 'addCourse']);
+$router->post('/facilitator/cohorts/remove-course', [CohortController::class, 'removeCourse']);
+
+// Cohort Invitation Routes (Public/Student)
+$router->get('/cohort/accept-invitation', [CohortController::class, 'acceptInvitation']);
+$router->post('/cohort/decline-invitation', [CohortController::class, 'declineInvitation']);
+
 // Admin Routes (protected)
 $router->get('/admin/dashboard', [AdminController::class, 'dashboard']);
 $router->get('/admin/users', [AdminController::class, 'users']);
@@ -215,6 +235,11 @@ $router->get('/courses', [CourseController::class, 'index']);
 // Course Enrollment Routes
 $router->get('/courses/{slug}/enroll', [EnrollmentController::class, 'show']);
 $router->post('/courses/{slug}/enroll', [EnrollmentController::class, 'process']);
+
+// Payment Routes (Hubtel Integration)
+$router->get('/payments/success', [EnrollmentController::class, 'success']);
+$router->get('/payments/cancelled', [EnrollmentController::class, 'cancelled']);
+$router->get('/payments/status', [EnrollmentController::class, 'checkStatus']);
 
 // Course Categories
 $router->get('/courses/frontend', [CourseController::class, 'frontend']);

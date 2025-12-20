@@ -20,6 +20,7 @@
         <?php endif; ?>
 
         <form action="/notifications/update" method="POST" class="space-y-6">
+            <?= csrf_field() ?>
             <!-- Master Toggle -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div class="flex items-start">

@@ -120,6 +120,89 @@
         </div>
     </section>
 
+    <?php if (!empty($course['is_bundle']) && !empty($subCourses)): ?>
+    <!-- Courses Included in Bundle -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <i class="fas fa-layer-group mr-2"></i>Bundle Package
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Courses Included in This Bundle</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    This bundle includes <?= count($subCourses) ?> comprehensive courses. Learn them all at a special bundled price!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <?php foreach ($subCourses as $subCourse): ?>
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="bg-gradient-to-r <?= $subCourse['card_color_from'] ?? 'from-blue-500' ?> <?= $subCourse['card_color_to'] ?? 'to-blue-700' ?> p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<?= $subCourse['card_icon'] ?? 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' ?>"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white"><?= htmlspecialchars($subCourse['title']) ?></h3>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2"><?= htmlspecialchars($subCourse['description'] ?? '') ?></p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-clock"></i>
+                                <span><?= $subCourse['duration_hours'] ?? '10' ?>+ hours</span>
+                            </div>
+                            <div class="text-sm">
+                                <span class="text-gray-400 line-through">GHS <?= number_format($subCourse['price'] ?? 0) ?></span>
+                                <span class="text-green-600 font-semibold ml-1">Included</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-100 flex items-center gap-2">
+                            <span class="inline-flex items-center text-xs bg-<?= $subCourse['level'] === 'beginner' ? 'green' : ($subCourse['level'] === 'intermediate' ? 'blue' : 'purple') ?>-100 text-<?= $subCourse['level'] === 'beginner' ? 'green' : ($subCourse['level'] === 'intermediate' ? 'blue' : 'purple') ?>-700 px-2 py-1 rounded-full">
+                                <?= ucfirst($subCourse['level'] ?? 'All Levels') ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Bundle Savings -->
+            <?php
+            $totalIndividualPrice = array_sum(array_column($subCourses, 'price'));
+            $bundlePrice = $course['price'] ?? 0;
+            $savings = $totalIndividualPrice - $bundlePrice;
+            $savingsPercent = $totalIndividualPrice > 0 ? round(($savings / $totalIndividualPrice) * 100) : 0;
+            ?>
+            <?php if ($savings > 0): ?>
+            <div class="mt-12 max-w-2xl mx-auto">
+                <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 text-white text-center shadow-lg">
+                    <div class="text-sm font-medium mb-2">Bundle Savings</div>
+                    <div class="flex items-center justify-center gap-6">
+                        <div>
+                            <div class="text-white/70 line-through text-lg">GHS <?= number_format($totalIndividualPrice) ?></div>
+                            <div class="text-xs text-white/70">If bought separately</div>
+                        </div>
+                        <div class="text-4xl font-bold">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold">GHS <?= number_format($bundlePrice) ?></div>
+                            <div class="text-xs text-white/90">Bundle price</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-semibold">
+                        <i class="fas fa-tag mr-1"></i>You save GHS <?= number_format($savings) ?> (<?= $savingsPercent ?>% off)
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
     <!-- Learning Path -->
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">

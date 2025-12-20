@@ -9,6 +9,7 @@ use Nebatech\Controllers\Api\AuthApiController;
 use Nebatech\Controllers\Api\CourseApiController;
 use Nebatech\Controllers\Api\SubmissionApiController;
 use Nebatech\Controllers\API\DraftController;
+use Nebatech\Controllers\API\PaymentController;
 use Nebatech\Controllers\Admin\ApplicationNotesController;
 
 // API Authentication
@@ -27,6 +28,11 @@ $router->delete('/api/courses/{id}', [CourseApiController::class, 'destroy']);
 $router->post('/api/submissions', [SubmissionApiController::class, 'store']);
 $router->get('/api/submissions/{id}', [SubmissionApiController::class, 'show']);
 $router->post('/api/submissions/{id}/grade', [SubmissionApiController::class, 'grade']);
+
+// Payment API - Hubtel Integration
+$router->post('/api/payments/hubtel/callback', [PaymentController::class, 'hubtelCallback']);
+$router->get('/api/payments/status', [PaymentController::class, 'checkStatus']);
+$router->get('/api/payments/methods', [PaymentController::class, 'getMethods']);
 
 // API Drafts (Community & Blog)
 $router->post('/api/drafts/save', [DraftController::class, 'save']);

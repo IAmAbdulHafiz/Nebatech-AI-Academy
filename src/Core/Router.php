@@ -6,6 +6,15 @@ class Router
 {
     private array $routes = [];
     private array $middlewares = [];
+    private array $globalMiddleware = [];
+
+    /**
+     * Register global middleware that runs on all routes
+     */
+    public function useGlobalMiddleware(string $middlewareClass): void
+    {
+        $this->globalMiddleware[] = $middlewareClass;
+    }
 
     public function get(string $path, callable|array $handler, array $middleware = []): void
     {
@@ -81,7 +90,13 @@ class Router
                 // Extract route parameters
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
 
-                // Run middleware
+                // Run global middleware first
+                foreach ($this->globalMiddleware as $middlewareClass) {
+                    $middleware = new $middlewareClass();
+                    $middleware->handle();
+                }
+
+                // Run route-specific middleware
                 foreach ($route['middleware'] as $middlewareClass) {
                     $middleware = new $middlewareClass();
                     $middleware->handle();

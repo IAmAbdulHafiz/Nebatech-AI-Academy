@@ -42,6 +42,7 @@
                 
                 <!-- Feedback Form -->
                 <form action="<?= url('/newsletter/feedback') ?>" method="POST" class="space-y-4">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="email" value="<?= htmlspecialchars($email ?? '') ?>">
                     
                     <div class="space-y-2 text-left">
@@ -84,6 +85,7 @@
                     You can resubscribe anytime to get the latest updates on AI, courses, and opportunities.
                 </p>
                 <form action="<?= url('/newsletter/subscribe') ?>" method="POST" class="flex gap-2">
+                    <?= csrf_field() ?>
                     <input type="email" 
                            name="email" 
                            value="<?= htmlspecialchars($email ?? '') ?>"

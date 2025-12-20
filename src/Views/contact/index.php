@@ -148,6 +148,7 @@
                         <?php endif; ?>
 
                         <form method="POST" action="<?= url('/contact') ?>" class="space-y-6">
+                            <?= csrf_field() ?>
                             <!-- Name & Email Row -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>

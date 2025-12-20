@@ -161,11 +161,213 @@ function confirmSubmitForApproval() {
 }
 
 /**
- * Invite students to cohort (placeholder)
+ * Invite students to cohort
  */
 function inviteStudents(cohortId) {
-    // TODO: Implement student invitation modal
-    alert('Student invitation feature coming soon!\n\nFor now, students can be assigned by admins.');
+    // Show invitation modal
+    showInviteModal(cohortId);
+}
+
+/**
+ * Show invitation modal and load data
+ */
+function showInviteModal(cohortId) {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('inviteModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'inviteModal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden';
+        modal.innerHTML = `
+            <div class="bg-white rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900">Invite Students</h2>
+                    <button onclick="closeInviteModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1" id="inviteModalContent">
+                    <div class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-4xl text-primary"></i>
+                        <p class="mt-4 text-gray-600">Loading students...</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    modal.classList.remove('hidden');
+    
+    // Load data
+    fetch('/facilitator/cohorts/' + cohortId + '/invite')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderInviteForm(cohortId, data.students);
+            } else {
+                document.getElementById('inviteModalContent').innerHTML = `
+                    <div class="text-center py-8 text-red-600">
+                        <i class="fas fa-exclamation-circle text-4xl"></i>
+                        <p class="mt-4">${data.error || 'Failed to load data'}</p>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('inviteModalContent').innerHTML = `
+                <div class="text-center py-8 text-red-600">
+                    <i class="fas fa-exclamation-circle text-4xl"></i>
+                    <p class="mt-4">An error occurred. Please try again.</p>
+                </div>
+            `;
+        });
+}
+
+/**
+ * Render the invitation form
+ */
+function renderInviteForm(cohortId, students) {
+    const content = document.getElementById('inviteModalContent');
+    
+    content.innerHTML = `
+        <div x-data="{ inviteType: 'existing' }">
+            <!-- Tab Selection -->
+            <div class="flex border-b mb-4">
+                <button @click="inviteType = 'existing'" 
+                        :class="inviteType === 'existing' ? 'border-primary text-primary' : 'border-transparent text-gray-500'"
+                        class="px-4 py-2 font-medium border-b-2 transition">
+                    <i class="fas fa-users mr-2"></i>Existing Students
+                </button>
+                <button @click="inviteType = 'email'" 
+                        :class="inviteType === 'email' ? 'border-primary text-primary' : 'border-transparent text-gray-500'"
+                        class="px-4 py-2 font-medium border-b-2 transition">
+                    <i class="fas fa-envelope mr-2"></i>Invite by Email
+                </button>
+            </div>
+            
+            <form id="inviteForm" onsubmit="submitInvitations(event, ${cohortId})">
+                <input type="hidden" name="cohort_id" value="${cohortId}">
+                <input type="hidden" name="invite_type" x-model="inviteType">
+                <input type="hidden" name="_token" value="${getCsrfToken()}">
+                
+                <!-- Existing Students Tab -->
+                <div x-show="inviteType === 'existing'">
+                    <p class="text-sm text-gray-600 mb-4">Select students from the list below:</p>
+                    <div class="max-h-60 overflow-y-auto border rounded-lg p-2 space-y-2">
+                        ${students.length > 0 ? students.map(s => `
+                            <label class="flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" name="student_ids[]" value="${s.id}" class="mr-3 w-4 h-4 text-primary">
+                                <span class="flex-1">
+                                    <strong>${escapeHtml(s.first_name)} ${escapeHtml(s.last_name)}</strong>
+                                    <span class="text-sm text-gray-500 block">${escapeHtml(s.email)}</span>
+                                </span>
+                            </label>
+                        `).join('') : '<p class="text-center text-gray-500 py-4">No students available to invite</p>'}
+                    </div>
+                    ${students.length > 0 ? `
+                        <div class="mt-2 flex justify-between text-sm">
+                            <button type="button" onclick="selectAllStudents(true)" class="text-primary hover:underline">Select All</button>
+                            <button type="button" onclick="selectAllStudents(false)" class="text-gray-500 hover:underline">Deselect All</button>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <!-- Email Invitation Tab -->
+                <div x-show="inviteType === 'email'">
+                    <p class="text-sm text-gray-600 mb-4">Enter email addresses (one per line or comma-separated):</p>
+                    <textarea name="emails" rows="6" 
+                              class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent"
+                              placeholder="student1@email.com&#10;student2@email.com&#10;student3@email.com"></textarea>
+                    <p class="text-xs text-gray-500 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        New users will receive an invitation to register. Existing users will be invited directly.
+                    </p>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t">
+                    <button type="button" onclick="closeInviteModal()" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" id="sendInviteBtn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-paper-plane mr-2"></i>Send Invitations
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+}
+
+/**
+ * Select/deselect all students
+ */
+function selectAllStudents(select) {
+    document.querySelectorAll('#inviteForm input[name="student_ids[]"]').forEach(cb => {
+        cb.checked = select;
+    });
+}
+
+/**
+ * Submit invitations
+ */
+function submitInvitations(event, cohortId) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const btn = document.getElementById('sendInviteBtn');
+    const originalText = btn.innerHTML;
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+    
+    const formData = new FormData(form);
+    
+    fetch('/facilitator/cohorts/invite', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            closeInviteModal();
+            showSuccessNotification(data.message);
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showErrorNotification(data.error || 'Failed to send invitations');
+            if (data.errors && data.errors.length > 0) {
+                console.log('Errors:', data.errors);
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showErrorNotification('An error occurred. Please try again.');
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
+}
+
+/**
+ * Close invite modal
+ */
+function closeInviteModal() {
+    const modal = document.getElementById('inviteModal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
+
+/**
+ * Escape HTML helper
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 /**

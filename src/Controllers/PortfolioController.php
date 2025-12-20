@@ -526,7 +526,7 @@ class PortfolioController extends Controller
      */
     private function getAvailableSubmissions(string $userId): array
     {
-        $db = \Nebatech\Core\Database::getInstance();
+        $db = \Nebatech\Core\Database::connect();
         
         $stmt = $db->prepare("
             SELECT s.*, a.title as assignment_title, 
@@ -552,7 +552,7 @@ class PortfolioController extends Controller
      */
     private function checkCourseCompletion(string $userId, string $courseId): bool
     {
-        $db = \Nebatech\Core\Database::getInstance();
+        $db = \Nebatech\Core\Database::connect();
         
         // Count total lessons
         $stmt = $db->prepare("
@@ -581,7 +581,7 @@ class PortfolioController extends Controller
      */
     private function calculateFinalScore(string $userId, string $courseId): int
     {
-        $db = \Nebatech\Core\Database::getInstance();
+        $db = \Nebatech\Core\Database::connect();
         
         $stmt = $db->prepare("
             SELECT AVG((s.score / s.max_score) * 100) as avg_score

@@ -46,6 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Initialize router
 $router = new \Nebatech\Core\Router();
 
+// Register global middleware
+$router->useGlobalMiddleware(\Nebatech\Middleware\CsrfMiddleware::class);
+
 // Load routes
 require_once __DIR__ . '/../routes/web.php';
 require_once __DIR__ . '/../routes/api.php';
@@ -53,6 +56,22 @@ require_once __DIR__ . '/../routes/api.php';
 // Dispatch the request
 try {
     $router->dispatch();
+} catch (\Nebatech\Exceptions\CsrfTokenException $e) {
+    // Handle CSRF token mismatch
+    http_response_code(403);
+    
+    // Check if it's an AJAX request
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    
+    if ($isAjax || strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'CSRF token mismatch. Please refresh the page and try again.']);
+    } else {
+        // Redirect back with error message
+        $_SESSION['error'] = 'Your session has expired. Please try again.';
+        $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+        header('Location: ' . $referer);
+    }
 } catch (\Exception $e) {
     file_put_contents(__DIR__ . '/../storage/logs/dispatch.log', date('Y-m-d H:i:s') . " - Exception: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
     

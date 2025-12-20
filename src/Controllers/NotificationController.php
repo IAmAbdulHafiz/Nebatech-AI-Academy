@@ -9,13 +9,13 @@ use Nebatech\Services\EmailService;
 class NotificationController extends Controller
 {
     private EmailService $emailService;
-    private Database $db;
+    private \PDO $db;
     
     public function __construct()
     {
         parent::__construct();
         $this->emailService = new EmailService();
-        $this->db = Database::getInstance();
+        $this->db = Database::connect();
     }
     
     /**

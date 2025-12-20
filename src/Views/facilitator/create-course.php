@@ -27,6 +27,7 @@
         <!-- Course Creation Form -->
         <div class="bg-white rounded-lg shadow-lg p-8">
             <form method="POST" action="<?= url('/facilitator/courses/create') ?>" enctype="multipart/form-data" class="space-y-6">
+                <?= csrf_field() ?>
                 
                 <!-- Course Title -->
                 <div>

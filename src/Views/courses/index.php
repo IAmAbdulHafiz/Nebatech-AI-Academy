@@ -98,9 +98,9 @@
                     <i class="fas fa-th mr-2"></i>All Courses
                 </a>
                 <?php foreach ($allCategories ?? [] as $cat): ?>
-                <a href="<?= url('/courses?category=' . urlencode($cat)) ?>" 
-                   class="px-6 py-3 rounded-lg font-semibold transition <?= ($_GET['category'] ?? '') === $cat ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
-                    <?= htmlspecialchars($cat) ?>
+                <a href="<?= url('/courses?category=' . urlencode($cat['slug'])) ?>" 
+                   class="px-6 py-3 rounded-lg font-semibold transition <?= ($_GET['category'] ?? '') === $cat['slug'] ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
+                    <?= htmlspecialchars($cat['name']) ?>
                 </a>
                 <?php endforeach; ?>
             </div>
@@ -176,11 +176,22 @@
             </div>
             <?php endif; ?>
             
+            <?php 
+            // Default card styling if not set
+            $cardColorFrom = $course['card_color_from'] ?? 'from-primary';
+            $cardColorTo = $course['card_color_to'] ?? 'to-blue-700';
+            $cardIcon = $course['card_icon'] ?? 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253';
+            ?>
             <a href="<?= url('/courses/' . $course['slug']) ?>" class="block">
-            <div class="bg-gradient-to-br <?= $course['card_color_from'] ?> <?= $course['card_color_to'] ?> p-8 relative">
+            <div class="bg-gradient-to-br <?= $cardColorFrom ?> <?= $cardColorTo ?> p-8 relative">
+                <?php if (!empty($course['is_bundle'])): ?>
+                <div class="absolute top-4 right-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    <i class="fas fa-layer-group mr-1"></i> BUNDLE
+                </div>
+                <?php endif; ?>
                 <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<?= $course['card_icon'] ?>"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<?= $cardIcon ?>"/>
                     </svg>
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-2"><?= htmlspecialchars($course['title']) ?></h3>
@@ -224,23 +235,25 @@
                 </div>
 
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
+                    <?php if (!empty($course['sub_course_count'])): ?>
                     <li class="flex items-center">
                         <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                        <?= $course['card_modules'] ?>+ Modules
+                        <?= $course['sub_course_count'] ?> Individual Courses
+                    </li>
+                    <?php endif; ?>
+                    <li class="flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <?= htmlspecialchars($course['card_features'] ?? 'Hands-on Projects') ?>
                     </li>
                     <li class="flex items-center">
                         <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                        <?= htmlspecialchars($course['card_features']) ?>
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <?= $course['duration_hours'] ?>+ Hours Content
+                        <?= $course['duration_hours'] ?? '20' ?>+ Hours Content
                     </li>
                 </ul>
                 <div class="flex items-center justify-between text-sm">

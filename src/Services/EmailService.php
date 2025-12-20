@@ -311,7 +311,7 @@ class EmailService
         array $data = []
     ): bool {
         try {
-            $db = \Nebatech\Core\Database::getInstance();
+            $db = \Nebatech\Core\Database::connect();
             
             $stmt = $db->prepare("
                 INSERT INTO email_queue (type, recipient_email, recipient_name, data, status, created_at)
@@ -337,7 +337,7 @@ class EmailService
     public function processQueue(int $limit = 10): int
     {
         try {
-            $db = \Nebatech\Core\Database::getInstance();
+            $db = \Nebatech\Core\Database::connect();
             
             $stmt = $db->prepare("
                 SELECT * FROM email_queue 
@@ -432,6 +432,37 @@ class EmailService
             return $this->mailer->smtpConnect();
         } catch (Exception $e) {
             error_log("SMTP connection test failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send cohort invitation email
+     */
+    public function sendCohortInvitation(array $user, array $cohort, string $token): bool
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($user['email'], $user['first_name'] ?? 'Student');
+            
+            $this->mailer->Subject = "You're Invited to Join: " . $cohort['name'];
+            
+            $template = $this->loadTemplate('cohort-invitation', [
+                'first_name' => $user['first_name'] ?? 'Student',
+                'cohort_name' => $cohort['name'],
+                'cohort_description' => $cohort['description'] ?? '',
+                'accept_url' => url('/cohort/accept-invitation?token=' . $token),
+                'decline_url' => url('/cohort/decline-invitation?token=' . $token),
+                'expires_in' => '7 days'
+            ]);
+            
+            $this->mailer->Body = $template;
+            $this->mailer->AltBody = $this->stripHtml($template);
+            
+            return $this->mailer->send();
+            
+        } catch (Exception $e) {
+            error_log("Cohort invitation email error: " . $e->getMessage());
             return false;
         }
     }

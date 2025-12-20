@@ -135,12 +135,24 @@ class AuthController extends Controller
         // Regenerate session ID for security
         session_regenerate_id(true);
 
-        // Set session data
+        // Set session data - individual variables for backward compatibility
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_uuid'] = $user['uuid'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_role'] = $user['role'];
         $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
+        
+        // Set user array for controllers that expect $_SESSION['user']
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'uuid' => $user['uuid'],
+            'email' => $user['email'],
+            'role' => $user['role'],
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name'],
+            'phone' => $user['phone'] ?? null,
+            'status' => $user['status']
+        ];
 
         // Handle remember me
         if ($remember) {

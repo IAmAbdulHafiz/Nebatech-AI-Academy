@@ -36,6 +36,7 @@
                 <div class="flex gap-3">
                     <?php if ($course['status'] === 'draft'): ?>
                         <form method="POST" action="<?= url('/facilitator/courses/' . $course['id'] . '/publish') ?>">
+                            <?= csrf_field() ?>
                             <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
                                 <i class="fas fa-upload mr-2"></i>Publish Course
                             </button>
@@ -79,6 +80,7 @@
             <!-- Course Details Tab -->
             <div x-show="activeTab === 'details'" class="p-8">
                 <form method="POST" action="<?= url('/facilitator/courses/' . $course['id'] . '/edit') ?>" enctype="multipart/form-data" class="space-y-6">
+                    <?= csrf_field() ?>
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>

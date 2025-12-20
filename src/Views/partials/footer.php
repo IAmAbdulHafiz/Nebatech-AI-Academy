@@ -28,6 +28,7 @@
                 <?php endif; ?>
                 
                 <form action="<?= url('/newsletter/subscribe') ?>" method="POST" class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <?= csrf_field() ?>
                     <input type="email" 
                            name="email"
                            placeholder="Enter your email" 

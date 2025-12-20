@@ -21,13 +21,13 @@ class CourseController extends Controller
         $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $offset = ($page - 1) * $perPage;
         
-        // Build query with filters
-        $where = ["status = 'published'", "is_bundle = 1"];
+        // Build query with filters - show only bundle/main courses (not sub-courses)
+        $where = ["c.status = 'published'", "c.is_bundle = 1"];
         $params = [];
         
         // Search filter
         if (!empty($_GET['search'])) {
-            $where[] = "(title LIKE ? OR description LIKE ?)";
+            $where[] = "(c.title LIKE ? OR c.description LIKE ?)";
             $searchTerm = '%' . $_GET['search'] . '%';
             $params[] = $searchTerm;
             $params[] = $searchTerm;
@@ -35,43 +35,47 @@ class CourseController extends Controller
         
         // Category filter
         if (!empty($_GET['category'])) {
-            $where[] = "category = ?";
+            $where[] = "c.category = ?";
             $params[] = $_GET['category'];
         }
         
         // Level filter
         if (!empty($_GET['level'])) {
-            $where[] = "level = ?";
+            $where[] = "c.level = ?";
             $params[] = $_GET['level'];
         }
         
         // Get total count for pagination
-        $countSql = "SELECT COUNT(*) FROM courses WHERE " . implode(" AND ", $where);
+        $countSql = "SELECT COUNT(*) FROM courses c WHERE " . implode(" AND ", $where);
         $countStmt = $db->prepare($countSql);
         $countStmt->execute($params);
         $totalCourses = $countStmt->fetchColumn();
         $totalPages = ceil($totalCourses / $perPage);
         
         // Build ORDER BY
-        $orderBy = "created_at DESC";
+        $orderBy = "c.created_at DESC";
         if (!empty($_GET['sort'])) {
             switch ($_GET['sort']) {
                 case 'popular':
-                    $orderBy = "enrollment_count DESC";
+                    $orderBy = "c.enrollment_count DESC";
                     break;
                 case 'rating':
-                    $orderBy = "rating DESC";
+                    $orderBy = "c.rating DESC";
                     break;
                 case 'newest':
-                    $orderBy = "created_at DESC";
+                    $orderBy = "c.created_at DESC";
                     break;
                 case 'title':
-                    $orderBy = "title ASC";
+                    $orderBy = "c.title ASC";
                     break;
             }
         }
         
-        $sql = "SELECT * FROM courses WHERE " . implode(" AND ", $where) . " ORDER BY " . $orderBy . " LIMIT ? OFFSET ?";
+        $sql = "SELECT c.*, 
+                (SELECT COUNT(*) FROM courses sub WHERE sub.parent_course_id = c.id) as sub_course_count
+                FROM courses c 
+                WHERE " . implode(" AND ", $where) . " 
+                ORDER BY " . $orderBy . " LIMIT ? OFFSET ?";
         $stmt = $db->prepare($sql);
         $stmt->execute(array_merge($params, [$perPage, $offset]));
         $courses = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -89,19 +93,19 @@ class CourseController extends Controller
             unset($course);
         }
         
-        // Get all categories
-        $categoriesStmt = $db->query("SELECT DISTINCT category FROM courses WHERE status = 'published' ORDER BY category");
-        $allCategories = $categoriesStmt->fetchAll(\PDO::FETCH_COLUMN);
+        // Get all unique categories from courses table
+        $categoriesStmt = $db->query("SELECT DISTINCT category as slug, category as name FROM courses WHERE category IS NOT NULL AND status = 'published' ORDER BY category");
+        $allCategories = $categoriesStmt->fetchAll(\PDO::FETCH_ASSOC);
         
-        // Get stats
+        // Get stats for bundle courses only
         $statsStmt = $db->query("SELECT 
             COUNT(*) as total_courses,
-            SUM(enrollment_count) as total_enrollments,
-            AVG(rating) as avg_rating
-            FROM courses WHERE status = 'published'");
+            COALESCE(SUM(enrollment_count), 0) as total_enrollments,
+            COALESCE(AVG(rating), 0) as avg_rating
+            FROM courses WHERE status = 'published' AND is_bundle = 1");
         $stats = $statsStmt->fetch(\PDO::FETCH_ASSOC);
         
-        echo $this->render('courses/index', [
+        return $this->render('courses/index', [
             'courses' => $courses,
             'allCategories' => $allCategories,
             'totalCourses' => $stats['total_courses'],
@@ -240,17 +244,29 @@ class CourseController extends Controller
     {
         if (empty($slug)) {
             http_response_code(404);
-            echo $this->render('errors/404', ['title' => 'Course Not Found']);
-            return;
+            return $this->render('errors/404', ['title' => 'Course Not Found']);
         }
+
+        $db = \Nebatech\Core\Database::connect();
 
         // Fetch course by slug
         $course = Course::findBySlug($slug);
         
         if (!$course) {
             http_response_code(404);
-            echo $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
-            return;
+            return $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
+        }
+
+        // Get sub-courses if this is a bundle/main course
+        $subCourses = [];
+        if ($course['is_bundle']) {
+            $subStmt = $db->prepare("
+                SELECT * FROM courses 
+                WHERE parent_course_id = ? AND status = 'published'
+                ORDER BY level, title
+            ");
+            $subStmt->execute([$course['id']]);
+            $subCourses = $subStmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
         // Get course modules with lessons
@@ -262,24 +278,22 @@ class CourseController extends Controller
             $isEnrolled = Enrollment::isEnrolled($_SESSION['user_id'], $course['id']);
         }
 
-        // Get related courses (same category, excluding current course)
+        // Get related courses (same category bundles, excluding current course)
         $relatedCourses = [];
         if (!empty($course['category'])) {
-            $relatedCourses = Course::getAll([
-                'category' => $course['category'],
-                'status' => 'published',
-                'limit' => 3
-            ]);
-            
-            // Filter out current course
-            $relatedCourses = array_filter($relatedCourses, function($c) use ($course) {
-                return $c['id'] !== $course['id'];
-            });
+            $relatedStmt = $db->prepare("
+                SELECT * FROM courses 
+                WHERE category = ? AND is_bundle = 1 AND status = 'published' AND id != ?
+                LIMIT 3
+            ");
+            $relatedStmt->execute([$course['category'], $course['id']]);
+            $relatedCourses = $relatedStmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
-        echo $this->render('courses/show', [
+        return $this->render('courses/show', [
             'title' => $course['title'] . ' - Nebatech AI Academy',
             'course' => $course,
+            'subCourses' => $subCourses,
             'modules' => $modules,
             'isEnrolled' => $isEnrolled,
             'relatedCourses' => $relatedCourses
