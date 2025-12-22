@@ -304,8 +304,8 @@ function codePlayground() {
                 { name: 'Array Example', code: '#include <stdio.h>\n\nint main() {\n    int numbers[] = {1, 2, 3, 4, 5};\n    int size = sizeof(numbers) / sizeof(numbers[0]);\n    for(int i = 0; i < size; i++) {\n        printf("%d ", numbers[i]);\n    }\n    printf("\\n");\n    return 0;\n}' }
             ],
             php: [
-                { name: 'Hello World', code: '<?php\necho "Hello, World!\\n";\n?>' },
-                { name: 'Array Example', code: '<?php\n$numbers = [1, 2, 3, 4, 5];\n$squared = array_map(fn($n) => $n ** 2, $numbers);\nprint_r($squared);\n?>' }
+                { name: 'Hello World', code: '<' + '?php\necho "Hello, World!\\n";\n?' + '>' },
+                { name: 'Array Example', code: '<' + '?php\n$numbers = [1, 2, 3, 4, 5];\n$squared = array_map(fn($n) => $n ** 2, $numbers);\nprint_r($squared);\n?' + '>' }
             ],
             ruby: [
                 { name: 'Hello World', code: '# Ruby Hello World\nputs "Hello, World!"' }
@@ -403,7 +403,7 @@ function codePlayground() {
                 java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
                 cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}',
                 c: '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}',
-                php: '<?php\necho "Hello, World!";\n?>',
+                php: '<' + '?php\necho "Hello, World!";\n?' + '>',
                 ruby: '# Write your Ruby code here\nputs "Hello, World!"',
                 go: 'package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello, World!")\n}',
                 rust: 'fn main() {\n    println!("Hello, World!");\n}',

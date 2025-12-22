@@ -161,3 +161,42 @@ if (!function_exists('config')) {
         return $configCache[$file][$configKey] ?? $default;
     }
 }
+
+if (!function_exists('timeAgo')) {
+    /**
+     * Convert a datetime to a human-readable "time ago" string
+     */
+    function timeAgo(?string $datetime): string
+    {
+        if (empty($datetime)) {
+            return 'Unknown';
+        }
+        
+        $timestamp = strtotime($datetime);
+        $now = time();
+        $diff = $now - $timestamp;
+        
+        if ($diff < 0) {
+            return 'Just now';
+        }
+        
+        $intervals = [
+            31536000 => 'year',
+            2592000 => 'month',
+            604800 => 'week',
+            86400 => 'day',
+            3600 => 'hour',
+            60 => 'minute',
+            1 => 'second'
+        ];
+        
+        foreach ($intervals as $seconds => $label) {
+            $count = floor($diff / $seconds);
+            if ($count >= 1) {
+                return $count . ' ' . $label . ($count > 1 ? 's' : '') . ' ago';
+            }
+        }
+        
+        return 'Just now';
+    }
+}
