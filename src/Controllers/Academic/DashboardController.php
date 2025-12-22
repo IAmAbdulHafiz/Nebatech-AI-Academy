@@ -191,7 +191,7 @@ class DashboardController extends Controller
     {
         $user = $this->getCurrentUser();
         
-        echo $this->view('profile/index', [
+        echo $this->render('profile/index', [
             'title' => 'My Profile',
             'user' => $user
         ]);

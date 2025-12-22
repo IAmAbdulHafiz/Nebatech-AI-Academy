@@ -31,11 +31,11 @@ class User extends Model
     /**
      * Create a new user
      */
-    public static function create(array $data): ?int
+    public static function createUser(array $data): ?int
     {
         // Generate UUID if not provided
         if (!isset($data['uuid'])) {
-            $data['uuid'] = self::generateUuid();
+            $data['uuid'] = self::makeUuid();
         }
 
         // Hash password if provided
@@ -220,9 +220,9 @@ class User extends Model
     }
 
     /**
-     * Generate UUID v4
+     * Generate UUID v4 (static version for use in static methods)
      */
-    protected static function generateUuid(): string
+    protected static function makeUuid(): string
     {
         $data = random_bytes(16);
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100

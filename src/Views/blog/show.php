@@ -40,7 +40,7 @@
             <!-- Meta Info -->
             <div class="flex flex-wrap items-center gap-6 mb-8 text-gray-600 dark:text-gray-400">
                 <div class="flex items-center gap-2">
-                    <img src="<?= $post['author_avatar'] ?? asset('images/default-avatar.png') ?>" 
+                    <img src="<?= $post['author_avatar'] ?? asset('images/default-avatar.svg') ?>" 
                          alt="<?= htmlspecialchars($post['author_name'] ?? 'Author') ?>" 
                          class="w-10 h-10 rounded-full">
                     <span class="font-medium"><?= htmlspecialchars($post['author_name'] ?? 'Admin') ?></span>
@@ -122,7 +122,7 @@
             <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-8 mb-12">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">About the Author</h3>
                 <div class="flex items-start gap-6">
-                    <img src="<?= $post['author_avatar'] ?? asset('images/default-avatar.png') ?>" 
+                    <img src="<?= $post['author_avatar'] ?? asset('images/default-avatar.svg') ?>" 
                          alt="<?= htmlspecialchars($post['author_name'] ?? 'Author') ?>" 
                          class="w-24 h-24 rounded-full flex-shrink-0">
                     <div>
@@ -174,7 +174,7 @@
                     <?php foreach ($comments as $comment): ?>
                     <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 mb-4 shadow-md">
                         <div class="flex items-start gap-4">
-                            <img src="<?= $comment['avatar'] ?? asset('images/default-avatar.png') ?>" 
+                            <img src="<?= $comment['avatar'] ?? asset('images/default-avatar.svg') ?>" 
                                  alt="<?= htmlspecialchars($comment['name']) ?>" 
                                  class="w-12 h-12 rounded-full flex-shrink-0">
                             <div class="flex-1">

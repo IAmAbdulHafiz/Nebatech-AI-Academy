@@ -121,7 +121,7 @@ class PortfolioController extends Controller
             'featured_projects' => count(array_filter($items, fn($item) => $item['is_featured'] == 1))
         ];
         
-        $this->render('portfolio/my-portfolio', [
+        echo $this->render('portfolio/my-portfolio', [
             'title' => 'My Portfolio',
             'pageTitle' => 'My Portfolio',
             'settings' => $settings,
@@ -147,7 +147,7 @@ class PortfolioController extends Controller
         // Get certificates
         $certificates = Certificate::getUserCertificates($userId);
         
-        $this->render('portfolio/my-certificates', [
+        echo $this->render('portfolio/my-certificates', [
             'title' => 'My Certificates',
             'pageTitle' => 'My Certificates',
             'certificates' => $certificates
@@ -162,7 +162,7 @@ class PortfolioController extends Controller
         // Get all public portfolios
         $portfolios = Portfolio::getPublicPortfolios();
         
-        $this->render('portfolio/showcase', [
+        echo $this->render('portfolio/showcase', [
             'title' => 'Student Showcase',
             'pageTitle' => 'Student Showcase',
             'portfolios' => $portfolios
@@ -375,7 +375,7 @@ class PortfolioController extends Controller
             Portfolio::incrementViews($itemId);
         }
         
-        $this->render('portfolio/item', [
+        echo $this->render('portfolio/item', [
             'title' => $item['title'],
             'item' => $item,
             'is_owner' => $isOwner
@@ -509,13 +509,13 @@ class PortfolioController extends Controller
         $verificationCode = $params['code'] ?? '';
         if (empty($verificationCode)) {
             http_response_code(404);
-            $this->render('errors/404', ['title' => 'Invalid Certificate Code']);
+            echo $this->render('errors/404', ['title' => 'Invalid Certificate Code']);
             return;
         }
 
         $certificate = Certificate::verify($verificationCode);
         
-        $this->render('portfolio/verify-certificate', [
+        echo $this->render('portfolio/verify-certificate', [
             'title' => 'Verify Certificate',
             'certificate' => $certificate
         ]);
@@ -530,7 +530,8 @@ class PortfolioController extends Controller
         
         $stmt = $db->prepare("
             SELECT s.*, a.title as assignment_title, 
-                   l.title as lesson_title, c.title as course_title
+                   l.title as lesson_title, c.title as course_title,
+                   COALESCE(s.facilitator_score, s.ai_score) as score
             FROM submissions s
             JOIN assignments a ON s.assignment_id = a.id
             JOIN lessons l ON a.lesson_id = l.id
@@ -538,7 +539,7 @@ class PortfolioController extends Controller
             JOIN courses c ON m.course_id = c.id
             WHERE s.user_id = ? 
             AND s.status = 'graded'
-            AND s.score >= (s.max_score * 0.7)
+            AND COALESCE(s.facilitator_score, s.ai_score) >= 70
             AND s.id NOT IN (SELECT submission_id FROM portfolio_items WHERE user_id = ?)
             ORDER BY s.submitted_at DESC
         ");

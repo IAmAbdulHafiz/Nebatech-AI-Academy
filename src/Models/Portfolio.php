@@ -98,7 +98,7 @@ class Portfolio
         
         $sql = "
             SELECT pi.*, 
-                   s.file_path, s.score, s.max_score, s.status,
+                   s.file_path, COALESCE(s.facilitator_score, s.ai_score) as score, s.status,
                    a.title as assignment_title,
                    l.title as lesson_title,
                    c.title as course_title, c.slug as course_slug
@@ -130,7 +130,7 @@ class Portfolio
         $db = self::getDb();
         $stmt = $db->prepare("
             SELECT pi.*, 
-                   s.file_path, s.code, s.score, s.max_score,
+                   s.file_path, s.content as code, COALESCE(s.facilitator_score, s.ai_score) as score,
                    a.title as assignment_title,
                    u.first_name, u.last_name
             FROM portfolio_items pi
@@ -317,7 +317,7 @@ class Portfolio
                 ps.github_url,
                 ps.linkedin_url,
                 ps.created_at,
-                (SELECT COUNT(*) FROM portfolio_items WHERE user_id = u.id AND is_visible = 1) as project_count
+                (SELECT COUNT(*) FROM portfolio_items WHERE user_id = u.id) as project_count
             FROM users u
             INNER JOIN portfolio_settings ps ON u.id = ps.user_id
             WHERE ps.is_public = 1

@@ -163,7 +163,7 @@ class Certificate
             FROM certificates c
             JOIN courses co ON c.course_id = co.id
             WHERE c.user_id = ?
-            ORDER BY c.issue_date DESC
+            ORDER BY c.issued_at DESC
         ");
         $stmt->execute([$userId]);
         $certs = $stmt->fetchAll(PDO::FETCH_ASSOC);

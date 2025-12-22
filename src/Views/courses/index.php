@@ -1,4 +1,4 @@
-﻿<section class="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white py-20 overflow-hidden mb-16">
+<section class="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white py-20 overflow-hidden mb-16">
     <!-- Digital Horizon Background -->
     <div class="absolute inset-0 overflow-hidden">
         <!-- Horizon Glow Effect -->

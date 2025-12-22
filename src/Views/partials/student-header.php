@@ -86,7 +86,7 @@
 
             <!-- User Avatar (Desktop) -->
             <a href="<?= url('/profile') ?>" class="hidden lg:flex items-center gap-3 pl-3 pr-4 py-1.5 rounded-xl hover:bg-gray-100 transition">
-                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.png') ?>" 
+                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.svg') ?>" 
                      alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
                      class="w-8 h-8 rounded-lg object-cover">
                 <div class="text-left">

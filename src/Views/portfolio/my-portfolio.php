@@ -100,14 +100,248 @@ $title = 'My Portfolio';
     </div>
 <?php endif; ?>
 
+<!-- Add Project Modal -->
+<div id="addProjectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-900">
+                <i class="fas fa-plus-circle text-primary mr-2"></i>Add Project to Portfolio
+            </h3>
+            <button onclick="closeAddProjectModal()" class="text-gray-400 hover:text-gray-600 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <form id="addProjectForm" class="p-6">
+            <!-- Available Submissions -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Select a Completed Project</label>
+                <?php if (empty($available_submissions)): ?>
+                    <div class="bg-gray-50 rounded-lg p-6 text-center">
+                        <i class="fas fa-tasks text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-600 mb-2">No eligible submissions found</p>
+                        <p class="text-sm text-gray-500">Complete assignments with a score of 70% or higher to add them to your portfolio</p>
+                    </div>
+                <?php else: ?>
+                    <div class="space-y-2 max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                        <?php foreach ($available_submissions as $sub): ?>
+                            <label class="flex items-center p-3 rounded-lg hover:bg-blue-50 cursor-pointer transition border border-transparent hover:border-blue-200">
+                                <input type="radio" name="submission_id" value="<?= $sub['id'] ?>" class="w-4 h-4 text-primary focus:ring-primary" required>
+                                <div class="ml-3 flex-1">
+                                    <div class="font-medium text-gray-900"><?= htmlspecialchars($sub['assignment_title']) ?></div>
+                                    <div class="text-sm text-gray-500">
+                                        <?= htmlspecialchars($sub['course_title']) ?> • Score: <?= $sub['score'] ?>%
+                                    </div>
+                                </div>
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">
+                                    <?= $sub['score'] ?>%
+                                </span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Project Title -->
+            <div class="mb-4">
+                <label for="projectTitle" class="block text-sm font-medium text-gray-700 mb-2">Project Title *</label>
+                <input type="text" id="projectTitle" name="title" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition"
+                       placeholder="Enter a title for your project">
+            </div>
+            
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="projectDescription" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea id="projectDescription" name="description" rows="4"
+                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition resize-none"
+                          placeholder="Describe your project, what you learned, and what challenges you overcame..."></textarea>
+            </div>
+            
+            <!-- Visibility Options -->
+            <div class="flex gap-6 mb-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" name="is_public" value="1" checked
+                           class="w-4 h-4 text-primary focus:ring-primary rounded">
+                    <span class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-eye text-green-600 mr-1"></i>Make Public
+                    </span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" name="is_featured" value="1"
+                           class="w-4 h-4 text-secondary focus:ring-secondary rounded">
+                    <span class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-star text-yellow-500 mr-1"></i>Feature This Project
+                    </span>
+                </label>
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex gap-3 justify-end pt-4 border-t border-gray-200">
+                <button type="button" onclick="closeAddProjectModal()" 
+                        class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
+                    Cancel
+                </button>
+                <button type="submit" <?= empty($available_submissions) ? 'disabled' : '' ?>
+                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-plus mr-2"></i>Add to Portfolio
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Project Modal -->
+<div id="editProjectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-900">
+                <i class="fas fa-edit text-primary mr-2"></i>Edit Project
+            </h3>
+            <button onclick="closeEditProjectModal()" class="text-gray-400 hover:text-gray-600 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <form id="editProjectForm" class="p-6">
+            <input type="hidden" id="editItemId" name="item_id">
+            
+            <!-- Project Title -->
+            <div class="mb-4">
+                <label for="editProjectTitle" class="block text-sm font-medium text-gray-700 mb-2">Project Title *</label>
+                <input type="text" id="editProjectTitle" name="title" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition"
+                       placeholder="Enter a title for your project">
+            </div>
+            
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="editProjectDescription" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea id="editProjectDescription" name="description" rows="4"
+                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition resize-none"
+                          placeholder="Describe your project..."></textarea>
+            </div>
+            
+            <!-- Visibility Options -->
+            <div class="flex gap-6 mb-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" id="editIsPublic" name="is_public" value="1"
+                           class="w-4 h-4 text-primary focus:ring-primary rounded">
+                    <span class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-eye text-green-600 mr-1"></i>Make Public
+                    </span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" id="editIsFeatured" name="is_featured" value="1"
+                           class="w-4 h-4 text-secondary focus:ring-secondary rounded">
+                    <span class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-star text-yellow-500 mr-1"></i>Feature This Project
+                    </span>
+                </label>
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex gap-3 justify-end pt-4 border-t border-gray-200">
+                <button type="button" onclick="closeEditProjectModal()" 
+                        class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
+// Portfolio data for editing
+const portfolioData = <?= json_encode($portfolio) ?>;
+
 function showAddProjectModal() {
-    showInfo('Add Project Modal - To be implemented');
+    document.getElementById('addProjectModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAddProjectModal() {
+    document.getElementById('addProjectModal').classList.add('hidden');
+    document.body.style.overflow = '';
+    document.getElementById('addProjectForm').reset();
 }
 
 function editProject(id) {
-    showInfo('Edit Project ' + id + ' - To be implemented');
+    const project = portfolioData.find(p => p.id == id);
+    if (!project) {
+        showError('Project not found');
+        return;
+    }
+    
+    document.getElementById('editItemId').value = id;
+    document.getElementById('editProjectTitle').value = project.title || '';
+    document.getElementById('editProjectDescription').value = project.description || '';
+    document.getElementById('editIsPublic').checked = project.is_public == 1 || project.is_visible == 1;
+    document.getElementById('editIsFeatured').checked = project.is_featured == 1 || project.featured == 1;
+    
+    document.getElementById('editProjectModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
 }
+
+function closeEditProjectModal() {
+    document.getElementById('editProjectModal').classList.add('hidden');
+    document.body.style.overflow = '';
+    document.getElementById('editProjectForm').reset();
+}
+
+// Add Project Form Submit
+document.getElementById('addProjectForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch('<?= url('/portfolio/items/add') ?>', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            showSuccess('Project added to portfolio successfully!');
+            closeAddProjectModal();
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showError(data.error || 'Failed to add project');
+        }
+    } catch (error) {
+        showError('Error: ' + error.message);
+    }
+});
+
+// Edit Project Form Submit
+document.getElementById('editProjectForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch('<?= url('/portfolio/items/update') ?>', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            showSuccess('Project updated successfully!');
+            closeEditProjectModal();
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showError(data.error || 'Failed to update project');
+        }
+    } catch (error) {
+        showError('Error: ' + error.message);
+    }
+});
 
 async function deleteProject(id) {
     const confirmed = await confirmAction('Are you sure you want to delete this project?', {
@@ -119,10 +353,10 @@ async function deleteProject(id) {
     if (!confirmed) return;
     
     try {
-        const response = await fetch('<?= url('/portfolio/delete') ?>', {
+        const response = await fetch('<?= url('/portfolio/items/delete') ?>', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'portfolio_id=' + id
+            body: 'item_id=' + id
         });
         const data = await response.json();
         
@@ -136,4 +370,20 @@ async function deleteProject(id) {
         showError('Error: ' + error.message);
     }
 }
+
+// Close modals on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAddProjectModal();
+        closeEditProjectModal();
+    }
+});
+
+// Close modals on backdrop click
+document.getElementById('addProjectModal').addEventListener('click', function(e) {
+    if (e.target === this) closeAddProjectModal();
+});
+document.getElementById('editProjectModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditProjectModal();
+});
 </script>

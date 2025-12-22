@@ -63,9 +63,9 @@ $title = 'Settings';
                         <label class="block text-sm font-medium text-gray-700 mb-2">Account Status</label>
                         <div class="flex items-center gap-3">
                             <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                                <i class="fas fa-check-circle mr-1"></i><?= ucfirst($user['status']) ?>
+                                <i class="fas fa-check-circle mr-1"></i><?= ucfirst($user['status'] ?? 'active') ?>
                             </span>
-                            <span class="text-sm text-gray-600">Member since <?= date('F Y', strtotime($user['created_at'])) ?></span>
+                            <span class="text-sm text-gray-600">Member since <?= !empty($user['created_at']) ? date('F Y', strtotime($user['created_at'])) : 'N/A' ?></span>
                         </div>
                     </div>
 

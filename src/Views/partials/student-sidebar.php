@@ -210,7 +210,7 @@ $isActive = function($path) use ($currentPath) {
     <div class="border-t border-white/10 p-4 flex-shrink-0 bg-black/20">
         <div class="flex items-center" x-data="{ profileOpen: false }">
             <div class="relative">
-                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.png') ?>" 
+                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.svg') ?>" 
                      alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
                      class="w-11 h-11 rounded-xl object-cover ring-2 ring-white/20">
                 <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-800 rounded-full"></span>

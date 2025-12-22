@@ -151,7 +151,10 @@ class AuthController extends Controller
             'first_name' => $user['first_name'],
             'last_name' => $user['last_name'],
             'phone' => $user['phone'] ?? null,
-            'status' => $user['status']
+            'status' => $user['status'],
+            'avatar' => $user['avatar'] ?? null,
+            'bio' => $user['bio'] ?? null,
+            'created_at' => $user['created_at'] ?? null
         ];
 
         // Handle remember me

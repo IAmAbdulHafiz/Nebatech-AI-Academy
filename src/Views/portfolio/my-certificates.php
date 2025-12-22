@@ -89,8 +89,3 @@ $title = $title ?? 'My Certificates';
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/student.php';
-?>

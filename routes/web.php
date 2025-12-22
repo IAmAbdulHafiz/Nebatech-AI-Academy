@@ -26,6 +26,7 @@ use Nebatech\Controllers\EventController;
 use Nebatech\Controllers\EnrollmentController;
 use Nebatech\Controllers\PortfolioController;
 use Nebatech\Controllers\Academic;
+use Nebatech\Controllers\User;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
@@ -120,6 +121,16 @@ $router->get('/my-portfolio', [PortfolioController::class, 'myPortfolio']);
 $router->get('/my-certificates', [PortfolioController::class, 'myCertificates']);
 $router->get('/playground', [CodeEditorController::class, 'playground']);
 $router->get('/showcase', [PortfolioController::class, 'showcase']);
+
+// Profile, Settings & Notifications
+$router->get('/profile', [Academic\DashboardController::class, 'profile']);
+$router->post('/profile/update', [Academic\DashboardController::class, 'updateProfile']);
+$router->post('/profile/avatar', [Academic\DashboardController::class, 'uploadAvatar']);
+$router->get('/settings', [User\SettingsController::class, 'index']);
+$router->post('/settings/update', [User\SettingsController::class, 'update']);
+$router->post('/settings/password', [User\SettingsController::class, 'changePassword']);
+$router->post('/settings/editor', [User\SettingsController::class, 'updateEditor']);
+$router->get('/notifications', [NotificationController::class, 'index']);
 
 // Facilitator Routes (protected)
 $router->get('/facilitator/dashboard', [FacilitatorController::class, 'dashboard']);

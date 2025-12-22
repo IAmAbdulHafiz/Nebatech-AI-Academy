@@ -23,7 +23,7 @@ class SettingsController extends Controller
         // Get user preferences
         $editorSettings = UserPreference::getEditorSettings($user['id']);
         
-        echo $this->view('settings/index', [
+        echo $this->render('settings/index', [
             'title' => 'Settings',
             'user' => $user,
             'editorSettings' => $editorSettings

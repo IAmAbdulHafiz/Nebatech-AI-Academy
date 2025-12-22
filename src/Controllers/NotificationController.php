@@ -19,6 +19,35 @@ class NotificationController extends Controller
     }
     
     /**
+     * Show all notifications for user
+     */
+    public function index()
+    {
+        $this->requireAuth();
+        
+        $userId = $_SESSION['user']['id'];
+        
+        // Get all notifications for user
+        $stmt = $this->db->prepare("
+            SELECT * FROM notifications 
+            WHERE user_id = ?
+            ORDER BY created_at DESC
+            LIMIT 100
+        ");
+        $stmt->execute([$userId]);
+        $notifications = $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        
+        // Count unread
+        $unreadCount = count(array_filter($notifications, fn($n) => !$n['is_read']));
+        
+        echo $this->render('notifications/index', [
+            'title' => 'Notifications',
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount
+        ]);
+    }
+    
+    /**
      * Show notification preferences page
      */
     public function preferences()
@@ -42,7 +71,7 @@ class NotificationController extends Controller
             $preferences = $stmt->fetch(\PDO::FETCH_ASSOC);
         }
         
-        $this->render('notifications/preferences', [
+        echo $this->render('notifications/preferences', [
             'title' => 'Notification Preferences',
             'preferences' => $preferences
         ]);

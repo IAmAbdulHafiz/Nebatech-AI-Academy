@@ -212,7 +212,7 @@ class AuthController extends Controller
         }
 
         // Create user
-        $userId = User::create([
+        $userId = User::createUser([
             'first_name' => $firstName,
             'last_name' => $lastName ?: $firstName,
             'email' => $email,

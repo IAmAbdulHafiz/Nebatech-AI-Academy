@@ -189,7 +189,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <img src="<?= $post['avatar'] ?? '/assets/images/default-avatar.png' ?>" 
+                                    <img src="<?= $post['avatar'] ?? '/assets/images/default-avatar.svg' ?>" 
                                          alt="<?= htmlspecialchars($post['first_name']) ?>" 
                                          class="w-10 h-10 rounded-full">
                                 </div>
@@ -208,7 +208,7 @@
                     <div class="space-y-4">
                         <?php foreach ($recentPosts as $post): ?>
                             <div class="flex gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <img src="<?= $post['avatar'] ?? '/assets/images/default-avatar.png' ?>" 
+                                <img src="<?= $post['avatar'] ?? '/assets/images/default-avatar.svg' ?>" 
                                      alt="<?= htmlspecialchars($post['first_name']) ?>" 
                                      class="w-12 h-12 rounded-full flex-shrink-0">
                                 
@@ -285,7 +285,7 @@
                                 <div class="text-2xl font-bold <?= $index === 0 ? 'text-yellow-500' : ($index === 1 ? 'text-gray-400' : ($index === 2 ? 'text-orange-600' : 'text-gray-500')) ?>">
                                     #<?= $index + 1 ?>
                                 </div>
-                                <img src="<?= $user['avatar'] ?? '/assets/images/default-avatar.png' ?>" 
+                                <img src="<?= $user['avatar'] ?? '/assets/images/default-avatar.svg' ?>" 
                                      alt="<?= htmlspecialchars($user['first_name']) ?>" 
                                      class="w-10 h-10 rounded-full">
                                 <div class="flex-1 min-w-0">
@@ -353,7 +353,7 @@
                             <a href="<?= url("/community/profile/{$user['id']}") ?>" 
                                class="relative group" 
                                title="<?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?> (<?= number_format($user['total_xp']) ?> XP)">
-                                <img src="<?= $user['avatar'] ?? '/assets/images/default-avatar.png' ?>" 
+                                <img src="<?= $user['avatar'] ?? '/assets/images/default-avatar.svg' ?>" 
                                      alt="<?= htmlspecialchars($user['first_name']) ?>" 
                                      class="w-10 h-10 rounded-full border-2 border-green-500 hover:scale-110 transition-transform">
                                 <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
