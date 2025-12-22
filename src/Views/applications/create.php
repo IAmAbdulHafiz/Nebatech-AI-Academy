@@ -1,9 +1,5 @@
 <?php
 $title = 'Apply for Program';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->

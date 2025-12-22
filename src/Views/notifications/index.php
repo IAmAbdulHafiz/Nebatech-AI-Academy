@@ -1,16 +1,5 @@
 <?php
 $title = 'Notifications';
-ob_start();
-// Load appropriate sidebar based on user role
-if ($user['role'] === 'student') {
-    include __DIR__ . '/../partials/student-sidebar.php';
-} elseif ($user['role'] === 'facilitator') {
-    include __DIR__ . '/../partials/facilitator-sidebar.php';
-} elseif ($user['role'] === 'admin') {
-    include __DIR__ . '/../partials/admin-sidebar.php';
-}
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -328,7 +317,3 @@ function timeAgo(datetime) {
     return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 </script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';

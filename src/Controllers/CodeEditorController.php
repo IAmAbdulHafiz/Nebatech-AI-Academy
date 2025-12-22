@@ -75,6 +75,30 @@ class CodeEditorController extends Controller
     }
 
     /**
+     * Supported programming languages with Judge0 IDs
+     */
+    private function getSupportedLanguages(): array
+    {
+        return [
+            'javascript' => ['name' => 'JavaScript (Node.js)', 'id' => 63],
+            'python' => ['name' => 'Python 3', 'id' => 71],
+            'java' => ['name' => 'Java', 'id' => 62],
+            'cpp' => ['name' => 'C++', 'id' => 54],
+            'c' => ['name' => 'C', 'id' => 50],
+            'php' => ['name' => 'PHP', 'id' => 68],
+            'ruby' => ['name' => 'Ruby', 'id' => 72],
+            'go' => ['name' => 'Go', 'id' => 60],
+            'rust' => ['name' => 'Rust', 'id' => 73],
+            'typescript' => ['name' => 'TypeScript', 'id' => 74],
+            'csharp' => ['name' => 'C#', 'id' => 51],
+            'swift' => ['name' => 'Swift', 'id' => 83],
+            'kotlin' => ['name' => 'Kotlin', 'id' => 78],
+            'sql' => ['name' => 'SQL', 'id' => 82],
+            'bash' => ['name' => 'Bash', 'id' => 46],
+        ];
+    }
+
+    /**
      * Show code playground (free code editor)
      */
     public function playground()
@@ -82,11 +106,273 @@ class CodeEditorController extends Controller
         $this->requireAuth();
         $user = $this->getCurrentUser();
         
+        $languages = $this->getSupportedLanguages();
+        
         echo $this->render('code/playground', [
             'title' => 'Code Playground',
             'pageTitle' => 'Code Playground',
-            'user' => $user
+            'user' => $user,
+            'languages' => $languages
         ]);
+    }
+
+    /**
+     * Execute code via Judge0 API
+     */
+    public function executeCode()
+    {
+        // Ensure JSON response even on errors
+        header('Content-Type: application/json');
+        
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                echo json_encode(['success' => false, 'error' => 'Invalid request method']);
+                return;
+            }
+            
+            // Check auth for API - return JSON error instead of redirect
+            if (!isset($_SESSION['user_id'])) {
+                http_response_code(401);
+                echo json_encode(['success' => false, 'error' => 'Authentication required']);
+                return;
+            }
+            
+            $code = $_POST['code'] ?? '';
+            $language = $_POST['language'] ?? 'javascript';
+            $stdin = $_POST['stdin'] ?? '';
+            
+            if (empty($code)) {
+                echo json_encode(['success' => false, 'error' => 'No code provided']);
+                return;
+            }
+            
+            $languages = $this->getSupportedLanguages();
+            
+            if (!isset($languages[$language])) {
+                echo json_encode(['success' => false, 'error' => 'Unsupported language']);
+                return;
+            }
+            
+            $languageId = $languages[$language]['id'];
+            
+            // Get Judge0 API configuration - check multiple sources
+            $apiKey = $_ENV['JUDGE0_API_KEY'] ?? $_SERVER['JUDGE0_API_KEY'] ?? getenv('JUDGE0_API_KEY') ?: '';
+            $apiUrl = $_ENV['JUDGE0_API_URL'] ?? $_SERVER['JUDGE0_API_URL'] ?? getenv('JUDGE0_API_URL') ?: 'https://judge0-ce.p.rapidapi.com';
+            $apiHost = $_ENV['JUDGE0_API_HOST'] ?? $_SERVER['JUDGE0_API_HOST'] ?? getenv('JUDGE0_API_HOST') ?: 'judge0-ce.p.rapidapi.com';
+            
+            // If no API key configured, use a simulated response for demo
+            if (empty($apiKey)) {
+                echo json_encode($this->simulateCodeExecution($code, $language, $stdin));
+                return;
+            }
+            
+            // Submit code to Judge0
+            $submitUrl = $apiUrl . '/submissions?base64_encoded=true&wait=true';
+            
+            $payload = [
+                'language_id' => $languageId,
+                'source_code' => base64_encode($code),
+                'stdin' => base64_encode($stdin)
+            ];
+            
+            $ch = curl_init($submitUrl);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($payload),
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'X-RapidAPI-Key: ' . $apiKey,
+                    'X-RapidAPI-Host: ' . $apiHost
+                ],
+                CURLOPT_TIMEOUT => 30
+            ]);
+            
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+            
+            if ($curlError) {
+                echo json_encode(['success' => false, 'error' => 'Network error: ' . $curlError]);
+                return;
+            }
+            
+            if ($httpCode !== 200 && $httpCode !== 201) {
+                echo json_encode(['success' => false, 'error' => 'Code execution service error (HTTP ' . $httpCode . ')']);
+                return;
+            }
+            
+            $result = json_decode($response, true);
+            
+            if (!$result) {
+                echo json_encode(['success' => false, 'error' => 'Invalid response from execution service']);
+                return;
+            }
+            
+            // Decode base64 outputs
+            $stdout = isset($result['stdout']) ? base64_decode($result['stdout']) : '';
+            $stderr = isset($result['stderr']) ? base64_decode($result['stderr']) : '';
+            $compileOutput = isset($result['compile_output']) ? base64_decode($result['compile_output']) : '';
+            
+            echo json_encode([
+                'success' => true,
+                'result' => [
+                    'stdout' => $stdout,
+                    'stderr' => $stderr,
+                    'compile_output' => $compileOutput,
+                    'status' => $result['status']['description'] ?? 'Unknown',
+                    'time' => $result['time'] ?? null,
+                    'memory' => $result['memory'] ?? null
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            echo json_encode(['success' => false, 'error' => 'Execution failed: ' . $e->getMessage()]);
+        } catch (\Error $e) {
+            echo json_encode(['success' => false, 'error' => 'System error: ' . $e->getMessage()]);
+        }
+    }
+    
+    /**
+     * Simulate code execution for demo/development purposes
+     * Parses code and extracts output for realistic simulation
+     */
+    private function simulateCodeExecution(string $code, string $language, string $stdin): array
+    {
+        $startTime = microtime(true);
+        $outputs = [];
+        $error = '';
+        
+        switch ($language) {
+            case 'javascript':
+            case 'typescript':
+                // Match all console.log statements
+                preg_match_all('/console\.log\(([^)]+)\)/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $arg = trim($arg);
+                    // Handle string literals
+                    if (preg_match('/^["\'](.*)["\']\s*$/', $arg, $strMatch)) {
+                        $outputs[] = $strMatch[1];
+                    } elseif (preg_match('/^[\'"](.*)[\'"],\s*(.+)$/', $arg, $multiMatch)) {
+                        $outputs[] = $multiMatch[1] . ' ' . trim($multiMatch[2]);
+                    } else {
+                        $outputs[] = '[' . $arg . ']';
+                    }
+                }
+                break;
+                
+            case 'python':
+                // Match all print statements
+                preg_match_all('/print\(([^)]+)\)/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $arg = trim($arg);
+                    if (preg_match('/^["\'](.*)["\']\s*$/', $arg, $strMatch)) {
+                        $outputs[] = $strMatch[1];
+                    } elseif (preg_match('/^f["\'](.*)["\']\s*$/', $arg, $fMatch)) {
+                        $outputs[] = '[f-string: ' . $fMatch[1] . ']';
+                    } else {
+                        $outputs[] = '[' . $arg . ']';
+                    }
+                }
+                break;
+                
+            case 'java':
+                preg_match_all('/System\.out\.println?\(([^)]+)\)/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $arg = trim($arg);
+                    if (preg_match('/^"(.*)"$/', $arg, $strMatch)) {
+                        $outputs[] = $strMatch[1];
+                    } else {
+                        $outputs[] = '[' . $arg . ']';
+                    }
+                }
+                break;
+                
+            case 'c':
+            case 'cpp':
+                // Match printf and cout
+                preg_match_all('/printf\s*\(\s*"([^"]+)"/', $code, $printfMatches);
+                foreach ($printfMatches[1] as $arg) {
+                    $outputs[] = str_replace(['\\n', '\\t'], ["\n", "\t"], $arg);
+                }
+                preg_match_all('/cout\s*<<\s*"([^"]+)"/', $code, $coutMatches);
+                foreach ($coutMatches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                if (strpos($code, 'endl') !== false && !empty($outputs)) {
+                    $outputs[count($outputs) - 1] .= "\n";
+                }
+                break;
+                
+            case 'php':
+                preg_match_all('/(?:echo|print)\s+["\']([^"\']+)["\']/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                break;
+                
+            case 'ruby':
+                preg_match_all('/puts\s+["\']([^"\']+)["\']/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                break;
+                
+            case 'go':
+                preg_match_all('/fmt\.Println\s*\(\s*"([^"]+)"/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                break;
+                
+            case 'rust':
+                preg_match_all('/println!\s*\(\s*"([^"]+)"/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = str_replace(['{}', '{:?}'], ['[value]', '[debug]'], $arg);
+                }
+                break;
+                
+            case 'csharp':
+                preg_match_all('/Console\.WriteLine\s*\(\s*"([^"]+)"/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                break;
+                
+            case 'swift':
+            case 'kotlin':
+                preg_match_all('/print(?:ln)?\s*\(\s*"([^"]+)"/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = $arg;
+                }
+                break;
+                
+            case 'bash':
+                preg_match_all('/echo\s+["\']?([^"\';\n]+)["\']?/', $code, $matches);
+                foreach ($matches[1] as $arg) {
+                    $outputs[] = trim($arg);
+                }
+                break;
+        }
+        
+        $output = !empty($outputs) ? implode("\n", $outputs) . "\n" : "[Program executed successfully]\n";
+        $output .= "\n--- Simulated Output ---\nNote: Subscribe to Judge0 API on RapidAPI for real code execution.";
+        
+        $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+        
+        return [
+            'success' => true,
+            'result' => [
+                'stdout' => $output,
+                'stderr' => $error,
+                'compile_output' => '',
+                'status' => 'Accepted',
+                'time' => $executionTime / 1000,
+                'memory' => rand(1000, 5000),
+                'simulated' => true
+            ]
+        ];
     }
     
     /**

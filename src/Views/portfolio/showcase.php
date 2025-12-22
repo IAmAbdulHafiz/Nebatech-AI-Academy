@@ -1,9 +1,5 @@
 <?php
 $title = 'Student Showcase';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -126,8 +122,3 @@ ob_start();
         </div>
     <?php endif; ?>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

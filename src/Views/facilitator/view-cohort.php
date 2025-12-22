@@ -432,8 +432,3 @@ ob_start();
     transition: all 0.3s ease-out;
 }
 </style>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

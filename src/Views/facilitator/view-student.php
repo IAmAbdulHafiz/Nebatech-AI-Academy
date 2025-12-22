@@ -319,8 +319,3 @@ ob_start();
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

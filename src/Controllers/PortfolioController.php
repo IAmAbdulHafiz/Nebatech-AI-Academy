@@ -597,15 +597,4 @@ class PortfolioController extends Controller
         
         return $result ? round($result['avg_score']) : 0;
     }
-    
-    /**
-     * JSON response helper
-     */
-    private function jsonResponse(array $data, int $statusCode = 200)
-    {
-        http_response_code($statusCode);
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
-    }
 }

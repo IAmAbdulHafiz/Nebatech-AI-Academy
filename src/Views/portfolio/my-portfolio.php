@@ -1,9 +1,5 @@
 <?php
 $title = 'My Portfolio';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -141,8 +137,3 @@ async function deleteProject(id) {
     }
 }
 </script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

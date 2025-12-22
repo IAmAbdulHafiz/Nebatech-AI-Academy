@@ -24,6 +24,8 @@ use Nebatech\Controllers\CommunityController;
 use Nebatech\Controllers\ResourceController;
 use Nebatech\Controllers\EventController;
 use Nebatech\Controllers\EnrollmentController;
+use Nebatech\Controllers\PortfolioController;
+use Nebatech\Controllers\Academic;
 
 // Home
 $router->get('/', [HomeController::class, 'index']);
@@ -111,7 +113,8 @@ $router->get('/dashboard', [DashboardController::class, 'index']);
 // Student Routes (protected)
 $router->get('/my-courses', [DashboardController::class, 'myCourses']);
 $router->get('/my-cohorts', [DashboardController::class, 'myCohorts']);
-$router->get('/progress/dashboard', [DashboardController::class, 'progressDashboard']);
+$router->get('/progress/dashboard', [Academic\ProgressController::class, 'dashboard']);
+$router->get('/progress/bookmarks', [Academic\ProgressController::class, 'bookmarks']);
 $router->get('/my-applications', [ApplicationController::class, 'myApplications']);
 $router->get('/my-portfolio', [PortfolioController::class, 'myPortfolio']);
 $router->get('/my-certificates', [PortfolioController::class, 'myCertificates']);
@@ -176,6 +179,7 @@ $router->get('/assignments/{id}/code-editor', [CodeEditorController::class, 'ass
 $router->post('/assignments/submit', [CodeEditorController::class, 'submitAssignment']);
 $router->post('/assignments/save', [CodeEditorController::class, 'saveSubmission']);
 $router->get('/assignments/{id}/load-code', [CodeEditorController::class, 'loadCode']);
+$router->post('/code/execute', [CodeEditorController::class, 'executeCode']);
 
 // Feedback Routes
 $router->get('/submissions/{id}/feedback', [FeedbackController::class, 'view']);
@@ -192,7 +196,6 @@ $router->get('/admin/email-queue', [NotificationController::class, 'queueStatus'
 $router->post('/notifications/retry-email', [NotificationController::class, 'retryEmail']);
 
 // Portfolio Routes
-use Nebatech\Controllers\PortfolioController;
 
 // Public portfolio view
 $router->get('/portfolio/{username}', [PortfolioController::class, 'show']);
@@ -241,22 +244,5 @@ $router->get('/payments/success', [EnrollmentController::class, 'success']);
 $router->get('/payments/cancelled', [EnrollmentController::class, 'cancelled']);
 $router->get('/payments/status', [EnrollmentController::class, 'checkStatus']);
 
-// Course Categories
-$router->get('/courses/frontend', [CourseController::class, 'frontend']);
-$router->get('/courses/backend', [CourseController::class, 'backend']);
-$router->get('/courses/fullstack', [CourseController::class, 'fullstack']);
-$router->get('/courses/mobile', [CourseController::class, 'mobile']);
-$router->get('/courses/ai', [CourseController::class, 'ai']);
-$router->get('/courses/data-science', [CourseController::class, 'dataScience']);
-$router->get('/courses/cybersecurity', [CourseController::class, 'cybersecurity']);
-$router->get('/courses/cloud', [CourseController::class, 'cloud']);
-$router->get('/courses/database', [CourseController::class, 'database']);
-$router->get('/courses/microsoft-office', [CourseController::class, 'microsoftOffice']);
-$router->get('/courses/networking', [CourseController::class, 'networking']);
-$router->get('/courses/hardware', [CourseController::class, 'hardware']);
-$router->get('/courses/digital-literacy', [CourseController::class, 'digitalLiteracy']);
-$router->get('/courses/video-editing', [CourseController::class, 'videoEditing']);
-$router->get('/courses/graphic-design', [CourseController::class, 'graphicDesign']);
-
-// Individual Course
+// Individual Course (dynamic from database)
 $router->get('/courses/{slug}', [CourseController::class, 'show']);

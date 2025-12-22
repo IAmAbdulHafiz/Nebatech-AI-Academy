@@ -1,9 +1,5 @@
 <?php
 $title = ($portfolio[0]['first_name'] ?? 'Student') . '\'s Portfolio';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Profile Header -->
@@ -108,8 +104,3 @@ ob_start();
         <i class="fas fa-arrow-left mr-2"></i>Back to Showcase
     </a>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

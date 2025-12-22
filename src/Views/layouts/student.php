@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title><?= $title ?? 'Student Portal - Nebatech AI Academy' ?></title>
     
     <!-- Tailwind CSS -->
@@ -15,205 +16,91 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="<?= asset('js/theme-toggle.js') ?>"></script>
+    
+    <!-- Chart.js for progress charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .sidebar-link {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 0 4px 4px 0;
+            transition: height 0.2s ease;
+        }
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            height: 60%;
+        }
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        .sidebar-section {
+            position: relative;
+        }
+        .sidebar-section::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, #e5e7eb 20%, #e5e7eb 80%, transparent);
+        }
+    </style>
 </head>
 <body class="bg-gray-50" x-data="{ sidebarOpen: false }">
     
-    <!-- Student Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 lg:translate-x-0"
-           :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
-        
-        <!-- Logo -->
-        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
-            <a href="<?= url('/dashboard') ?>" class="flex items-center">
-                <i class="fas fa-graduation-cap text-2xl text-primary dark:text-primary/80"></i>
-                <span class="ml-3 text-lg font-bold text-gray-900 dark:text-white">Student Portal</span>
-            </a>
-            <button @click="sidebarOpen = false" class="lg:hidden text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            <!-- Dashboard -->
-            <a href="<?= url('/dashboard') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary/80 transition group">
-                <i class="fas fa-home text-lg w-5"></i>
-                <span class="ml-3 font-medium">Dashboard</span>
-            </a>
-
-            <!-- My Courses -->
-            <a href="<?= url('/my-courses') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-book text-lg w-5"></i>
-                <span class="ml-3 font-medium">My Courses</span>
-            </a>
-
-            <!-- Browse Courses -->
-            <a href="<?= url('/courses') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-search text-lg w-5"></i>
-                <span class="ml-3 font-medium">Browse Courses</span>
-            </a>
-
-            <!-- Assignments -->
-            <a href="<?= url('/my-courses') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-tasks text-lg w-5"></i>
-                <span class="ml-3 font-medium">Assignments</span>
-                <?php if (!empty($pendingAssignments)): ?>
-                <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    <?= $pendingAssignments ?>
-                </span>
-                <?php endif; ?>
-            </a>
-
-            <!-- Code Editor -->
-            <a href="<?= url('/playground') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-code text-lg w-5"></i>
-                <span class="ml-3 font-medium">Code Playground</span>
-            </a>
-
-            <!-- My Progress -->
-            <a href="<?= url('/progress/dashboard') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-chart-line text-lg w-5"></i>
-                <span class="ml-3 font-medium">My Progress</span>
-            </a>
-
-            <!-- Certificates -->
-            <a href="<?= url('/my-certificates') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-certificate text-lg w-5"></i>
-                <span class="ml-3 font-medium">Certificates</span>
-            </a>
-
-            <!-- Portfolio -->
-            <a href="<?= url('/my-portfolio') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-briefcase text-lg w-5"></i>
-                <span class="ml-3 font-medium">My Portfolio</span>
-            </a>
-
-            <div class="border-t border-gray-200 my-4"></div>
-
-            <!-- Applications -->
-            <a href="<?= url('/my-applications') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-file-alt text-lg w-5"></i>
-                <span class="ml-3 font-medium">My Applications</span>
-            </a>
-
-            <!-- Support -->
-            <a href="<?= url('/support') ?>" 
-               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-primary transition group">
-                <i class="fas fa-life-ring text-lg w-5"></i>
-                <span class="ml-3 font-medium">Help & Support</span>
-            </a>
-        </nav>
-
-        <!-- User Profile (bottom) -->
-        <div class="border-t border-gray-200 p-4">
-            <div class="flex items-center" x-data="{ profileOpen: false }">
-                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.png') ?>" 
-                     alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
-                     class="w-10 h-10 rounded-full object-cover">
-                <div class="ml-3 flex-1">
-                    <p class="text-sm font-medium text-gray-900">
-                        <?= htmlspecialchars(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? '')) ?>
-                    </p>
-                    <p class="text-xs text-gray-500">Student</p>
-                </div>
-                <button @click="profileOpen = !profileOpen" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-ellipsis-v"></i>
-                </button>
-            </div>
-            
-            <!-- Profile Dropdown -->
-            <div x-show="profileOpen" 
-                 @click.away="profileOpen = false"
-                 x-transition
-                 class="mt-2 py-2 bg-gray-50 rounded-lg">
-                <a href="<?= url('/profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <i class="fas fa-user mr-2"></i> Profile Settings
-                </a>
-                <a href="<?= url('/logout') ?>" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                </a>
-            </div>
-        </div>
-    </aside>
+    <!-- Include Student Sidebar -->
+    <?php include __DIR__ . '/../partials/student-sidebar.php'; ?>
 
     <!-- Main Content Area -->
-    <div class="lg:pl-64 min-h-screen flex flex-col">
-        <!-- Top Header -->
-        <header class="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between h-16 px-6">
-                <!-- Mobile Menu Button -->
-                <button @click="sidebarOpen = true" class="lg:hidden text-gray-300 hover:text-white">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-
-                <!-- Page Title -->
-                <h1 class="text-xl font-semibold text-gray-900 dark:text-white hidden lg:block">
-                    <?= $pageTitle ?? 'Dashboard' ?>
-                </h1>
-
-                <!-- Right Side Actions -->
-                <div class="flex items-center space-x-4">
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white transition" title="Toggle theme">
-                        <i class="fas fa-sun text-lg"></i>
-                    </button>
-                    
-                    <!-- Search -->
-                    <button class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">
-                        <i class="fas fa-search text-lg"></i>
-                    </button>
-
-                    <!-- Notifications -->
-                    <button class="relative text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white">
-                        <i class="fas fa-bell text-lg"></i>
-                        <?php if (!empty($unreadNotifications)): ?>
-                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                            <?= min($unreadNotifications, 9) ?><?= $unreadNotifications > 9 ? '+' : '' ?>
-                        </span>
-                        <?php endif; ?>
-                    </button>
-
-                    <!-- User Avatar (Desktop) -->
-                    <div class="hidden lg:block">
-                        <img src="<?= $user['avatar'] ?? asset('images/default-avatar.png') ?>" 
-                             alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
-                             class="w-8 h-8 rounded-full object-cover">
-                    </div>
-                </div>
-            </div>
-        </header>
+    <div class="lg:pl-72 min-h-screen flex flex-col">
+        
+        <!-- Include Student Header -->
+        <?php include __DIR__ . '/../partials/student-header.php'; ?>
 
         <!-- Page Content -->
-        <main class="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
+        <main class="flex-1 p-6 bg-gradient-to-br from-gray-50 to-gray-100/50">
             <?php if (isset($_SESSION['success'])): ?>
-            <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center justify-between">
+            <div class="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-800 px-5 py-4 rounded-xl flex items-center justify-between shadow-sm">
                 <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-3"></i>
-                    <span><?= htmlspecialchars($_SESSION['success']) ?></span>
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-check text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Success!</p>
+                        <p class="text-sm text-green-600"><?= htmlspecialchars($_SESSION['success']) ?></p>
+                    </div>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-green-600 hover:text-green-800">
+                <button onclick="this.parentElement.remove()" class="text-green-400 hover:text-green-600 transition">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <?php unset($_SESSION['success']); endif; ?>
 
             <?php if (isset($_SESSION['error'])): ?>
-            <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center justify-between">
+            <div class="mb-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 text-red-800 px-5 py-4 rounded-xl flex items-center justify-between shadow-sm">
                 <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle mr-3"></i>
-                    <span><?= htmlspecialchars($_SESSION['error']) ?></span>
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-exclamation text-red-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Error</p>
+                        <p class="text-sm text-red-600"><?= htmlspecialchars($_SESSION['error']) ?></p>
+                    </div>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-red-600 hover:text-red-800">
+                <button onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-600 transition">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -222,22 +109,13 @@
             <?= $content ?? '' ?>
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 px-6 mt-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 dark:text-gray-400">
-                <p>&copy; <?= date('Y') ?> Nebatech AI Academy. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="<?= url('/about') ?>" class="hover:text-primary">About</a>
-                    <a href="<?= url('/help') ?>" class="hover:text-primary">Help Center</a>
-                    <a href="<?= url('/privacy') ?>" class="hover:text-primary">Privacy</a>
-                    <a href="<?= url('/terms') ?>" class="hover:text-primary">Terms</a>
-                </div>
-            </div>
-        </footer>
+        <!-- Include Student Footer -->
+        <?php include __DIR__ . '/../partials/student-footer.php'; ?>
     </div>
 
     <!-- Mobile Sidebar Overlay -->
     <div x-show="sidebarOpen" 
+         x-cloak
          @click="sidebarOpen = false"
          x-transition:enter="transition-opacity ease-linear duration-300"
          x-transition:enter-start="opacity-0"
@@ -245,9 +123,8 @@
          x-transition:leave="transition-opacity ease-linear duration-300"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-gray-600 bg-opacity-75 lg:hidden z-40">
+         class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm lg:hidden z-40">
     </div>
 
 </body>
 </html>
-

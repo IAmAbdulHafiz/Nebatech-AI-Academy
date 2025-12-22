@@ -314,8 +314,3 @@ ob_start();
         // Code editor is automatically initialized by codeEditorSimple.js
     </script>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

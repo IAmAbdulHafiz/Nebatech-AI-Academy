@@ -38,7 +38,7 @@ class LessonProgress extends Model
         }
 
         // Create new record
-        $data['uuid'] = self::generateUUID();
+        $data['uuid'] = self::createUUID();
         $data['first_accessed_at'] = date('Y-m-d H:i:s');
         $data['last_accessed_at'] = date('Y-m-d H:i:s');
 
@@ -404,7 +404,7 @@ class LessonProgress extends Model
     /**
      * Generate UUID v4
      */
-    protected static function generateUUID(): string
+    protected static function createUUID(): string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',

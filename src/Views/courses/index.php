@@ -1,5 +1,4 @@
-﻿<!-- Hero Section -->
-<section class="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white py-20 overflow-hidden mb-16">
+﻿<section class="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white py-20 overflow-hidden mb-16">
     <!-- Digital Horizon Background -->
     <div class="absolute inset-0 overflow-hidden">
         <!-- Horizon Glow Effect -->
@@ -16,7 +15,7 @@
         <!-- Dynamic Glowing Orbs -->
         <div class="absolute top-20 left-10 w-96 h-96 bg-primary/40 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
         <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-secondary/30 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s; animation-delay: 1s;"></div>
-        <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/90/20 rounded-full blur-2xl animate-pulse" style="animation-duration: 7s; animation-delay: 2s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/20 rounded-full blur-2xl animate-pulse" style="animation-duration: 7s; animation-delay: 2s;"></div>
         
         <!-- Floating Tech Icons -->
         <div class="absolute top-1/4 left-[8%] opacity-20 animate-float" style="animation-duration: 6s;">
@@ -39,7 +38,7 @@
     <!-- Content -->
     <div class="container mx-auto px-4 relative z-10">
         <div class="text-center max-w-4xl mx-auto">
-            <div class="inline-block bg-primary/80/60 backdrop-blur-sm text-white/90 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-white/30/30">
+            <div class="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-white/30">
                 <i class="fas fa-book-open mr-2"></i>All Courses
             </div>
             <h1 class="text-5xl md:text-6xl font-bold mb-6">
@@ -51,20 +50,23 @@
             
             <!-- Stats -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/20">
                     <div class="text-3xl font-bold"><?= count($allCategories ?? []) ?></div>
                     <div class="text-white/70 text-sm">Course Tracks</div>
                 </div>
-                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/20">
                     <div class="text-3xl font-bold"><?= number_format($totalEnrollments ?? 0) ?>+</div>
                     <div class="text-white/70 text-sm">Enrollments</div>
                 </div>
-                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/20">
                     <div class="text-3xl font-bold"><?= $totalCourses ?? 0 ?></div>
                     <div class="text-white/70 text-sm">Courses</div>
                 </div>
-                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                    <div class="text-3xl font-bold"><?= number_format($avgRating ?? 4.7, 1) ?></div>
+                <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/20">
+                    <?php 
+                    $displayRating = ($avgRating ?? 0) > 0 ? number_format($avgRating, 1) : 'New';
+                    ?>
+                    <div class="text-3xl font-bold"><?= $displayRating ?></div>
                     <div class="text-white/70 text-sm">Avg Rating</div>
                 </div>
             </div>
@@ -73,149 +75,136 @@
 </section>
 
 <div class="container mx-auto px-4 py-12">
-    <!-- Search and Filter Section -->
-    <div class="mb-12">
-        <!-- Search Bar -->
-        <div class="max-w-3xl mx-auto mb-8">
-            <form method="GET" action="<?= url('/courses') ?>" class="relative">
-                <input type="text" 
-                       name="search" 
-                       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
-                       placeholder="Search courses by name, skill, or topic..." 
-                       class="w-full px-6 py-4 pr-32 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-900 shadow-lg">
-                <button type="submit" 
-                        class="absolute right-2 top-2 bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition font-semibold">
-                    <i class="fas fa-search mr-2"></i>Search
-                </button>
-            </form>
-        </div>
-
-        <!-- Category Tabs -->
-        <div class="mb-8">
-            <div class="flex flex-wrap justify-center gap-3">
-                <a href="<?= url('/courses') ?>" 
-                   class="px-6 py-3 rounded-lg font-semibold transition <?= empty($_GET['category']) ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
-                    <i class="fas fa-th mr-2"></i>All Courses
-                </a>
-                <?php foreach ($allCategories ?? [] as $cat): ?>
-                <a href="<?= url('/courses?category=' . urlencode($cat['slug'])) ?>" 
-                   class="px-6 py-3 rounded-lg font-semibold transition <?= ($_GET['category'] ?? '') === $cat['slug'] ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-100' ?> shadow-md">
-                    <?= htmlspecialchars($cat['name']) ?>
-                </a>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- Filters Row -->
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
-            <!-- Level Filter -->
-            <div class="relative">
-                <select name="level" 
-                        onchange="window.location.href='<?= url('/courses') ?>?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), level: this.value}).toString()"
-                        class="px-6 py-3 pr-10 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-700 font-semibold bg-white shadow-md appearance-none cursor-pointer">
-                    <option value="">All Levels</option>
-                    <option value="beginner" <?= ($_GET['level'] ?? '') === 'beginner' ? 'selected' : '' ?>>Beginner</option>
-                    <option value="intermediate" <?= ($_GET['level'] ?? '') === 'intermediate' ? 'selected' : '' ?>>Intermediate</option>
-                    <option value="advanced" <?= ($_GET['level'] ?? '') === 'advanced' ? 'selected' : '' ?>>Advanced</option>
-                </select>
-                <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-500"></i>
-            </div>
-
-            <!-- Sort Filter -->
-            <div class="relative">
-                <select name="sort" 
-                        onchange="window.location.href='<?= url('/courses') ?>?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), sort: this.value}).toString()"
-                        class="px-6 py-3 pr-10 rounded-lg border-2 border-gray-300 focus:border-primary focus:outline-none text-gray-700 font-semibold bg-white shadow-md appearance-none cursor-pointer">
-                    <option value="">Sort By</option>
-                    <option value="popular" <?= ($_GET['sort'] ?? '') === 'popular' ? 'selected' : '' ?>>Most Popular</option>
-                    <option value="rating" <?= ($_GET['sort'] ?? '') === 'rating' ? 'selected' : '' ?>>Highest Rated</option>
-                    <option value="newest" <?= ($_GET['sort'] ?? '') === 'newest' ? 'selected' : '' ?>>Newest First</option>
-                    <option value="title" <?= ($_GET['sort'] ?? '') === 'title' ? 'selected' : '' ?>>A to Z</option>
-                </select>
-                <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-500"></i>
-            </div>
-
-            <!-- Clear Filters -->
-            <?php if (!empty($_GET['search']) || !empty($_GET['category']) || !empty($_GET['level']) || !empty($_GET['sort'])): ?>
-            <a href="<?= url('/courses') ?>" 
-               class="px-6 py-3 rounded-lg font-semibold bg-red-500 text-white hover:bg-red-600 transition shadow-md">
-                <i class="fas fa-times mr-2"></i>Clear Filters
-            </a>
-            <?php endif; ?>
-        </div>
-
-        <!-- Results Info -->
-        <div class="text-center text-gray-600 mb-8">
-            <p class="text-lg">
-                Showing <span class="font-bold text-gray-900"><?= count($courses) ?></span> 
-                <?= count($courses) === 1 ? 'course' : 'courses' ?>
-                <?php if (!empty($_GET['search'])): ?>
-                    for "<span class="font-bold text-primary"><?= htmlspecialchars($_GET['search']) ?></span>"
-                <?php endif; ?>
-            </p>
-        </div>
+    <!-- Results Info -->
+    <div class="text-center text-gray-600 mb-8">
+        <p class="text-lg">
+            Showing <span class="font-bold text-gray-900"><?= count($courses) ?></span> 
+            <?= count($courses) === 1 ? 'course bundle' : 'course bundles' ?>
+        </p>
     </div>
 
-    <!-- Course Categories -->
+    <!-- Course Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php if (!empty($courses)): ?>
             <?php foreach ($courses as $course): ?>
-        <!-- <?= htmlspecialchars($course['title']) ?> -->
-        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden relative">
+        <?php 
+        // Default card styling if not set
+        $cardColorFrom = $course['card_color_from'] ?? 'from-primary';
+        $cardColorTo = $course['card_color_to'] ?? 'to-blue-700';
+        $cardIcon = $course['card_icon'] ?? 'fas fa-book';
+        
+        // Level styling
+        $level = $course['level'] ?? 'beginner';
+        $levelColors = [
+            'beginner' => 'bg-green-100 text-green-700',
+            'intermediate' => 'bg-blue-100 text-blue-700',
+            'advanced' => 'bg-purple-100 text-purple-700'
+        ];
+        $levelColor = $levelColors[$level] ?? $levelColors['beginner'];
+        
+        // Truncate description to ~150 characters
+        $shortDescription = $course['description'] ?? '';
+        if (strlen($shortDescription) > 150) {
+            $shortDescription = substr($shortDescription, 0, 150) . '...';
+        }
+        
+        // Calculate savings for bundles
+        $originalPrice = $course['original_price'] ?? null;
+        $currentPrice = $course['price'] ?? 0;
+        $savingsPercent = 0;
+        if ($originalPrice && $originalPrice > $currentPrice) {
+            $savingsPercent = round((($originalPrice - $currentPrice) / $originalPrice) * 100);
+        }
+        
+        // Rating display
+        $rating = $course['rating'] ?? 0;
+        $reviewCount = $course['review_count'] ?? 0;
+        $hasReviews = $reviewCount > 0;
+        ?>
+        <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden relative transform hover:-translate-y-1">
+            <!-- Level Badge (Top Left) -->
+            <div class="absolute top-4 left-4 z-10 <?= $levelColor ?> text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <i class="fas fa-signal mr-1"></i><?= ucfirst($level) ?>
+            </div>
+            
+            <!-- Bundle/Savings Badge (Top Right) -->
+            <?php if (!empty($course['is_bundle']) && $savingsPercent > 0): ?>
+            <div class="absolute top-4 right-4 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                <i class="fas fa-tag mr-1"></i>SAVE <?= $savingsPercent ?>%
+            </div>
+            <?php elseif (!empty($course['is_bundle'])): ?>
+            <div class="absolute top-4 right-4 z-10 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <i class="fas fa-layer-group mr-1"></i>BUNDLE
+            </div>
+            <?php endif; ?>
+            
             <!-- Enrollment Badge -->
             <?php if (!empty($course['is_enrolled'])): ?>
-            <div class="absolute top-4 left-4 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+            <div class="absolute top-14 left-4 z-10 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                 <i class="fas fa-check-circle mr-1"></i>ENROLLED
             </div>
             <?php endif; ?>
             
-            <!-- New Badge -->
-            <?php if (!empty($course['is_new'])): ?>
-            <div class="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                <i class="fas fa-star mr-1"></i>NEW
-            </div>
-            <?php endif; ?>
-            
-            <?php 
-            // Default card styling if not set
-            $cardColorFrom = $course['card_color_from'] ?? 'from-primary';
-            $cardColorTo = $course['card_color_to'] ?? 'to-blue-700';
-            $cardIcon = $course['card_icon'] ?? 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253';
-            ?>
-            <a href="<?= url('/courses/' . $course['slug']) ?>" class="block">
-            <div class="bg-gradient-to-br <?= $cardColorFrom ?> <?= $cardColorTo ?> p-8 relative">
-                <?php if (!empty($course['is_bundle'])): ?>
-                <div class="absolute top-4 right-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                    <i class="fas fa-layer-group mr-1"></i> BUNDLE
-                </div>
-                <?php endif; ?>
-                <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="<?= $cardIcon ?>"/>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-white mb-2"><?= htmlspecialchars($course['title']) ?></h3>
-                <p class="text-white/90 text-sm"><?= htmlspecialchars($course['description']) ?></p>
-                
-                <!-- Rating and Enrollment -->
-                <div class="flex items-center gap-4 mt-4 text-white/90 text-sm">
-                    <div class="flex items-center gap-1">
-                        <i class="fas fa-star text-yellow-300"></i>
-                        <span class="font-semibold"><?= number_format($course['rating'] ?? 4.5, 1) ?></span>
-                        <span class="text-white/70">(<?= number_format($course['review_count'] ?? 0) ?>)</span>
+            <a href="<?= url('/courses/' . $course['slug']) ?>" class="block relative overflow-hidden">
+                <!-- Card Header with Gradient -->
+                <div class="bg-gradient-to-br <?= $cardColorFrom ?> <?= $cardColorTo ?> p-8 relative group-hover:brightness-110 transition-all duration-300">
+                    <!-- Hover Overlay -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-4 py-2 rounded-lg font-semibold shadow-lg">
+                            <i class="fas fa-eye mr-2"></i>View Details
+                        </span>
                     </div>
-                    <div class="flex items-center gap-1">
-                        <i class="fas fa-users"></i>
-                        <span><?= number_format($course['enrollment_count'] ?? 0) ?>+ enrolled</span>
+                    
+                    <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="<?= htmlspecialchars($cardIcon) ?> text-3xl text-gray-700"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2"><?= htmlspecialchars($course['title']) ?></h3>
+                    <p class="text-white/90 text-sm"><?= htmlspecialchars($shortDescription) ?></p>
+                    
+                    <!-- Rating and Enrollment -->
+                    <div class="flex items-center gap-4 mt-4 text-white/90 text-sm">
+                        <div class="flex items-center gap-1">
+                            <?php if ($hasReviews): ?>
+                                <!-- Visual Stars -->
+                                <?php 
+                                $fullStars = floor($rating);
+                                $halfStar = ($rating - $fullStars) >= 0.5;
+                                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                ?>
+                                <div class="flex text-yellow-300">
+                                    <?php for ($s = 0; $s < $fullStars; $s++): ?>
+                                        <i class="fas fa-star"></i>
+                                    <?php endfor; ?>
+                                    <?php if ($halfStar): ?>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    <?php endif; ?>
+                                    <?php for ($s = 0; $s < $emptyStars; $s++): ?>
+                                        <i class="far fa-star"></i>
+                                    <?php endfor; ?>
+                                </div>
+                                <span class="font-semibold ml-1"><?= number_format($rating, 1) ?></span>
+                                <span class="text-white/70">(<?= number_format($reviewCount) ?>)</span>
+                            <?php else: ?>
+                                <span class="bg-white/20 px-2 py-0.5 rounded text-xs font-medium">
+                                    <i class="fas fa-sparkles mr-1"></i>New Course
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <i class="fas fa-users"></i>
+                            <span><?= number_format($course['enrollment_count'] ?? 0) ?> enrolled</span>
+                        </div>
                     </div>
                 </div>
-            </div>
             </a>
+            
             <div class="p-6">
                 <!-- Facilitator & AI Tutor -->
                 <div class="mb-4 pb-4 border-b border-gray-200">
                     <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-robot text-primary text-lg"></i>
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-robot text-white text-sm"></i>
+                        </div>
                         <div class="flex-1">
                             <div class="text-xs text-gray-500">AI-Powered Learning</div>
                             <div class="font-semibold text-gray-900 text-sm">Nebatech AI Tutor</div>
@@ -234,40 +223,44 @@
                     <?php endif; ?>
                 </div>
 
+                <!-- Course Features -->
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm mb-4">
                     <?php if (!empty($course['sub_course_count'])): ?>
                     <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <?= $course['sub_course_count'] ?> Individual Courses
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        <?= $course['sub_course_count'] ?> Individual Courses Included
                     </li>
                     <?php endif; ?>
                     <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <?= htmlspecialchars($course['card_features'] ?? 'Hands-on Projects') ?>
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        <?= htmlspecialchars($course['card_features'] ?? 'Hands-on Projects & Exercises') ?>
                     </li>
                     <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <?= $course['duration_hours'] ?? '20' ?>+ Hours Content
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        <?= $course['duration_hours'] ?? '20' ?>+ Hours of Content
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        Certificate of Completion
                     </li>
                 </ul>
-                <div class="flex items-center justify-between text-sm">
+                
+                <!-- Price and CTA -->
+                <div class="flex items-center justify-between">
                     <div>
-                        <span class="text-2xl font-bold text-primary">GHS <?= isset($course['price']) ? number_format($course['price'], 0) : '749' ?></span>
-                        <div class="text-xs text-gray-500 mt-1">One-time payment</div>
+                        <?php if ($originalPrice && $originalPrice > $currentPrice): ?>
+                            <span class="text-sm text-gray-400 line-through">GHS <?= number_format($originalPrice, 0) ?></span>
+                        <?php endif; ?>
+                        <span class="text-2xl font-bold text-primary block">GHS <?= number_format($currentPrice, 0) ?></span>
+                        <div class="text-xs text-gray-500">One-time payment</div>
                     </div>
                     <?php if (!empty($course['is_enrolled'])): ?>
-                        <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" class="text-green-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center">
-                            <i class="fas fa-play-circle mr-1"></i>Continue Learning →
+                        <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center shadow-md hover:shadow-lg">
+                            <i class="fas fa-play-circle mr-2"></i>Continue
                         </a>
                     <?php else: ?>
-                        <a href="<?= url('/courses/' . $course['slug']) ?>" class="text-primary font-semibold group-hover:translate-x-1 transition-transform flex items-center">
-                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        <a href="<?= url('/courses/' . $course['slug']) ?>" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center shadow-md hover:shadow-lg group-hover:scale-105">
+                            View Course <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -275,12 +268,15 @@
         </div>
             <?php endforeach; ?>
         <?php else: ?>
+            <!-- Empty State -->
             <div class="col-span-full text-center py-16">
-                <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">No courses found</h3>
-                <p class="text-gray-600 mb-6">Try adjusting your search or filters</p>
-                <a href="<?= url('/courses') ?>" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition">
-                    View All Courses
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-graduation-cap text-5xl text-gray-300"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">No courses available yet</h3>
+                <p class="text-gray-600 mb-6">We're working on adding new courses. Check back soon!</p>
+                <a href="<?= url('/') ?>" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition">
+                    <i class="fas fa-home mr-2"></i>Go to Homepage
                 </a>
             </div>
         <?php endif; ?>
@@ -290,7 +286,6 @@
     <?php if (($totalPages ?? 1) > 1): ?>
     <div class="mt-12 flex justify-center">
         <nav class="flex items-center gap-2">
-            <!-- Previous Button -->
             <?php if ($currentPage > 1): ?>
                 <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $currentPage - 1]))) ?>" 
                    class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
@@ -302,16 +297,13 @@
                 </span>
             <?php endif; ?>
 
-            <!-- Page Numbers -->
             <?php
             $startPage = max(1, $currentPage - 2);
             $endPage = min($totalPages, $currentPage + 2);
             
             if ($startPage > 1): ?>
                 <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => 1]))) ?>" 
-                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
-                    1
-                </a>
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">1</a>
                 <?php if ($startPage > 2): ?>
                     <span class="px-2 text-gray-500">...</span>
                 <?php endif; ?>
@@ -319,14 +311,10 @@
 
             <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
                 <?php if ($i == $currentPage): ?>
-                    <span class="px-4 py-2 rounded-lg bg-primary text-white font-bold border-2 border-primary">
-                        <?= $i ?>
-                    </span>
+                    <span class="px-4 py-2 rounded-lg bg-primary text-white font-bold border-2 border-primary"><?= $i ?></span>
                 <?php else: ?>
                     <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $i]))) ?>" 
-                       class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
-                        <?= $i ?>
-                    </a>
+                       class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"><?= $i ?></a>
                 <?php endif; ?>
             <?php endfor; ?>
 
@@ -335,12 +323,9 @@
                     <span class="px-2 text-gray-500">...</span>
                 <?php endif; ?>
                 <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $totalPages]))) ?>" 
-                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
-                    <?= $totalPages ?>
-                </a>
+                   class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"><?= $totalPages ?></a>
             <?php endif; ?>
 
-            <!-- Next Button -->
             <?php if ($currentPage < $totalPages): ?>
                 <a href="<?= url('/courses?' . http_build_query(array_merge($_GET, ['page' => $currentPage + 1]))) ?>" 
                    class="px-4 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
@@ -365,18 +350,16 @@
         </div>
 
         <div class="max-w-4xl mx-auto space-y-4">
-            <!-- FAQ Item 1 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>How much do courses cost?</span>
                     <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
                 </summary>
                 <div class="px-6 pb-6 text-gray-700">
-                    Course prices range from GHS 1,485 to GHS 15,500 depending on the complexity and number of courses in the track. Bundle packages offer significant savings (up to 46% off) and give you lifetime access to all materials, updates, AI tutoring, and mentorship support. We also offer flexible payment plans.
+                    Course prices range from GHS 590 to GHS 15,500 depending on the complexity and number of courses in the track. Bundle packages offer significant savings (up to 46% off) and give you lifetime access to all materials, updates, AI tutoring, and mentorship support. We also offer flexible payment plans.
                 </div>
             </details>
 
-            <!-- FAQ Item 2 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>Do I get a certificate?</span>
@@ -387,7 +370,6 @@
                 </div>
             </details>
 
-            <!-- FAQ Item 3 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>What support do I get?</span>
@@ -398,7 +380,6 @@
                 </div>
             </details>
 
-            <!-- FAQ Item 4 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>How long do I have access to the courses?</span>
@@ -409,7 +390,6 @@
                 </div>
             </details>
 
-            <!-- FAQ Item 5 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>What are the prerequisites?</span>
@@ -420,7 +400,6 @@
                 </div>
             </details>
 
-            <!-- FAQ Item 6 -->
             <details class="bg-white rounded-lg shadow-md group">
                 <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-gray-900 text-lg hover:text-primary transition">
                     <span><i class="fas fa-question-circle text-primary mr-3"></i>Can I access courses on mobile devices?</span>
@@ -434,20 +413,31 @@
     </section>
 
     <!-- CTA Section -->
-    <div class="mt-16 bg-gradient-to-r from-primary to-secondary rounded-2xl p-12 text-center text-white">
-        <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Career?</h2>
-        <p class="text-xl mb-8 opacity-90">Join thousands of students mastering tech skills with AI-powered learning and expert mentorship</p>
-        <div class="flex justify-center gap-4">
-            <a href="<?= url('/register') ?>" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                Browse All Courses
-            </a>
-            <a href="<?= url('/contact') ?>" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition">
-                Talk to an Advisor
-            </a>
+    <div class="mt-16 bg-gradient-to-r from-primary to-secondary rounded-2xl p-12 text-center text-white relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-3xl"></div>
         </div>
-        <p class="text-sm mt-6 opacity-75">
-            <i class="fas fa-shield-alt mr-2"></i>30-day money-back guarantee • Lifetime access • AI tutor + mentors
-        </p>
+        
+        <div class="relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Career?</h2>
+            <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">Join thousands of students mastering tech skills with AI-powered learning and expert mentorship</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="<?= url('/register') ?>" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                </a>
+                <a href="<?= url('/contact') ?>" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition">
+                    <i class="fas fa-comments mr-2"></i>Talk to an Advisor
+                </a>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm opacity-90">
+                <span><i class="fas fa-shield-alt mr-2"></i>30-day money-back guarantee</span>
+                <span><i class="fas fa-infinity mr-2"></i>Lifetime access</span>
+                <span><i class="fas fa-robot mr-2"></i>AI tutor included</span>
+                <span><i class="fas fa-user-tie mr-2"></i>Expert mentors</span>
+            </div>
+        </div>
     </div>
 </div>
 

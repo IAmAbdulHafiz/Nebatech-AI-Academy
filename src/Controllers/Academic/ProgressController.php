@@ -259,8 +259,9 @@ class ProgressController extends Controller
         $user = \Nebatech\Models\User::findById($_SESSION['user_id']);
         $dashboardData = ProgressService::getProgressDashboard($_SESSION['user_id']);
 
-        echo $this->view('progress/dashboard', [
+        echo $this->render('progress/dashboard', [
             'title' => 'My Progress',
+            'pageTitle' => 'My Progress',
             'user' => $user,
             'data' => $dashboardData
         ]);
@@ -293,8 +294,9 @@ class ProgressController extends Controller
             $pageTitle = 'Bookmarked Lessons';
         }
 
-        echo $this->view('progress/bookmarks', [
+        echo $this->render('progress/bookmarks', [
             'title' => $pageTitle,
+            'pageTitle' => $pageTitle,
             'user' => $user,
             'bookmarks' => $bookmarks,
             'filteredCourseId' => $courseId

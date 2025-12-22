@@ -1,9 +1,5 @@
 <?php
 $title = 'My Cohorts';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -96,8 +92,3 @@ ob_start();
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

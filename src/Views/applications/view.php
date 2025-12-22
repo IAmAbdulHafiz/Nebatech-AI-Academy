@@ -1,9 +1,5 @@
 <?php
 $title = 'Application Details';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -182,8 +178,3 @@ ob_start();
         </div>
     </div>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

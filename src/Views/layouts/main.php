@@ -49,9 +49,7 @@
 <body class="bg-gray-50 dark:bg-gray-900">
     <?php include __DIR__ . '/../partials/header.php'; ?>
     
-    <main class="relative">
-        <?php echo $content ?? ''; ?>
-    </main>
+    <main class="relative"><?php echo $content ?? ''; ?></main>
     
     <?php include __DIR__ . '/../partials/footer.php'; ?>
 </body>

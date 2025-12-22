@@ -13,6 +13,7 @@ class CsrfMiddleware extends Middleware
     protected array $except = [
         '/api/*',
         '/payments/hubtel/callback', // Hubtel payment webhook
+        '/code/execute', // Code playground execution
     ];
 
     public function handle(): void

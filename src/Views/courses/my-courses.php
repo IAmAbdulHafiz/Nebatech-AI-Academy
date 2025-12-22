@@ -1,11 +1,3 @@
-<?php
-$title = 'My Courses';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
-?>
-
 <!-- Page Header -->
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">My Courses</h1>
@@ -153,8 +145,3 @@ ob_start();
         </div>
     </div>
 <?php endif; ?>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

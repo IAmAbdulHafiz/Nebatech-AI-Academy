@@ -146,9 +146,8 @@ class ApplicationController extends Controller
     /**
      * View application details
      */
-    public function viewApplication(array $params = [])
+    public function viewApplication(string $uuid = '')
     {
-        $uuid = $params['uuid'] ?? '';
         if (empty($uuid)) {
             $this->setFlashMessage('error', 'Invalid application ID');
             $this->redirect('/dashboard');

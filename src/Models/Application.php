@@ -364,6 +364,66 @@ class Application extends Model
     }
 
     /**
+     * Get application timeline/history
+     */
+    public function getTimeline(int $applicationId): array
+    {
+        // Get the application data to build timeline
+        $sql = "SELECT * FROM applications WHERE id = :id";
+        $app = Database::fetch($sql, ['id' => $applicationId]);
+        
+        if (!$app) {
+            return [];
+        }
+        
+        $timeline = [];
+        
+        // Application submitted
+        if (!empty($app['created_at'])) {
+            $timeline[] = [
+                'event' => 'Application Submitted',
+                'date' => $app['created_at'],
+                'icon' => 'fa-paper-plane',
+                'color' => 'blue'
+            ];
+        }
+        
+        // Application reviewed
+        if (!empty($app['reviewed_at'])) {
+            $timeline[] = [
+                'event' => 'Application Reviewed',
+                'date' => $app['reviewed_at'],
+                'icon' => 'fa-check-circle',
+                'color' => 'yellow'
+            ];
+        }
+        
+        // Status changes
+        if ($app['status'] === 'approved' && !empty($app['reviewed_at'])) {
+            $timeline[] = [
+                'event' => 'Application Approved',
+                'date' => $app['reviewed_at'],
+                'icon' => 'fa-thumbs-up',
+                'color' => 'green'
+            ];
+        } elseif ($app['status'] === 'rejected' && !empty($app['reviewed_at'])) {
+            $timeline[] = [
+                'event' => 'Application Rejected',
+                'date' => $app['reviewed_at'],
+                'icon' => 'fa-times-circle',
+                'color' => 'red'
+            ];
+        }
+        
+        // Sort by date
+        usort($timeline, function($a, $b) {
+            return strtotime($a['date']) - strtotime($b['date']);
+        });
+        
+        return $timeline;
+    }
+
+    /**
      * Generate UUID v4
      */
     protected static function generateApplicationUuid(): string

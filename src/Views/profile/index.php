@@ -1,15 +1,5 @@
 <?php
 $title = 'My Profile';
-ob_start();
-// Dynamically load sidebar based on user role
-$sidebarFile = match($user['role']) {
-    'admin' => 'admin-sidebar.php',
-    'facilitator' => 'facilitator-sidebar.php',
-    default => 'student-sidebar.php'
-};
-include __DIR__ . '/../partials/' . $sidebarFile;
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <div x-data="profileManager()">
@@ -240,8 +230,3 @@ function profileManager() {
     };
 }
 </script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

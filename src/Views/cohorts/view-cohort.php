@@ -1,9 +1,5 @@
 <?php
 $title = $cohort['name'] . ' - Cohort Details';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 
 $statusConfig = [
     'upcoming' => ['bg' => 'bg-blue-100 text-blue-800', 'icon' => 'fa-clock', 'text' => 'Upcoming'],
@@ -272,8 +268,3 @@ $config = $statusConfig[$cohort['status']] ?? ['bg' => 'bg-gray-100 text-gray-80
         <?php endif; ?>
     </div>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

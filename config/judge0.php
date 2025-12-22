@@ -6,8 +6,9 @@
 
 return [
     // Judge0 API Configuration
-    'api_key' => $_ENV['JUDGE0_API_KEY'] ?? null,
-    'api_url' => $_ENV['JUDGE0_API_URL'] ?? 'https://judge0-ce.p.rapidapi.com',
+    'api_key' => getenv('JUDGE0_API_KEY') ?: '',
+    'api_url' => getenv('JUDGE0_API_URL') ?: 'https://judge0-ce.p.rapidapi.com',
+    'api_host' => getenv('JUDGE0_API_HOST') ?: 'judge0-ce.p.rapidapi.com',
     
     // Timeout settings (in seconds)
     'timeout' => 30,

@@ -1,9 +1,5 @@
 <?php
 $title = 'My Progress';
-ob_start();
-include __DIR__ . '/../partials/student-sidebar.php';
-$sidebarContent = ob_get_clean();
-ob_start();
 
 $streak = $data['streak'] ?? null;
 $lessonStats = $data['lesson_stats'] ?? [];
@@ -240,8 +236,3 @@ $insights = $data['insights'] ?? [];
     </div>
     <?php endif; ?>
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

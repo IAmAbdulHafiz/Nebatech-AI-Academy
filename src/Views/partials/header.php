@@ -330,8 +330,8 @@
                          @mouseenter="coursesDropdown = true"
                          @mouseleave="coursesDropdown = false"
                          @click.away="coursesDropdown = false"
-                         class="absolute left-1/2 -translate-x-1/2 top-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
-                         style="width: calc(100vw - 4rem); max-width: 1200px;">
+                         class="fixed left-0 right-0 mx-auto mt-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
+                         style="width: calc(100vw - 4rem); max-width: 1200px; top: 70px;">
                         <div class="px-8 py-8">
                             <div class="grid grid-cols-4 gap-8">
                                 <div>
@@ -339,48 +339,48 @@
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                                         </svg>
-                                        Frontend Development
+                                        Web Development
                                     </h4>
-                                    <a href="<?= url('/courses/frontend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">HTML, CSS & JavaScript</a>
-                                    <a href="<?= url('/courses/frontend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">React & Vue.js</a>
-                                    <a href="<?= url('/courses/frontend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Tailwind CSS</a>
-                                    <a href="<?= url('/courses/frontend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Responsive Design</a>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-primary dark:text-primary/80 mb-4 text-lg flex items-center">
-                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-                                        </svg>
-                                        Backend Development
-                                    </h4>
-                                    <a href="<?= url('/courses/backend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">PHP & Laravel</a>
-                                    <a href="<?= url('/courses/backend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Node.js & Express</a>
-                                    <a href="<?= url('/courses/backend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Database Design</a>
-                                    <a href="<?= url('/courses/backend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">RESTful APIs</a>
+                                    <a href="<?= url('/courses/frontend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Frontend Development</a>
+                                    <a href="<?= url('/courses/backend') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Backend Development</a>
+                                    <a href="<?= url('/courses/fullstack') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Full Stack Development</a>
+                                    <a href="<?= url('/courses/database') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Database Management</a>
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-primary dark:text-primary/80 mb-4 text-lg flex items-center">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                                         </svg>
-                                        AI & Data Science
+                                        AI & Data
                                     </h4>
-                                    <a href="<?= url('/courses/ai') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Machine Learning</a>
-                                    <a href="<?= url('/courses/data-science') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Data Analytics</a>
-                                    <a href="<?= url('/courses/ai') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Deep Learning</a>
-                                    <a href="<?= url('/courses/data-science') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Python for Data</a>
+                                    <a href="<?= url('/courses/ai') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">AI & Machine Learning</a>
+                                    <a href="<?= url('/courses/data-science') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Data Science</a>
+                                    <a href="<?= url('/courses/cybersecurity') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Cybersecurity</a>
+                                    <a href="<?= url('/courses/cloud') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Cloud Computing</a>
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-primary dark:text-primary/80 mb-4 text-lg flex items-center">
                                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                                         </svg>
-                                        Mobile & More
+                                        Mobile & Infrastructure
                                     </h4>
                                     <a href="<?= url('/courses/mobile') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Mobile Development</a>
-                                    <a href="<?= url('/courses/fullstack') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Full Stack</a>
-                                    <a href="<?= url('/courses/cybersecurity') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Cybersecurity</a>
-                                    <a href="<?= url('/courses/cloud') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Cloud Computing</a>
+                                    <a href="<?= url('/courses/networking') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Networking</a>
+                                    <a href="<?= url('/courses/hardware') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Hardware & Repairs</a>
+                                    <a href="<?= url('/courses/digital-literacy') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Digital Literacy</a>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-primary dark:text-primary/80 mb-4 text-lg flex items-center">
+                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                                        </svg>
+                                        Creative & Office
+                                    </h4>
+                                    <a href="<?= url('/courses/graphic-design') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Graphic Design</a>
+                                    <a href="<?= url('/courses/video-editing') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Video Editing</a>
+                                    <a href="<?= url('/courses/microsoft-office') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Microsoft Office</a>
+                                    <a href="<?= url('/courses') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">View All Courses</a>
                                 </div>
                             </div>
                             <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -411,8 +411,8 @@
                          @mouseenter="servicesDropdown = true"
                          @mouseleave="servicesDropdown = false"
                          @click.away="servicesDropdown = false"
-                         class="absolute left-1/2 -translate-x-1/2 top-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
-                         style="width: calc(100vw - 4rem); max-width: 1200px;">
+                         class="fixed left-0 right-0 mx-auto mt-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
+                         style="width: calc(100vw - 4rem); max-width: 1200px; top: 70px;">
                         <div class="px-8 py-8">
                             <div class="grid grid-cols-4 gap-8">
                                 <div>
@@ -488,8 +488,8 @@
                          @mouseenter="companyDropdown = true"
                          @mouseleave="companyDropdown = false"
                          @click.away="companyDropdown = false"
-                         class="absolute left-1/2 -translate-x-1/2 top-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
-                         style="width: calc(100vw - 4rem); max-width: 1200px;">
+                         class="fixed left-0 right-0 mx-auto mt-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-2xl z-50 rounded-lg"
+                         style="width: calc(100vw - 4rem); max-width: 1200px; top: 70px;">
                         <div class="px-8 py-8">
                             <div class="grid grid-cols-4 gap-8">
                                 <a href="<?= url('/about') ?>" class="group block hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg p-4 transition-colors">

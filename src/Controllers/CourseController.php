@@ -71,14 +71,25 @@ class CourseController extends Controller
             }
         }
         
+        // Fetch courses with real enrollment counts from enrollments table
         $sql = "SELECT c.*, 
-                (SELECT COUNT(*) FROM courses sub WHERE sub.parent_course_id = c.id) as sub_course_count
+                (SELECT COUNT(*) FROM courses sub WHERE sub.parent_course_id = c.id) as sub_course_count,
+                (SELECT COUNT(*) FROM enrollments e WHERE e.course_id = c.id) as real_enrollment_count
                 FROM courses c 
                 WHERE " . implode(" AND ", $where) . " 
                 ORDER BY " . $orderBy . " LIMIT ? OFFSET ?";
         $stmt = $db->prepare($sql);
         $stmt->execute(array_merge($params, [$perPage, $offset]));
         $courses = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        // Use real enrollment data if available, otherwise fall back to stored sample data
+        foreach ($courses as &$course) {
+            if ($course['real_enrollment_count'] > 0) {
+                $course['enrollment_count'] = $course['real_enrollment_count'];
+            }
+            // Rating and review_count remain from database (no reviews table yet)
+        }
+        unset($course);
         
         // Check enrollment status if user is logged in
         if (isset($_SESSION['user_id'])) {
@@ -115,126 +126,6 @@ class CourseController extends Controller
             'totalPages' => $totalPages,
             'perPage' => $perPage
         ], 'main');
-    }
-
-    /**
-     * Show Frontend Development courses
-     */
-    public function frontend()
-    {
-        echo $this->render('courses/frontend', [], 'main');
-    }
-
-    /**
-     * Show Backend Development courses
-     */
-    public function backend()
-    {
-        echo $this->render('courses/backend', [], 'main');
-    }
-
-    /**
-     * Show Full Stack courses
-     */
-    public function fullstack()
-    {
-        echo $this->render('courses/fullstack', [], 'main');
-    }
-
-    /**
-     * Show Mobile Development courses
-     */
-    public function mobile()
-    {
-        echo $this->render('courses/mobile', [], 'main');
-    }
-
-    /**
-     * Show AI & Machine Learning courses
-     */
-    public function ai()
-    {
-        echo $this->render('courses/ai', [], 'main');
-    }
-
-    /**
-     * Show Data Science courses
-     */
-    public function dataScience()
-    {
-        echo $this->render('courses/data-science', [], 'main');
-    }
-
-    /**
-     * Show Cybersecurity courses
-     */
-    public function cybersecurity()
-    {
-        echo $this->render('courses/cybersecurity', [], 'main');
-    }
-
-    /**
-     * Show Cloud Computing courses
-     */
-    public function cloud()
-    {
-        echo $this->render('courses/cloud', [], 'main');
-    }
-
-    /**
-     * Show Database Design & Administration
-     */
-    public function database()
-    {
-        echo $this->render('courses/database', [], 'main');
-    }
-
-    /**
-     * Show Microsoft Office Suite
-     */
-    public function microsoftOffice()
-    {
-        echo $this->render('courses/microsoft-office', [], 'main');
-    }
-
-    /**
-     * Show Networking Engineering
-     */
-    public function networking()
-    {
-        echo $this->render('courses/networking', [], 'main');
-    }
-
-    /**
-     * Show Computer Hardware
-     */
-    public function hardware()
-    {
-        echo $this->render('courses/hardware', [], 'main');
-    }
-
-    /**
-     * Show Digital Literacy
-     */
-    public function digitalLiteracy()
-    {
-        echo $this->render('courses/digital-literacy', [], 'main');
-    }
-
-    /**
-     * Show Video Editing & Production
-     */
-    public function videoEditing()
-    {
-        echo $this->render('courses/video-editing', [], 'main');
-    }
-
-    /**
-     * Show Graphic Design & Digital Arts
-     */
-    public function graphicDesign()
-    {
-        echo $this->render('courses/graphic-design', [], 'main');
     }
 
     /**

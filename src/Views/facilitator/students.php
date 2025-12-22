@@ -146,8 +146,3 @@ ob_start();
                 <?php endif; ?>
 
 </div>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

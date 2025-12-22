@@ -1,16 +1,5 @@
 <?php
 $title = $course['title'] ?? 'Course';
-ob_start();
-// Use appropriate sidebar based on user role
-if (isset($user['role']) && $user['role'] === 'facilitator') {
-    include __DIR__ . '/../partials/facilitator-sidebar.php';
-} elseif (isset($user['role']) && $user['role'] === 'admin') {
-    include __DIR__ . '/../partials/admin-sidebar.php';
-} else {
-    include __DIR__ . '/../partials/student-sidebar.php';
-}
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <div x-data="courseViewer()" x-init="initTracking()">
@@ -486,8 +475,3 @@ function courseViewer() {
     }
 }
 </script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

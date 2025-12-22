@@ -1,15 +1,5 @@
 <?php
 $title = 'My Certificates';
-ob_start();
-// Dynamically load sidebar based on user role
-$sidebarFile = match($user['role']) {
-    'admin' => 'admin-sidebar.php',
-    'facilitator' => 'facilitator-sidebar.php',
-    default => 'student-sidebar.php'
-};
-include __DIR__ . '/../partials/' . $sidebarFile;
-$sidebarContent = ob_get_clean();
-ob_start();
 ?>
 
 <!-- Page Header -->
@@ -100,8 +90,3 @@ function shareCertificate(uuid) {
     window.open(linkedInUrl, '_blank', 'width=600,height=600');
 }
 </script>
-
-<?php
-$content = ob_get_clean();
-include __DIR__ . '/../layouts/dashboard.php';
-?>

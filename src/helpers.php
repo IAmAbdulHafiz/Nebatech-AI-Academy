@@ -126,3 +126,38 @@ if (!function_exists('env')) {
         return $value;
     }
 }
+
+if (!function_exists('config')) {
+    /**
+     * Get configuration value from config files
+     * 
+     * @param string $key The config key in format 'file.key' or just 'file'
+     * @param mixed $default Default value if not found
+     * @return mixed
+     */
+    function config(string $key, $default = null)
+    {
+        static $configCache = [];
+        
+        $parts = explode('.', $key, 2);
+        $file = $parts[0];
+        $configKey = $parts[1] ?? null;
+        
+        // Load config file if not cached
+        if (!isset($configCache[$file])) {
+            $configPath = dirname(__DIR__) . '/config/' . $file . '.php';
+            if (file_exists($configPath)) {
+                $configCache[$file] = require $configPath;
+            } else {
+                $configCache[$file] = [];
+            }
+        }
+        
+        // Return entire config file or specific key
+        if ($configKey === null) {
+            return !empty($configCache[$file]) ? $configCache[$file] : $default;
+        }
+        
+        return $configCache[$file][$configKey] ?? $default;
+    }
+}
