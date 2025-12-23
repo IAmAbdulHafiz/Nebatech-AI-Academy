@@ -131,6 +131,7 @@ $router->post('/settings/update', [User\SettingsController::class, 'update']);
 $router->post('/settings/password', [User\SettingsController::class, 'changePassword']);
 $router->post('/settings/editor', [User\SettingsController::class, 'updateEditor']);
 $router->get('/notifications', [NotificationController::class, 'index']);
+$router->get('/help-center', [DashboardController::class, 'helpCenter']);
 
 // Facilitator Routes (protected)
 $router->get('/facilitator/dashboard', [FacilitatorController::class, 'dashboard']);
@@ -184,8 +185,16 @@ $router->post('/ai/generate-complete-course', [AIController::class, 'generateCom
 $router->post('/ai/generate-quiz', [AIController::class, 'generateQuiz']);
 
 // Code Editor Routes (student access)
-$router->get('/code-editor', [CodeEditorController::class, 'index']);
-$router->get('/lessons/{id}/code-editor', [CodeEditorController::class, 'index']);
+// Note: /code-editor is deprecated, use /playground instead which now has all features
+// Redirect old code-editor URLs to playground
+$router->get('/code-editor', function() {
+    header('Location: /playground');
+    exit;
+});
+$router->get('/lessons/{id}/code-editor', function($id) {
+    header('Location: /playground?lesson=' . $id);
+    exit;
+});
 $router->get('/assignments/{id}/code-editor', [CodeEditorController::class, 'assignment']);
 $router->post('/assignments/submit', [CodeEditorController::class, 'submitAssignment']);
 $router->post('/assignments/save', [CodeEditorController::class, 'saveSubmission']);

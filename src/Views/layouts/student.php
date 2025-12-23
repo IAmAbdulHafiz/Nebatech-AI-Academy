@@ -126,6 +126,9 @@
          class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm lg:hidden z-40">
     </div>
 
+    <!-- AI Tutor Floating Widget -->
+    <?php include __DIR__ . '/../partials/ai-tutor-widget.php'; ?>
+
     <!-- Notifications JS -->
     <script src="<?= asset('js/notifications.js') ?>"></script>
 </body>

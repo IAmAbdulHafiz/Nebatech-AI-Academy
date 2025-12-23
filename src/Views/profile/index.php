@@ -18,7 +18,7 @@ $title = 'My Profile';
                     <div class="relative inline-block">
                         <div class="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-primary to-blue-700 flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4" id="avatarContainer">
                             <?php if (!empty($user['avatar'])): ?>
-                                <img src="<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar" class="w-full h-full object-cover" id="avatarPreview">
+                                <img src="<?= htmlspecialchars(avatar_url($user['avatar'])) ?>" alt="Avatar" class="w-full h-full object-cover" id="avatarPreview">
                             <?php else: ?>
                                 <span id="avatarInitials"><?= strtoupper(substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1)) ?></span>
                             <?php endif; ?>
@@ -198,7 +198,7 @@ function profileManager() {
             formData.append('_token', '<?= csrf_token() ?>');
             
             try {
-                const response = await fetch('<?= url('/profile/upload-avatar') ?>', {
+                const response = await fetch('<?= url('/profile/avatar') ?>', {
                     method: 'POST',
                     body: formData
                 });

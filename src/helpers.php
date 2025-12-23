@@ -37,6 +37,25 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('avatar_url')) {
+    /**
+     * Get the full URL for a user's avatar
+     */
+    function avatar_url(?string $avatar, string $default = 'images/default-avatar.svg'): string
+    {
+        if (empty($avatar)) {
+            return asset($default);
+        }
+        // If avatar already has http, return as is
+        if (str_starts_with($avatar, 'http')) {
+            return $avatar;
+        }
+        // Remove leading slash if present for consistency
+        $avatar = ltrim($avatar, '/');
+        return base_url($avatar);
+    }
+}
+
 if (!function_exists('url')) {
     /**
      * Generate a URL for the application

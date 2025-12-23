@@ -122,7 +122,7 @@
         <!-- User Profile (bottom) -->
         <div class="border-t border-purple-700 p-4">
             <div class="flex items-center" x-data="{ profileOpen: false }">
-                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.svg') ?>" 
+                <img src="<?= avatar_url($user['avatar'] ?? null) ?>" 
                      alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
                      class="w-10 h-10 rounded-full object-cover border-2 border-purple-600">
                 <div class="ml-3 flex-1">
@@ -187,7 +187,7 @@
 
                     <!-- User Avatar (Desktop) -->
                     <div class="hidden lg:block">
-                        <img src="<?= $user['avatar'] ?? asset('images/default-avatar.svg') ?>" 
+                        <img src="<?= avatar_url($user['avatar'] ?? null) ?>" 
                              alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
                              class="w-8 h-8 rounded-full object-cover">
                     </div>

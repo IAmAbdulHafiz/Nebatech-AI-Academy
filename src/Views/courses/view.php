@@ -2,6 +2,13 @@
 $title = $course['title'] ?? 'Course';
 ?>
 
+<!-- AI Tutor Context Variables -->
+<script>
+    window.currentCourseId = <?= json_encode($course['id'] ?? null) ?>;
+    window.currentLessonId = <?= json_encode($currentLesson['id'] ?? null) ?>;
+    window.currentModuleId = <?= json_encode($currentModule['id'] ?? null) ?>;
+</script>
+
 <div x-data="courseViewer()" x-init="initTracking()">
     <!-- Preview Mode Banner (for facilitators not enrolled) -->
     <?php if (isset($user['role']) && $user['role'] === 'facilitator' && !$enrollment): ?>

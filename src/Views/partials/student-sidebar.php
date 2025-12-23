@@ -6,6 +6,10 @@
  * Required variables:
  * - $user: Current user data
  * - $studentStats: (optional) Array with 'courses', 'completed', 'certificates' counts
+ * - $enrolledCount: (optional) Total enrolled courses
+ * - $completedCount: (optional) Completed courses
+ * - $certificatesCount: (optional) Earned certificates
+ * - $pendingCount: (optional) Pending submissions count
  */
 
 // Active link helper
@@ -16,6 +20,12 @@ $isActive = function($path) use ($currentPath) {
     }
     return strpos($currentPath, $path) === 0;
 };
+
+// Use provided stats or fallback to studentStats array or defaults
+$coursesCount = $enrolledCount ?? ($studentStats['courses'] ?? 0);
+$completedCount = $completedCount ?? ($studentStats['completed'] ?? 0);
+$certsCount = $certificatesCount ?? ($studentStats['certificates'] ?? 0);
+$pendingAssignments = $pendingCount ?? 0;
 ?>
 
 <!-- Student Sidebar -->
@@ -42,17 +52,17 @@ $isActive = function($path) use ($currentPath) {
     <div class="px-6 py-4 border-b border-white/10">
         <div class="flex items-center justify-between">
             <div class="text-center">
-                <p class="text-2xl font-bold text-white"><?= $studentStats['courses'] ?? 0 ?></p>
+                <p class="text-2xl font-bold text-white"><?= $coursesCount ?></p>
                 <p class="text-xs text-gray-400">Courses</p>
             </div>
             <div class="w-px h-8 bg-white/20"></div>
             <div class="text-center">
-                <p class="text-2xl font-bold text-green-400"><?= $studentStats['completed'] ?? 0 ?></p>
+                <p class="text-2xl font-bold text-green-400"><?= $completedCount ?></p>
                 <p class="text-xs text-gray-400">Completed</p>
             </div>
             <div class="w-px h-8 bg-white/20"></div>
             <div class="text-center">
-                <p class="text-2xl font-bold text-yellow-400"><?= $studentStats['certificates'] ?? 0 ?></p>
+                <p class="text-2xl font-bold text-yellow-400"><?= $certsCount ?></p>
                 <p class="text-xs text-gray-400">Certificates</p>
             </div>
         </div>
@@ -186,21 +196,12 @@ $isActive = function($path) use ($currentPath) {
         <div class="pt-4 border-t border-white/10">
             <div class="space-y-1">
                 <!-- Help & Support -->
-                <a href="<?= url('/support') ?>" 
-                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group text-gray-400 hover:bg-white/5 hover:text-white">
-                    <div class="w-9 h-9 rounded-lg bg-white/5 group-hover:bg-white/10 flex items-center justify-center transition">
+                <a href="<?= url('/help-center') ?>" 
+                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group <?= $currentPage === 'help-center' ? 'bg-gradient-to-r from-primary/20 to-purple-500/20 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' ?>">
+                    <div class="w-9 h-9 rounded-lg <?= $currentPage === 'help-center' ? 'bg-primary/30' : 'bg-white/5 group-hover:bg-white/10' ?> flex items-center justify-center transition">
                         <i class="fas fa-question-circle"></i>
                     </div>
                     <span class="ml-3 font-medium">Help Center</span>
-                </a>
-
-                <!-- Back to Site -->
-                <a href="<?= url('/') ?>" 
-                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group text-gray-400 hover:bg-white/5 hover:text-white">
-                    <div class="w-9 h-9 rounded-lg bg-white/5 group-hover:bg-white/10 flex items-center justify-center transition">
-                        <i class="fas fa-external-link-alt"></i>
-                    </div>
-                    <span class="ml-3 font-medium">Back to Website</span>
                 </a>
             </div>
         </div>
@@ -210,7 +211,7 @@ $isActive = function($path) use ($currentPath) {
     <div class="border-t border-white/10 p-4 flex-shrink-0 bg-black/20">
         <div class="flex items-center" x-data="{ profileOpen: false }">
             <div class="relative">
-                <img src="<?= $user['avatar'] ?? asset('images/default-avatar.svg') ?>" 
+                <img src="<?= avatar_url($user['avatar'] ?? null) ?>" 
                      alt="<?= htmlspecialchars($user['first_name'] ?? 'User') ?>"
                      class="w-11 h-11 rounded-xl object-cover ring-2 ring-white/20">
                 <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-800 rounded-full"></span>
