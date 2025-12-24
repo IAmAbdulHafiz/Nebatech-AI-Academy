@@ -190,4 +190,260 @@ class CourseController extends Controller
             'relatedCourses' => $relatedCourses
         ], 'main');
     }
+
+    /**
+     * Show course learning page (for enrolled students)
+     */
+    public function learn(string $slug = '')
+    {
+        if (empty($slug)) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
+        }
+
+        // Require authentication
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = "/courses/$slug/learn";
+            header('Location: ' . url('/login'));
+            exit;
+        }
+
+        $db = \Nebatech\Core\Database::connect();
+        $userId = $_SESSION['user_id'];
+
+        // Fetch course by slug
+        $course = Course::findBySlug($slug);
+        
+        if (!$course) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
+        }
+
+        // Check enrollment
+        $enrollment = Enrollment::getByUserAndCourse($userId, $course['id']);
+        
+        // If not enrolled, redirect to enrollment page
+        if (!$enrollment) {
+            $_SESSION['info_message'] = 'Please enroll in this course to access the lessons.';
+            header('Location: ' . url("/courses/$slug/enroll"));
+            exit;
+        }
+
+        // Get user data
+        $user = \Nebatech\Models\User::findById($userId);
+
+        // Get modules with lessons
+        $modules = Module::getByCourse($course['id'], 'published');
+        
+        // Fetch lessons for each module
+        foreach ($modules as &$module) {
+            $module['lessons'] = \Nebatech\Models\Lesson::getByModule($module['id']);
+        }
+        unset($module);
+        
+        // Get lesson progress for this enrollment
+        $lessonProgress = \Nebatech\Models\Academic\LessonProgress::getByEnrollment($enrollment['id']);
+        $progressMap = [];
+        foreach ($lessonProgress as $lp) {
+            $progressMap[$lp['lesson_id']] = $lp;
+        }
+
+        // Add progress status to each lesson
+        foreach ($modules as &$module) {
+            if (!empty($module['lessons'])) {
+                foreach ($module['lessons'] as &$lesson) {
+                    $progress = $progressMap[$lesson['id']] ?? null;
+                    $lesson['is_completed'] = $progress && $progress['status'] === 'completed';
+                    $lesson['is_in_progress'] = $progress && $progress['status'] === 'in_progress';
+                    $lesson['has_assignment'] = !empty($lesson['assignment_id']);
+                    $lesson['progress'] = $progress;
+                }
+                unset($lesson);
+            }
+        }
+        unset($module);
+
+        // Find the resume lesson (first incomplete or in_progress lesson)
+        $resumeLesson = null;
+        foreach ($modules as $module) {
+            if (!empty($module['lessons'])) {
+                foreach ($module['lessons'] as $lesson) {
+                    $progress = $progressMap[$lesson['id']] ?? null;
+                    if (!$progress || $progress['status'] !== 'completed') {
+                        $resumeLesson = array_merge($lesson, [
+                            'status' => $progress['status'] ?? 'not_started',
+                            'module_title' => $module['title']
+                        ]);
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        // If all lessons completed, set the first lesson as resume
+        if (!$resumeLesson && !empty($modules) && !empty($modules[0]['lessons'])) {
+            $resumeLesson = $modules[0]['lessons'][0];
+        }
+
+        return $this->render('courses/learn', [
+            'title' => $course['title'] . ' - Learning',
+            'course' => $course,
+            'modules' => $modules,
+            'enrollment' => $enrollment,
+            'progressMap' => $progressMap,
+            'resumeLesson' => $resumeLesson,
+            'user' => $user
+        ], 'student');
+    }
+
+    /**
+     * Show individual lesson (for enrolled students)
+     */
+    public function lesson(string $slug = '', string $lessonId = '')
+    {
+        if (empty($slug) || empty($lessonId)) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Lesson Not Found'], 'main');
+        }
+
+        // Require authentication
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = "/courses/$slug/lesson/$lessonId";
+            header('Location: ' . url('/login'));
+            exit;
+        }
+
+        $db = \Nebatech\Core\Database::connect();
+        $userId = $_SESSION['user_id'];
+
+        // Fetch course by slug
+        $course = Course::findBySlug($slug);
+        
+        if (!$course) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Course Not Found'], 'main');
+        }
+
+        // Check enrollment
+        $enrollment = Enrollment::getByUserAndCourse($userId, $course['id']);
+        
+        // Allow facilitators to preview without enrollment
+        $user = \Nebatech\Models\User::findById($userId);
+        $isFacilitator = $user['role'] === 'facilitator' || $user['role'] === 'admin';
+        
+        if (!$enrollment && !$isFacilitator) {
+            $_SESSION['info_message'] = 'Please enroll in this course to access the lessons.';
+            header('Location: ' . url("/courses/$slug/enroll"));
+            exit;
+        }
+
+        // Get the lesson
+        $lesson = \Nebatech\Models\Lesson::findById((int)$lessonId);
+        
+        if (!$lesson) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Lesson Not Found'], 'main');
+        }
+
+        // Verify lesson belongs to this course
+        if ($lesson['course_id'] != $course['id']) {
+            http_response_code(404);
+            return $this->render('errors/404', ['title' => 'Lesson Not Found'], 'main');
+        }
+
+        // Get modules with lessons for sidebar
+        $modules = Module::getByCourse($course['id'], 'published');
+        
+        // Fetch lessons for each module
+        foreach ($modules as &$module) {
+            $module['lessons'] = \Nebatech\Models\Lesson::getByModule($module['id']);
+        }
+        unset($module);
+
+        // Get current module
+        $currentModule = null;
+        foreach ($modules as $module) {
+            if ($module['id'] == $lesson['module_id']) {
+                $currentModule = $module;
+                break;
+            }
+        }
+
+        // Get lesson progress
+        $lessonProgress = null;
+        if ($enrollment) {
+            $lessonProgress = \Nebatech\Models\Academic\LessonProgress::findByUserAndLesson($userId, (int)$lessonId);
+            
+            // Mark as started if not already
+            if (!$lessonProgress) {
+                \Nebatech\Models\Academic\LessonProgress::markAsStarted($userId, (int)$lessonId, $enrollment['id']);
+                $lessonProgress = \Nebatech\Models\Academic\LessonProgress::findByUserAndLesson($userId, (int)$lessonId);
+            }
+        }
+
+        // Get progress map for all lessons
+        $progressMap = [];
+        if ($enrollment) {
+            $allProgress = \Nebatech\Models\Academic\LessonProgress::getByEnrollment($enrollment['id']);
+            foreach ($allProgress as $lp) {
+                $progressMap[$lp['lesson_id']] = $lp;
+            }
+        }
+
+        // Add progress status to each lesson
+        foreach ($modules as &$module) {
+            if (!empty($module['lessons'])) {
+                foreach ($module['lessons'] as &$l) {
+                    $progress = $progressMap[$l['id']] ?? null;
+                    $l['is_completed'] = $progress && $progress['status'] === 'completed';
+                    $l['is_in_progress'] = $progress && $progress['status'] === 'in_progress';
+                    $l['has_assignment'] = !empty($l['assignment_id']);
+                    $l['progress'] = $progress;
+                }
+                unset($l);
+            }
+        }
+        unset($module);
+
+        // Find next and previous lessons
+        $allLessons = [];
+        foreach ($modules as $module) {
+            if (!empty($module['lessons'])) {
+                foreach ($module['lessons'] as $l) {
+                    $allLessons[] = $l;
+                }
+            }
+        }
+        
+        $currentIndex = null;
+        foreach ($allLessons as $index => $l) {
+            if ($l['id'] == $lessonId) {
+                $currentIndex = $index;
+                break;
+            }
+        }
+        
+        $prevLesson = $currentIndex > 0 ? $allLessons[$currentIndex - 1] : null;
+        $nextLesson = isset($allLessons[$currentIndex + 1]) ? $allLessons[$currentIndex + 1] : null;
+
+        // Get notes and bookmark status from lessonProgress
+        $notes = $lessonProgress['notes'] ?? '';
+        $isBookmarked = !empty($lessonProgress['bookmarked']);
+
+        return $this->render('courses/view', [
+            'title' => $lesson['title'] . ' - ' . $course['title'],
+            'course' => $course,
+            'modules' => $modules,
+            'currentModule' => $currentModule,
+            'currentLesson' => $lesson,
+            'enrollment' => $enrollment,
+            'lessonProgress' => $lessonProgress,
+            'progressMap' => $progressMap,
+            'prevLesson' => $prevLesson,
+            'nextLesson' => $nextLesson,
+            'notes' => $notes,
+            'isBookmarked' => $isBookmarked,
+            'user' => $user
+        ], 'student');
+    }
 }

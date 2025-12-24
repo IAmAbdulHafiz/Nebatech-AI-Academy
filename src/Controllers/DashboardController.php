@@ -113,11 +113,37 @@ class DashboardController extends Controller
     {
         $user = $this->getCurrentUser();
         
+        // Get user's enrolled courses
+        $enrollments = \Nebatech\Models\Enrollment::getUserEnrollments($user['id']);
+        
+        // Transform enrollments into courses format for the view
+        $courses = [];
+        foreach ($enrollments as $enrollment) {
+            $courses[] = [
+                'id' => $enrollment['course_id'],
+                'title' => $enrollment['course_title'],
+                'slug' => $enrollment['course_slug'],
+                'description' => $enrollment['course_description'] ?? '',
+                'thumbnail' => $enrollment['course_thumbnail'] ?? '',
+                'level' => $enrollment['course_level'] ?? 'beginner',
+                'duration_hours' => $enrollment['duration_hours'] ?? 0,
+                'progress' => $enrollment['progress'] ?? 0,
+                'status' => $enrollment['status'] ?? 'active',
+                'enrolled_at' => $enrollment['enrolled_at'],
+                'cohort_id' => $enrollment['cohort_id'] ?? null,
+                'cohort_name' => $enrollment['cohort_name'] ?? null,
+                'facilitator_name' => isset($enrollment['facilitator_first_name']) 
+                    ? $enrollment['facilitator_first_name'] . ' ' . $enrollment['facilitator_last_name'] 
+                    : null
+            ];
+        }
+        
         echo $this->render('courses/my-courses', [
             'title' => 'My Courses',
             'pageTitle' => 'My Courses',
-            'user' => $user
-        ]);
+            'user' => $user,
+            'courses' => $courses
+        ], 'student');
     }
 
     /**

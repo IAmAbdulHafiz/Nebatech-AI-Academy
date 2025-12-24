@@ -116,6 +116,13 @@ $router->get('/my-courses', [DashboardController::class, 'myCourses']);
 $router->get('/my-cohorts', [DashboardController::class, 'myCohorts']);
 $router->get('/progress/dashboard', [Academic\ProgressController::class, 'dashboard']);
 $router->get('/progress/bookmarks', [Academic\ProgressController::class, 'bookmarks']);
+
+// Progress API Routes (AJAX endpoints for lesson tracking)
+$router->post('/api/progress/mark-complete', [Academic\ProgressController::class, 'markLessonComplete']);
+$router->post('/api/progress/update', [Academic\ProgressController::class, 'updateLessonProgress']);
+$router->post('/api/progress/track-time', [Academic\ProgressController::class, 'trackTime']);
+$router->post('/api/progress/toggle-bookmark', [Academic\ProgressController::class, 'toggleBookmark']);
+$router->post('/api/progress/save-notes', [Academic\ProgressController::class, 'saveNotes']);
 $router->get('/my-applications', [ApplicationController::class, 'myApplications']);
 $router->get('/my-portfolio', [PortfolioController::class, 'myPortfolio']);
 $router->get('/my-certificates', [PortfolioController::class, 'myCertificates']);
@@ -258,6 +265,10 @@ $router->get('/courses', [CourseController::class, 'index']);
 // Course Enrollment Routes
 $router->get('/courses/{slug}/enroll', [EnrollmentController::class, 'show']);
 $router->post('/courses/{slug}/enroll', [EnrollmentController::class, 'process']);
+
+// Course Learning Routes (for enrolled students)
+$router->get('/courses/{slug}/learn', [CourseController::class, 'learn']);
+$router->get('/courses/{slug}/lesson/{lessonId}', [CourseController::class, 'lesson']);
 
 // Payment Routes (Hubtel Integration)
 $router->get('/payments/success', [EnrollmentController::class, 'success']);

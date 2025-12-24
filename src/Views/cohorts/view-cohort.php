@@ -207,12 +207,12 @@ $config = $statusConfig[$cohort['status']] ?? ['bg' => 'bg-gray-100 text-gray-80
 
                             <!-- Action Button -->
                             <?php if ($enrollmentProgress > 0): ?>
-                                <a href="<?= url('/courses/' . $course['slug']) ?>" 
+                                <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" 
                                    class="block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium">
                                     <i class="fas fa-play mr-2"></i>Continue Learning
                                 </a>
                             <?php else: ?>
-                                <a href="<?= url('/courses/' . $course['slug']) ?>" 
+                                <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" 
                                    class="block w-full text-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition font-medium shadow-md">
                                     <i class="fas fa-rocket mr-2"></i>Start Course
                                 </a>

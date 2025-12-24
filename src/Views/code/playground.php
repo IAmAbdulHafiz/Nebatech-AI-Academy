@@ -5,7 +5,7 @@ $title = 'Code Playground';
 <style>
     [x-cloak] { display: none !important; }
     .editor-container { height: calc(100vh - 240px); min-height: 450px; }
-    .monaco-box { height: 100%; width: 100%; }
+    .ace-editor { height: 100%; width: 100%; font-size: 14px; }
     .preview-frame { width: 100%; border: none; background: white; }
     .console-output { 
         height: 130px; 
@@ -43,9 +43,12 @@ $title = 'Code Playground';
         font-size: 11px;
     }
     .dark-editor { background: #1e1e1e; }
+    /* Hide inactive editors */
+    .editor-wrapper { display: none; height: 100%; }
+    .editor-wrapper.active { display: block; }
 </style>
 
-<div x-data="playground()" x-init="init()" @keydown.window="handleShortcuts($event)" class="min-h-screen bg-gray-100">
+<div x-data="playground()" x-init="init()" class="min-h-screen bg-gray-100">
     
     <!-- Sticky Header -->
     <div class="bg-white border-b shadow-sm sticky top-0 z-20">
@@ -131,7 +134,6 @@ $title = 'Code Playground';
             <div class="mt-2 flex items-center gap-4 text-xs text-gray-500">
                 <span><kbd>Ctrl+Enter</kbd> Run</span>
                 <span><kbd>Ctrl+S</kbd> Save</span>
-                <span><kbd>F11</kbd> Fullscreen</span>
                 <span x-show="autoSaved" x-transition class="text-green-600 ml-auto">
                     <i class="fas fa-check"></i> Auto-saved
                 </span>
@@ -186,9 +188,12 @@ $title = 'Code Playground';
                     </span>
                 </div>
                 
-                <!-- Monaco Editor -->
+                <!-- Ace Editors - One per tab, show/hide with CSS -->
                 <div class="flex-1 relative">
-                    <div id="monacoEditor" class="monaco-box"></div>
+                    <div id="htmlEditor" class="editor-wrapper ace-editor" :class="mode === 'web' && activeTab === 'html' && 'active'"></div>
+                    <div id="cssEditor" class="editor-wrapper ace-editor" :class="mode === 'web' && activeTab === 'css' && 'active'"></div>
+                    <div id="jsEditor" class="editor-wrapper ace-editor" :class="mode === 'web' && activeTab === 'js' && 'active'"></div>
+                    <div id="singleEditor" class="editor-wrapper ace-editor" :class="mode !== 'web' && 'active'"></div>
                 </div>
             </div>
 
@@ -281,9 +286,6 @@ $title = 'Code Playground';
                                   :class="execStats.status === 'Accepted' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
                                   x-text="execStats.status"></span>
                         </div>
-                        <div x-show="execStats.simulated" class="text-xs text-yellow-600 text-center mt-1">
-                            <i class="fas fa-info-circle"></i> Simulated execution
-                        </div>
                     </div>
                 </div>
             </div>
@@ -323,7 +325,6 @@ $title = 'Code Playground';
              x-transition:enter-end="opacity-100 scale-100"
              class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
             
-            <!-- Header -->
             <div class="bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -339,9 +340,7 @@ $title = 'Code Playground';
                 </button>
             </div>
             
-            <!-- Content -->
             <div class="p-6 overflow-y-auto max-h-[60vh] space-y-6">
-                <!-- Score -->
                 <div class="text-center">
                     <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-2"
                          :class="{
@@ -354,7 +353,6 @@ $title = 'Code Playground';
                     <p class="text-gray-600 font-medium">Code Quality Score</p>
                 </div>
                 
-                <!-- Summary -->
                 <div x-show="aiReview?.review?.summary" class="bg-gray-50 rounded-xl p-4">
                     <h4 class="font-semibold text-gray-900 mb-2">
                         <i class="fas fa-clipboard-list text-violet-600 mr-2"></i>Summary
@@ -362,7 +360,6 @@ $title = 'Code Playground';
                     <p class="text-gray-600" x-text="aiReview?.review?.summary"></p>
                 </div>
                 
-                <!-- Issues -->
                 <div x-show="aiReview?.review?.issues?.length > 0">
                     <h4 class="font-semibold text-gray-900 mb-3">
                         <i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i>Issues Found
@@ -380,7 +377,6 @@ $title = 'Code Playground';
                     </template>
                 </div>
                 
-                <!-- Suggestions -->
                 <div x-show="aiReview?.review?.suggestions?.length > 0">
                     <h4 class="font-semibold text-gray-900 mb-3">
                         <i class="fas fa-lightbulb text-green-500 mr-2"></i>Suggestions
@@ -394,7 +390,6 @@ $title = 'Code Playground';
                 </div>
             </div>
             
-            <!-- Footer -->
             <div class="border-t px-6 py-4 bg-gray-50 flex justify-end gap-3">
                 <button @click="showAIModal = false" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
                     Close
@@ -407,8 +402,8 @@ $title = 'Code Playground';
     </div>
 </div>
 
-<!-- Monaco Editor -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+<!-- Ace Editor (Much lighter than Monaco) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.min.js"></script>
 <script>
 function playground() {
     return {
@@ -421,12 +416,8 @@ function playground() {
         isFullscreen: false,
         autoSaved: false,
         
-        // Editor
-        editor: null,
-        htmlCode: '',
-        cssCode: '',
-        jsCode: '',
-        singleCode: '',
+        // Separate editors - key to performance
+        editors: {},
         
         // Execution
         stdin: '',
@@ -448,26 +439,23 @@ function playground() {
         templates: {
             javascript: [
                 { name: 'Hello World', code: '// JavaScript\nconsole.log("Hello, World!");' },
-                { name: 'Array Operations', code: 'const nums = [1, 2, 3, 4, 5];\nconst doubled = nums.map(n => n * 2);\nconsole.log("Doubled:", doubled);' },
-                { name: 'Async/Await', code: 'async function getData() {\n    return new Promise(resolve => {\n        setTimeout(() => resolve("Done!"), 1000);\n    });\n}\n\ngetData().then(console.log);' }
+                { name: 'Array Operations', code: 'const nums = [1, 2, 3, 4, 5];\nconst doubled = nums.map(n => n * 2);\nconsole.log("Doubled:", doubled);' }
             ],
             python: [
                 { name: 'Hello World', code: '# Python\nprint("Hello, World!")' },
-                { name: 'List Comprehension', code: 'numbers = [1, 2, 3, 4, 5]\nsquared = [x**2 for x in numbers]\nprint("Squared:", squared)' },
-                { name: 'Class Example', code: 'class Person:\n    def __init__(self, name):\n        self.name = name\n    \n    def greet(self):\n        print(f"Hello, I am {self.name}")\n\np = Person("Alice")\np.greet()' }
+                { name: 'List Comprehension', code: 'numbers = [1, 2, 3, 4, 5]\nsquared = [x**2 for x in numbers]\nprint("Squared:", squared)' }
             ],
             java: [
                 { name: 'Hello World', code: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}' }
             ],
             cpp: [
-                { name: 'Hello World', code: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}' },
-                { name: 'Vector Example', code: '#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> nums = {1, 2, 3, 4, 5};\n    for(int n : nums) cout << n << " ";\n    return 0;\n}' }
+                { name: 'Hello World', code: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}' }
             ],
             c: [
                 { name: 'Hello World', code: '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}' }
             ],
             php: [
-                { name: 'Hello World', code: '<?php\necho "Hello, World!\\n";' }
+                { name: 'Hello World', code: '<' + '?php\necho "Hello, World!\\n";?' + '>' }
             ],
             ruby: [
                 { name: 'Hello World', code: '# Ruby\nputs "Hello, World!"' }
@@ -487,22 +475,14 @@ function playground() {
         },
 
         init() {
-            // Initialize code
-            this.htmlCode = this.defaultHTML();
-            this.cssCode = this.defaultCSS();
-            this.jsCode = this.defaultJS();
-            this.singleCode = '// Select a language to start\nconsole.log("Hello!");';
-            
-            // Load saved code
-            this.loadSavedCode();
-            
-            // Setup Monaco
-            if (typeof require !== 'undefined') {
-                require.config({ 
-                    paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } 
-                });
-                require(['vs/editor/editor.main'], () => this.setupEditor());
+            // Wait for Ace to load
+            if (typeof ace === 'undefined') {
+                setTimeout(() => this.init(), 100);
+                return;
             }
+            
+            // Create 4 separate Ace editors
+            this.setupAceEditors();
             
             // Listen for console messages from iframe
             window.addEventListener('message', (e) => {
@@ -511,99 +491,96 @@ function playground() {
                     this.consoleMessages.push({ type: e.data.level, text: e.data.message, time });
                 }
             });
-        },
-        
-        setupEditor() {
-            const container = document.getElementById('monacoEditor');
-            if (!container) return;
-            
-            this.editor = monaco.editor.create(container, {
-                value: this.htmlCode,
-                language: 'html',
-                theme: this.darkTheme ? 'vs-dark' : 'vs-light',
-                automaticLayout: true,
-                minimap: { enabled: false },
-                fontSize: this.fontSize,
-                wordWrap: 'on',
-                tabSize: 2
-            });
-            
-            this.editor.onDidChangeModelContent(() => this.onEditorChange());
             
             // Keyboard shortcuts
-            this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => this.runCode());
-            this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-                this.downloadCode();
-                return false;
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    this.runCode();
+                } else if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    this.saveCode();
+                }
             });
-            
-            // Initial run for web mode
-            if (this.mode === 'web') {
-                setTimeout(() => this.runCode(), 500);
-            }
         },
         
-        onEditorChange() {
-            const value = this.editor.getValue();
+        setupAceEditors() {
+            const theme = this.darkTheme ? 'ace/theme/monokai' : 'ace/theme/chrome';
             
-            if (this.mode === 'web') {
-                if (this.activeTab === 'html') this.htmlCode = value;
-                else if (this.activeTab === 'css') this.cssCode = value;
-                else if (this.activeTab === 'js') this.jsCode = value;
-                
-                // Auto-run debounced
-                clearTimeout(this._runTimeout);
-                this._runTimeout = setTimeout(() => this.runCode(), 800);
-            } else {
-                this.singleCode = value;
-            }
+            // HTML Editor
+            this.editors.html = ace.edit('htmlEditor');
+            this.editors.html.setTheme(theme);
+            this.editors.html.session.setMode('ace/mode/html');
+            this.editors.html.setValue(this.defaultHTML(), -1);
+            this.editors.html.setFontSize(this.fontSize);
             
-            // Auto-save
-            clearTimeout(this._saveTimeout);
-            this._saveTimeout = setTimeout(() => {
-                this.saveCode();
-                this.autoSaved = true;
-                setTimeout(() => this.autoSaved = false, 2000);
-            }, 1000);
+            // CSS Editor
+            this.editors.css = ace.edit('cssEditor');
+            this.editors.css.setTheme(theme);
+            this.editors.css.session.setMode('ace/mode/css');
+            this.editors.css.setValue(this.defaultCSS(), -1);
+            this.editors.css.setFontSize(this.fontSize);
+            
+            // JS Editor
+            this.editors.js = ace.edit('jsEditor');
+            this.editors.js.setTheme(theme);
+            this.editors.js.session.setMode('ace/mode/javascript');
+            this.editors.js.setValue(this.defaultJS(), -1);
+            this.editors.js.setFontSize(this.fontSize);
+            
+            // Single language editor
+            this.editors.single = ace.edit('singleEditor');
+            this.editors.single.setTheme(theme);
+            this.editors.single.session.setMode('ace/mode/javascript');
+            this.editors.single.setValue('// Select a language to start\nconsole.log("Hello!");', -1);
+            this.editors.single.setFontSize(this.fontSize);
+            
+            // Load saved code
+            this.loadSavedCode();
+            
+            // Set common options for all editors
+            Object.values(this.editors).forEach(editor => {
+                editor.setOptions({
+                    showPrintMargin: false,
+                    wrap: true,
+                    tabSize: 2
+                });
+            });
         },
         
+        // Tab switching is now instant - just CSS show/hide!
         switchTab(tab) {
-            if (!this.editor || this.activeTab === tab) return;
             this.activeTab = tab;
-            
-            const code = tab === 'html' ? this.htmlCode : tab === 'css' ? this.cssCode : this.jsCode;
-            const lang = tab === 'html' ? 'html' : tab === 'css' ? 'css' : 'javascript';
-            
-            this.editor.setValue(code);
-            monaco.editor.setModelLanguage(this.editor.getModel(), lang);
+            // Force Ace to resize after tab becomes visible
+            setTimeout(() => {
+                if (this.editors[tab]) {
+                    this.editors[tab].resize();
+                }
+            }, 10);
         },
         
         onModeChange() {
-            if (!this.editor) return;
-            
             if (this.mode === 'web') {
                 this.activeTab = 'html';
-                this.editor.setValue(this.htmlCode);
-                monaco.editor.setModelLanguage(this.editor.getModel(), 'html');
-                setTimeout(() => this.runCode(), 100);
+                setTimeout(() => this.editors.html?.resize(), 10);
             } else {
                 // Load saved or default code for this language
                 const saved = localStorage.getItem('playground_code_' + this.mode);
                 if (saved) {
-                    this.singleCode = saved;
+                    this.editors.single.setValue(saved, -1);
                 } else {
                     const tpls = this.templates[this.mode];
-                    this.singleCode = tpls && tpls.length > 0 ? tpls[0].code : '// Write your code here';
+                    const code = tpls && tpls.length > 0 ? tpls[0].code : '// Write your code here';
+                    this.editors.single.setValue(code, -1);
                 }
-                this.editor.setValue(this.singleCode);
                 
-                const langMap = {
+                const modeMap = {
                     javascript: 'javascript', python: 'python', java: 'java', 
-                    cpp: 'cpp', c: 'c', php: 'php', ruby: 'ruby', go: 'go',
-                    rust: 'rust', typescript: 'typescript', csharp: 'csharp',
-                    swift: 'swift', kotlin: 'kotlin', bash: 'shell', sql: 'sql'
+                    cpp: 'c_cpp', c: 'c_cpp', php: 'php', ruby: 'ruby', go: 'golang',
+                    rust: 'rust', typescript: 'typescript', csharp: 'csharp'
                 };
-                monaco.editor.setModelLanguage(this.editor.getModel(), langMap[this.mode] || 'plaintext');
+                this.editors.single.session.setMode('ace/mode/' + (modeMap[this.mode] || 'text'));
+                setTimeout(() => this.editors.single?.resize(), 10);
             }
             
             this.output = '';
@@ -622,6 +599,10 @@ function playground() {
         runWebCode() {
             this.consoleMessages = [];
             
+            const htmlCode = this.editors.html.getValue();
+            const cssCode = this.editors.css.getValue();
+            const jsCode = this.editors.js.getValue();
+            
             const consoleCapture = `<script>
                 (function(){
                     const log=console.log, err=console.error, warn=console.warn;
@@ -632,7 +613,7 @@ function playground() {
                 })();
             <\/script>`;
             
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${this.cssCode}</style>${consoleCapture}</head><body>${this.htmlCode}<script>${this.jsCode}<\/script></body></html>`;
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>${cssCode}</style>${consoleCapture}</head><body>${htmlCode}<script>${jsCode}<\/script></body></html>`;
             
             const iframe = document.getElementById('preview');
             if (iframe) iframe.srcdoc = html;
@@ -643,7 +624,7 @@ function playground() {
             this.output = '';
             this.error = '';
             
-            const code = this.editor?.getValue() || this.singleCode;
+            const code = this.editors.single.getValue();
             if (!code.trim()) {
                 this.error = 'Please write some code first.';
                 this.running = false;
@@ -686,15 +667,15 @@ function playground() {
             
             let code, language;
             if (this.mode === 'web') {
-                code = `<!-- HTML -->\n${this.htmlCode}\n\n/* CSS */\n${this.cssCode}\n\n// JavaScript\n${this.jsCode}`;
+                code = `<!-- HTML -->\n${this.editors.html.getValue()}\n\n/* CSS */\n${this.editors.css.getValue()}\n\n// JavaScript\n${this.editors.js.getValue()}`;
                 language = 'html';
             } else {
-                code = this.editor?.getValue() || this.singleCode;
+                code = this.editors.single.getValue();
                 language = this.mode;
             }
             
             try {
-                const resp = await fetch('/api/ai/review-code', {
+                const resp = await fetch('<?= url('/api/ai/review-code') ?>', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code, language, assignment_description: 'Code Playground exercise' })
@@ -715,9 +696,8 @@ function playground() {
         },
         
         loadTemplate(code) {
-            if (this.editor) {
-                this.editor.setValue(code);
-                this.singleCode = code;
+            if (this.editors.single) {
+                this.editors.single.setValue(code, -1);
             }
         },
         
@@ -725,26 +705,25 @@ function playground() {
             if (!confirm('Reset all code to default?')) return;
             
             if (this.mode === 'web') {
-                this.htmlCode = this.defaultHTML();
-                this.cssCode = this.defaultCSS();
-                this.jsCode = this.defaultJS();
-                this.switchTab('html');
+                this.editors.html.setValue(this.defaultHTML(), -1);
+                this.editors.css.setValue(this.defaultCSS(), -1);
+                this.editors.js.setValue(this.defaultJS(), -1);
+                this.activeTab = 'html';
                 localStorage.removeItem('playground_web');
             } else {
                 localStorage.removeItem('playground_code_' + this.mode);
                 this.onModeChange();
             }
-            this.runCode();
         },
         
         downloadCode() {
             let content, filename;
             
             if (this.mode === 'web') {
-                content = `<!DOCTYPE html>\n<html>\n<head>\n<style>\n${this.cssCode}\n</style>\n</head>\n<body>\n${this.htmlCode}\n<script>\n${this.jsCode}\n<\/script>\n</body>\n</html>`;
+                content = `<!DOCTYPE html>\n<html>\n<head>\n<style>\n${this.editors.css.getValue()}\n</style>\n</head>\n<body>\n${this.editors.html.getValue()}\n<script>\n${this.editors.js.getValue()}\n<\/script>\n</body>\n</html>`;
                 filename = 'project.html';
             } else {
-                content = this.editor?.getValue() || this.singleCode;
+                content = this.editors.single.getValue();
                 const ext = { javascript: 'js', python: 'py', java: 'java', cpp: 'cpp', c: 'c', php: 'php', ruby: 'rb', go: 'go', rust: 'rs', typescript: 'ts', csharp: 'cs' };
                 filename = 'code.' + (ext[this.mode] || 'txt');
             }
@@ -758,11 +737,15 @@ function playground() {
         saveCode() {
             if (this.mode === 'web') {
                 localStorage.setItem('playground_web', JSON.stringify({
-                    html: this.htmlCode, css: this.cssCode, js: this.jsCode
+                    html: this.editors.html.getValue(),
+                    css: this.editors.css.getValue(),
+                    js: this.editors.js.getValue()
                 }));
             } else {
-                localStorage.setItem('playground_code_' + this.mode, this.editor?.getValue() || this.singleCode);
+                localStorage.setItem('playground_code_' + this.mode, this.editors.single.getValue());
             }
+            this.autoSaved = true;
+            setTimeout(() => this.autoSaved = false, 2000);
         },
         
         loadSavedCode() {
@@ -770,9 +753,9 @@ function playground() {
             if (saved) {
                 try {
                     const c = JSON.parse(saved);
-                    this.htmlCode = c.html || this.defaultHTML();
-                    this.cssCode = c.css || this.defaultCSS();
-                    this.jsCode = c.js || this.defaultJS();
+                    if (c.html) this.editors.html.setValue(c.html, -1);
+                    if (c.css) this.editors.css.setValue(c.css, -1);
+                    if (c.js) this.editors.js.setValue(c.js, -1);
                 } catch (e) {}
             }
         },
@@ -786,9 +769,8 @@ function playground() {
         toggleTheme() {
             this.darkTheme = !this.darkTheme;
             localStorage.setItem('playground_theme', this.darkTheme ? 'dark' : 'light');
-            if (this.editor) {
-                monaco.editor.setTheme(this.darkTheme ? 'vs-dark' : 'vs-light');
-            }
+            const theme = this.darkTheme ? 'ace/theme/monokai' : 'ace/theme/chrome';
+            Object.values(this.editors).forEach(editor => editor.setTheme(theme));
         },
         
         changeFontSize(delta) {
@@ -796,9 +778,7 @@ function playground() {
             if (newSize >= 10 && newSize <= 24) {
                 this.fontSize = newSize;
                 localStorage.setItem('playground_fontsize', newSize);
-                if (this.editor) {
-                    this.editor.updateOptions({ fontSize: newSize });
-                }
+                Object.values(this.editors).forEach(editor => editor.setFontSize(newSize));
             }
         },
         
@@ -809,19 +789,6 @@ function playground() {
             } else {
                 document.exitFullscreen();
                 this.isFullscreen = false;
-            }
-        },
-        
-        handleShortcuts(e) {
-            if (e.ctrlKey && e.key === 'Enter') {
-                e.preventDefault();
-                this.runCode();
-            } else if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                this.downloadCode();
-            } else if (e.key === 'F11') {
-                e.preventDefault();
-                this.toggleFullscreen();
             }
         },
         
@@ -849,7 +816,7 @@ function playground() {
         },
         
         defaultCSS() {
-            return 'body {\n    font-family: "Segoe UI", Arial, sans-serif;\n    padding: 20px;\n    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n    min-height: 100vh;\n    color: white;\n}\n\nh1 {\n    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);\n}\n\nbutton {\n    background: #10b981;\n    color: white;\n    border: none;\n    padding: 12px 24px;\n    border-radius: 8px;\n    font-size: 16px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n\nbutton:hover {\n    transform: translateY(-2px);\n    box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n}';
+            return 'body {\n    font-family: "Segoe UI", Arial, sans-serif;\n    padding: 20px;\n    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n    min-height: 100vh;\n    color: white;\n}\n\nh1 {\n    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);\n}\n\nbutton {\n    background: #10b981;\n    color: white;\n    border: none;\n    padding: 12px 24px;\n    border-radius: 8px;\n    font-size: 16px;\n    cursor: pointer;\n}';
         },
         
         defaultJS() {

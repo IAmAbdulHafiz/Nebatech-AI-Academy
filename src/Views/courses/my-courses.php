@@ -98,7 +98,7 @@
                     </div>
 
                     <!-- Action Button -->
-                    <a href="<?= url('/courses/' . $course['slug']) ?>" 
+                    <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" 
                        class="block w-full text-center px-4 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
                         <?php if ($course['progress'] > 0): ?>
                             <i class="fas fa-play mr-2"></i>Continue Learning

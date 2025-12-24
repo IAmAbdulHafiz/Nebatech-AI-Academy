@@ -1,3 +1,19 @@
+<?php
+// Check if user is logged in from session
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
+$userName = $_SESSION['user_name'] ?? 'User';
+$userEmail = $_SESSION['user_email'] ?? '';
+$userRole = $_SESSION['user_role'] ?? 'student';
+$userAvatar = $_SESSION['user_avatar'] ?? '';
+
+// Generate user initials
+$userInitials = '';
+if ($isLoggedIn) {
+    $nameParts = explode(' ', $userName);
+    $userInitials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+}
+?>
+
 <!-- Top Bar with Contact Info -->
 <div class="bg-secondary text-primary py-1 text-xs">
     <div class="container mx-auto px-6">
@@ -70,7 +86,7 @@
     companyDropdown: false,
     searchOpen: false,
     userDropdown: false,
-    isLoggedIn: false,
+    isLoggedIn: <?= $isLoggedIn ? 'true' : 'false' ?>,
     scrolled: false,
     searchQuery: '',
     searchResults: [],
@@ -759,9 +775,13 @@
                 <!-- User Dropdown (when logged in) with Personalized Greeting -->
                 <div x-show="isLoggedIn" class="hidden md:block relative" @mouseenter="userDropdown = true" @mouseleave="userDropdown = false">
                     <button class="flex items-center space-x-2">
+                        <?php if ($isLoggedIn && !empty($userAvatar)): ?>
+                        <img src="<?= htmlspecialchars($userAvatar) ?>" alt="<?= htmlspecialchars($userName) ?>" class="w-8 h-8 rounded-full object-cover shadow-lg">
+                        <?php else: ?>
                         <div class="w-8 h-8 bg-gradient-to-br from-secondary to-orange-600 rounded-full flex items-center justify-center font-bold shadow-lg">
-                            JD
+                            <?= $isLoggedIn ? htmlspecialchars($userInitials) : 'U' ?>
                         </div>
+                        <?php endif; ?>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -771,11 +791,10 @@
                          class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-lg shadow-2xl py-2 z-50">
                         <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-600 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600">
                             <p class="text-xs text-gray-500 dark:text-gray-400" x-text="greeting"></p>
-                            <p class="font-bold text-lg">John Doe</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">john@example.com</p>
+                            <p class="font-bold text-lg"><?= $isLoggedIn ? htmlspecialchars($userName) : 'Guest' ?></p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><?= $isLoggedIn ? htmlspecialchars($userEmail) : '' ?></p>
                             <div class="mt-2 flex items-center gap-2">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-primary/90 text-primary dark:text-white/80 text-xs rounded-full font-semibold">Pro Member</span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">3 Active Courses</span>
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-primary/90 text-primary dark:text-white/80 text-xs rounded-full font-semibold capitalize"><?= $isLoggedIn ? htmlspecialchars($userRole) : 'Guest' ?></span>
                             </div>
                         </div>
                         <a href="<?= url('/dashboard') ?>" class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
@@ -886,10 +905,31 @@
                 <a href="<?= url('/support') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Help & Support</a>
                 
                 <div class="border-t border-primary pt-4 mt-4 space-y-2">
+                    <?php if ($isLoggedIn): ?>
+                    <!-- Logged in user menu for mobile -->
+                    <div class="flex items-center space-x-3 mb-4 px-2">
+                        <?php if (!empty($userAvatar)): ?>
+                        <img src="<?= htmlspecialchars($userAvatar) ?>" alt="<?= htmlspecialchars($userName) ?>" class="w-10 h-10 rounded-full object-cover">
+                        <?php else: ?>
+                        <div class="w-10 h-10 bg-gradient-to-br from-secondary to-orange-600 rounded-full flex items-center justify-center font-bold text-white">
+                            <?= htmlspecialchars($userInitials) ?>
+                        </div>
+                        <?php endif; ?>
+                        <div>
+                            <p class="font-semibold text-white"><?= htmlspecialchars($userName) ?></p>
+                            <p class="text-xs text-gray-300 capitalize"><?= htmlspecialchars($userRole) ?></p>
+                        </div>
+                    </div>
+                    <a href="<?= url('/dashboard') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Dashboard</a>
+                    <a href="<?= url('/my-courses') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">My Courses</a>
+                    <a href="<?= url('/profile') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Profile Settings</a>
+                    <a href="<?= url('/logout') ?>" class="block py-2 text-red-400 hover:text-red-300 transition-colors font-semibold">Logout</a>
+                    <?php else: ?>
                     <a href="<?= url('/login') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Login</a>
                     <a href="<?= url('/register') ?>" class="block bg-secondary hover:bg-orange-600 text-white font-bold px-4 py-3 rounded-lg text-center transition-colors">
                         Sign Up Free
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

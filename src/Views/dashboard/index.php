@@ -53,7 +53,7 @@ $recommendedCourses = $recommendedCourses ?? [];
                     <p class="font-semibold truncate"><?= htmlspecialchars($resumeLesson['lesson_title']) ?></p>
                     <p class="text-sm text-white/70 truncate"><?= htmlspecialchars($resumeLesson['course_title']) ?></p>
                 </div>
-                <a href="<?= url('/courses/' . $resumeLesson['course_slug'] . '/lessons/' . $resumeLesson['lesson_id']) ?>" 
+                <a href="<?= url('/courses/' . $resumeLesson['course_slug'] . '/lesson/' . $resumeLesson['lesson_id']) ?>" 
                    class="bg-white text-blue-600 px-5 py-2.5 rounded-lg font-semibold hover:bg-blue-50 transition flex-shrink-0">
                     Resume
                 </a>
@@ -206,7 +206,7 @@ $recommendedCourses = $recommendedCourses ?? [];
                                 <?php endif; ?>
                             </p>
                         </div>
-                        <a href="<?= url('/courses/' . $course['slug']) ?>" 
+                        <a href="<?= url('/courses/' . $course['slug'] . '/learn') ?>" 
                            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition flex-shrink-0 opacity-0 group-hover:opacity-100">
                             Continue <i class="fas fa-arrow-right ml-2"></i>
                         </a>

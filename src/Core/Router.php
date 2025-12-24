@@ -75,6 +75,11 @@ class Router
             $uri = substr($uri, strlen($appBase));
         }
         
+        // Also strip /public from the URI if present
+        if (strpos($uri, '/public') === 0) {
+            $uri = substr($uri, 7);
+        }
+        
         // Ensure the URI starts with /
         if (empty($uri) || $uri[0] !== '/') {
             $uri = '/' . $uri;
