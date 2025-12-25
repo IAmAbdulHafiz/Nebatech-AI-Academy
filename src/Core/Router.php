@@ -80,6 +80,11 @@ class Router
             $uri = substr($uri, 7);
         }
         
+        // Also strip /index.php from the URI if present (for when .htaccess doesn't work)
+        if (strpos($uri, '/index.php') === 0) {
+            $uri = substr($uri, 10);
+        }
+        
         // Ensure the URI starts with /
         if (empty($uri) || $uri[0] !== '/') {
             $uri = '/' . $uri;

@@ -148,6 +148,7 @@ $title = $course['title'] ?? 'Course';
                                   rows="4"
                                   placeholder="Take notes about this lesson..."></textarea>
                     </div>
+                    
                     <?php endif; ?>
 
                     <!-- Assignment Section (if exists) -->
@@ -245,7 +246,23 @@ $title = $course['title'] ?? 'Course';
         </div>
 
         <!-- Curriculum Sidebar -->
-        <div class="lg:col-span-1">
+        <div class="lg:col-span-1 space-y-6">
+            <!-- CBT Section: Learning Activities -->
+            <?php if (isset($currentLesson)): ?>
+            <?php 
+            // Set variables for CBT sidebar partial
+            $lesson = $currentLesson;
+            $learningObjectives = $cbtObjectives ?? [];
+            $practical = $cbtPractical ?? null;
+            $quiz = $cbtQuiz ?? null;
+            $quizAttempt = $cbtQuizAttempt ?? null;
+            $practicalSubmission = $cbtPracticalSubmission ?? null;
+            $hintCount = $cbtHintCount ?? 0;
+            ?>
+            <?php include __DIR__ . '/../partials/cbt-sidebar.php'; ?>
+            <?php endif; ?>
+            
+            <!-- Course Curriculum -->
             <div class="bg-white rounded-lg shadow p-6 sticky top-6">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Course Curriculum</h3>
                 

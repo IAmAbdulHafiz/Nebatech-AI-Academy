@@ -16,6 +16,7 @@ use Nebatech\Controllers\DashboardController;
 use Nebatech\Controllers\FacilitatorController;
 use Nebatech\Controllers\AdminController;
 use Nebatech\Controllers\AIController;
+use Nebatech\Controllers\AITutorController;
 use Nebatech\Controllers\CodeEditorController;
 use Nebatech\Controllers\FeedbackController;
 use Nebatech\Controllers\NotificationController;
@@ -25,6 +26,9 @@ use Nebatech\Controllers\ResourceController;
 use Nebatech\Controllers\EventController;
 use Nebatech\Controllers\EnrollmentController;
 use Nebatech\Controllers\PortfolioController;
+use Nebatech\Controllers\QuizController;
+use Nebatech\Controllers\PracticalController;
+use Nebatech\Controllers\CBTProgressController;
 use Nebatech\Controllers\Academic;
 use Nebatech\Controllers\User;
 
@@ -190,6 +194,31 @@ $router->post('/ai/generate-lesson-content', [AIController::class, 'generateLess
 $router->post('/ai/generate-project-brief', [AIController::class, 'generateProjectBrief']);
 $router->post('/ai/generate-complete-course', [AIController::class, 'generateCompleteCourse']);
 $router->post('/ai/generate-quiz', [AIController::class, 'generateQuiz']);
+
+// AI Tutor Routes (student-facing, context-aware tutoring)
+$router->get('/ai-tutor', [AITutorController::class, 'index']);
+$router->post('/ai-tutor/chat', [AITutorController::class, 'chat']);
+$router->post('/ai-tutor/hint', [AITutorController::class, 'getHint']);
+$router->post('/ai-tutor/explain', [AITutorController::class, 'explainConcept']);
+$router->get('/ai-tutor/recommendations/{courseId}', [AITutorController::class, 'recommendations']);
+$router->get('/ai-tutor/quiz-feedback/{attemptId}', [AITutorController::class, 'quizFeedback']);
+$router->get('/ai-tutor/personas', [AITutorController::class, 'personas']);
+
+// CBT Quiz Routes
+$router->get('/quiz/{lessonId}', [QuizController::class, 'show']);
+$router->post('/api/quiz/submit', [QuizController::class, 'submit']);
+$router->get('/api/quiz/results/{attemptId}', [QuizController::class, 'results']);
+$router->get('/api/quiz/status/{lessonId}', [QuizController::class, 'status']);
+
+// CBT Practical Exercise Routes
+$router->get('/practical/{lessonId}', [PracticalController::class, 'show']);
+$router->post('/api/practical/submit', [PracticalController::class, 'submit']);
+$router->get('/api/practical/status/{lessonId}', [PracticalController::class, 'status']);
+$router->get('/api/objectives/{lessonId}', [PracticalController::class, 'objectives']);
+
+// CBT Progress Dashboard
+$router->get('/progress/competency', [CBTProgressController::class, 'dashboard']);
+$router->get('/api/progress/cbt', [CBTProgressController::class, 'getProgress']);
 
 // Code Editor Routes (student access)
 // Note: /code-editor is deprecated, use /playground instead which now has all features

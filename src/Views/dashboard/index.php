@@ -241,7 +241,7 @@ $recommendedCourses = $recommendedCourses ?? [];
                 </a>
             </div>
             <div class="p-6">
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="grid md:grid-cols-2 gap-5">
                     <?php foreach ($recommendedCourses as $course): 
                         $colorFrom = $course['card_color_from'] ?? 'from-blue-600';
                         $colorTo = $course['card_color_to'] ?? 'to-blue-700';

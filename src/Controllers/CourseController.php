@@ -430,6 +430,66 @@ class CourseController extends Controller
         $notes = $lessonProgress['notes'] ?? '';
         $isBookmarked = !empty($lessonProgress['bookmarked']);
 
+        // Fetch CBT data for this lesson
+        $cbtObjectives = [];
+        $cbtPractical = null;
+        $cbtQuiz = null;
+        $cbtQuizAttempt = null;
+        $cbtPracticalSubmission = null;
+        $cbtHintCount = 0;
+
+        try {
+            // Learning Objectives
+            $objStmt = $db->prepare("SELECT * FROM learning_objectives WHERE lesson_id = ? ORDER BY objective_number");
+            $objStmt->execute([(int)$lessonId]);
+            $cbtObjectives = $objStmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            // Quiz for this lesson
+            $quizStmt = $db->prepare("SELECT * FROM quizzes WHERE lesson_id = ?");
+            $quizStmt->execute([(int)$lessonId]);
+            $cbtQuiz = $quizStmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($cbtQuiz) {
+                // Get question count
+                $countStmt = $db->prepare("SELECT COUNT(*) FROM quiz_questions WHERE quiz_id = ?");
+                $countStmt->execute([$cbtQuiz['id']]);
+                $cbtQuiz['question_count'] = $countStmt->fetchColumn();
+
+                // Get user's best/latest attempt
+                if ($enrollment) {
+                    $attemptStmt = $db->prepare("SELECT * FROM quiz_attempts 
+                                                  WHERE quiz_id = ? AND user_id = ? 
+                                                  ORDER BY score DESC, completed_at DESC LIMIT 1");
+                    $attemptStmt->execute([$cbtQuiz['id'], $userId]);
+                    $cbtQuizAttempt = $attemptStmt->fetch(\PDO::FETCH_ASSOC);
+                }
+            }
+
+            // Practical exercise for this lesson
+            $practStmt = $db->prepare("SELECT * FROM practicals WHERE lesson_id = ?");
+            $practStmt->execute([(int)$lessonId]);
+            $cbtPractical = $practStmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($cbtPractical && $enrollment) {
+                // Get user's submission
+                $subStmt = $db->prepare("SELECT * FROM practical_submissions 
+                                          WHERE practical_id = ? AND user_id = ? 
+                                          ORDER BY submitted_at DESC LIMIT 1");
+                $subStmt->execute([$cbtPractical['id'], $userId]);
+                $cbtPracticalSubmission = $subStmt->fetch(\PDO::FETCH_ASSOC);
+
+                // Get hint count
+                $hintStmt = $db->prepare("SELECT hints_used FROM practical_hints 
+                                           WHERE practical_id = ? AND user_id = ?");
+                $hintStmt->execute([$cbtPractical['id'], $userId]);
+                $hintRow = $hintStmt->fetch(\PDO::FETCH_ASSOC);
+                $cbtHintCount = $hintRow ? (int)$hintRow['hints_used'] : 0;
+            }
+        } catch (\Exception $e) {
+            // CBT tables might not exist yet, silently ignore
+            error_log("CBT data fetch error: " . $e->getMessage());
+        }
+
         return $this->render('courses/view', [
             'title' => $lesson['title'] . ' - ' . $course['title'],
             'course' => $course,
@@ -443,7 +503,14 @@ class CourseController extends Controller
             'nextLesson' => $nextLesson,
             'notes' => $notes,
             'isBookmarked' => $isBookmarked,
-            'user' => $user
+            'user' => $user,
+            // CBT Data
+            'cbtObjectives' => $cbtObjectives,
+            'cbtQuiz' => $cbtQuiz,
+            'cbtQuizAttempt' => $cbtQuizAttempt,
+            'cbtPractical' => $cbtPractical,
+            'cbtPracticalSubmission' => $cbtPracticalSubmission,
+            'cbtHintCount' => $cbtHintCount
         ], 'student');
     }
 }

@@ -165,11 +165,20 @@ $pendingAssignments = $pendingCount ?? 0;
             <div class="space-y-1">
                 <!-- My Progress -->
                 <a href="<?= url('/progress/dashboard') ?>" 
-                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group <?= $isActive('/progress') ? 'active text-white shadow-lg' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?>">
-                    <div class="w-9 h-9 rounded-lg <?= $isActive('/progress') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' ?> flex items-center justify-center transition">
+                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group <?= $isActive('/progress/dashboard') ? 'active text-white shadow-lg' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?>">
+                    <div class="w-9 h-9 rounded-lg <?= $isActive('/progress/dashboard') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' ?> flex items-center justify-center transition">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <span class="ml-3 font-medium">My Progress</span>
+                </a>
+
+                <!-- Competency Progress -->
+                <a href="<?= url('/progress/competency') ?>" 
+                   class="sidebar-link flex items-center px-4 py-3 rounded-xl transition group <?= $isActive('/progress/competency') ? 'active text-white shadow-lg' : 'text-gray-300 hover:bg-white/5 hover:text-white' ?>">
+                    <div class="w-9 h-9 rounded-lg <?= $isActive('/progress/competency') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' ?> flex items-center justify-center transition">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <span class="ml-3 font-medium">Competencies</span>
                 </a>
 
                 <!-- Certificates -->

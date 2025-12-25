@@ -359,7 +359,7 @@ function aiTutorWidget() {
             this.isTyping = true;
             
             try {
-                const response = await fetch('/api/ai/chat', {
+                const response = await fetch('<?= url('/test-chat-direct.php') ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -376,15 +376,12 @@ function aiTutorWidget() {
                 const data = await response.json();
                 
                 if (data.success) {
-                    this.sessionId = data.session_id;
-                    localStorage.setItem('ai_tutor_session_id', data.session_id);
-                    
-                    // Add AI response
+                    // Add AI response (use 'answer' from our endpoint)
                     this.messages.push({
                         role: 'assistant',
-                        content: data.response,
+                        content: data.answer || data.response,
                         timestamp: new Date(),
-                        suggestions: data.suggestions || []
+                        suggestions: data.follow_up_suggestions || data.suggestions || []
                     });
                     
                     this.saveMessages();
@@ -413,14 +410,23 @@ function aiTutorWidget() {
             this.isTyping = true;
             
             try {
-                const response = await fetch('/api/ai/quick-action', {
+                // Map action to a message
+                const actionMessages = {
+                    'explain': 'Please explain this concept in detail',
+                    'example': 'Can you show me a practical example?',
+                    'practice': 'Generate some practice problems for me',
+                    'hint': 'Give me a hint to help me understand',
+                    'summary': 'Summarize what I should learn from this lesson'
+                };
+                const message = actionMessages[action] || action;
+                
+                const response = await fetch('<?= url('/test-chat-direct.php') ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        action: action,
-                        session_id: this.sessionId,
+                        message: message,
                         lesson_id: this.context.lesson_id,
                         course_id: this.context.course_id
                     })
@@ -429,11 +435,6 @@ function aiTutorWidget() {
                 const data = await response.json();
                 
                 if (data.success) {
-                    if (data.session_id) {
-                        this.sessionId = data.session_id;
-                        localStorage.setItem('ai_tutor_session_id', data.session_id);
-                    }
-                    
                     // Add action message
                     const actionLabels = {
                         'explain': 'Explain this concept',
@@ -449,12 +450,12 @@ function aiTutorWidget() {
                         timestamp: new Date()
                     });
                     
-                    // Add AI response
+                    // Add AI response (use 'answer' from our endpoint)
                     this.messages.push({
                         role: 'assistant',
-                        content: data.response,
+                        content: data.answer || data.response,
                         timestamp: new Date(),
-                        suggestions: data.suggestions || []
+                        suggestions: data.follow_up_suggestions || data.suggestions || []
                     });
                     
                     this.saveMessages();
