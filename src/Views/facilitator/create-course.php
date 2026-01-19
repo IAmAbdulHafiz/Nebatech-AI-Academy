@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Course - Nebatech AI Academy</title>
+    <title>Create Course - Nebatech Software Solutions Ltd</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>

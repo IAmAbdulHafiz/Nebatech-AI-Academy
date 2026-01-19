@@ -1,6 +1,6 @@
 # Security Implementation Guide
 
-Quick reference for using the new security features in Nebatech AI Academy.
+Quick reference for using the new security features in Nebatech Software Solutions Ltd.
 
 ---
 

@@ -17,7 +17,7 @@
                                 Application Received!
                             </h1>
                             <p style="margin: 10px 0 0 0; color: #e0e7ff; font-size: 16px;">
-                                Thank you for your interest in Nebatech AI Academy
+                                Thank you for your interest in Nebatech Software Solutions Ltd
                             </p>
                         </td>
                     </tr>
@@ -117,7 +117,7 @@
                                 Need help? Contact us at <a href="mailto:admissions@nebatech.com" style="color: #667eea; text-decoration: none;">admissions@nebatech.com</a>
                             </p>
                             <p style="margin: 0 0 15px 0; color: #9ca3af; font-size: 12px;">
-                                Nebatech AI Academy &copy; <?= date('Y') ?>. All rights reserved.
+                                Nebatech Software Solutions Ltd &copy; <?= date('Y') ?>. All rights reserved.
                             </p>
                             <p style="margin: 0; color: #9ca3af; font-size: 11px;">
                                 Empowering Africa with AI-Driven Education

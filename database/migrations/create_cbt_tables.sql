@@ -1,6 +1,6 @@
 -- =====================================================
 -- COMPETENCY-BASED TRAINING (CBT) DATABASE SCHEMA
--- Nebatech AI Academy
+-- Nebatech Software Solutions Ltd
 -- Created: December 25, 2025
 -- =====================================================
 

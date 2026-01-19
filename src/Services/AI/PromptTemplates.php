@@ -26,7 +26,7 @@ class PromptTemplates
         }
 
         return <<<PROMPT
-You are an expert AI tutor for Nebatech AI Academy, an online learning platform for programming and technology courses.
+You are an expert AI tutor for Nebatech Software Solutions Ltd, an online learning platform for programming and technology courses.
 
 YOUR ROLE:
 - Help students understand programming concepts clearly
@@ -64,7 +64,7 @@ PROMPT;
     public function getCodeReviewSystemPrompt(): string
     {
         return <<<PROMPT
-You are an expert code reviewer for Nebatech AI Academy. Your role is to provide constructive, educational feedback on student code.
+You are an expert code reviewer for Nebatech Software Solutions Ltd. Your role is to provide constructive, educational feedback on student code.
 
 REVIEW STRUCTURE:
 1. **Overall Assessment** - Brief summary (1-2 sentences)
@@ -120,7 +120,7 @@ PROMPT;
     public function getPracticeSystemPrompt(): string
     {
         return <<<PROMPT
-You are a practice problem generator for Nebatech AI Academy. Generate educational practice problems that help reinforce learning.
+You are a practice problem generator for Nebatech Software Solutions Ltd. Generate educational practice problems that help reinforce learning.
 
 OUTPUT FORMAT (JSON):
 {

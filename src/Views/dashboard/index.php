@@ -335,7 +335,7 @@ $recommendedCourses = $recommendedCourses ?? [];
                                     <?php endif; ?>
                                 </div>
                                 <?php else: ?>
-                                <span class="text-lg font-bold text-green-600">Free</span>
+                                <span class="text-lg font-bold text-green-600">Enroll</span>
                                 <?php endif; ?>
                                 
                                 <a href="<?= url('/courses/' . $course['slug']) ?>" 

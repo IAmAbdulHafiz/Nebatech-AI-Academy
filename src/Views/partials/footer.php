@@ -1,10 +1,11 @@
 <footer class="bg-gray-800 text-white mt-16">
+    <?php $footerStats = getSiteStats(); ?>
     <!-- Newsletter Section in Footer -->
     <div class="bg-gray-900 py-12">
         <div class="container mx-auto px-6">
             <div class="max-w-3xl mx-auto text-center">
                 <h3 class="text-2xl font-bold mb-4">Stay Updated with Latest Courses & Tech Tips</h3>
-                <p class="text-gray-400 mb-6">Join 25,000+ learners getting weekly insights delivered to their inbox</p>
+                <p class="text-gray-400 mb-6">Join <?= $footerStats['newsletterSubscribers'] > 0 ? number_format($footerStats['newsletterSubscribers']) . '+' : 'our' ?> learners getting weekly insights delivered to their inbox</p>
                 
                 <?php if (isset($_SESSION['newsletter_success'])): ?>
                 <div class="bg-green-500/20 border border-green-500 text-green-200 px-6 py-3 rounded-lg mb-4">
@@ -83,7 +84,7 @@
                         <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                         </svg>
-                        <span class="text-gray-300">4.9/5 Rated</span>
+                        <span class="text-gray-300"><?= $footerStats['avgRating'] ?>/5 Rated</span>
                     </div>
                 </div>
 
@@ -225,6 +226,8 @@
             <div class="mt-6 pt-6 border-t border-gray-700 text-center">
                 <p class="text-gray-500 text-sm mb-3">Recognized by</p>
                 <div class="flex flex-wrap justify-center items-center gap-6 opacity-60">
+                    <div class="text-gray-600 font-semibold text-sm">Tamale Technical University</div>
+                    <div class="text-gray-600 font-semibold text-sm">University For Development Studies</div>
                     <div class="text-gray-600 font-semibold text-sm">Google for Education</div>
                     <div class="text-gray-600 font-semibold text-sm">Microsoft Learn</div>
                     <div class="text-gray-600 font-semibold text-sm">AWS Educate</div>
@@ -233,39 +236,37 @@
             </div>
         </div>
     </div>
-
-    <!-- Live Chat Widget Trigger -->
-    <button class="fixed bottom-6 right-6 bg-secondary hover:bg-orange-600 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-40"
-            aria-label="Open Live Chat">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-        </svg>
-        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">1</span>
-    </button>
-
-    <!-- Back to Top Button -->
-    <button id="backToTopBtn" 
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="fixed bottom-6 left-6 bg-primary hover:bg-primary/70 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-40 opacity-0 invisible"
-            aria-label="Back to top">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-        </svg>
-    </button>
-
-    <script>
-        // Back to Top Button visibility
-        window.addEventListener('scroll', function() {
-            const backToTopBtn = document.getElementById('backToTopBtn');
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.remove('opacity-0', 'invisible');
-                backToTopBtn.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopBtn.classList.add('opacity-0', 'invisible');
-                backToTopBtn.classList.remove('opacity-100', 'visible');
-            }
-        });
-    </script>
 </footer>
+
+<!-- Back to Top Button - Outside footer for proper fixed positioning -->
+<button id="backToTopBtn" 
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="fixed bottom-28 right-6 bg-blue-900 hover:bg-blue-800 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-50 hidden"
+        aria-label="Back to top">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+</button>
+
+<script>
+    // Back to Top Button visibility
+    (function() {
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.remove('hidden');
+                } else {
+                    backToTopBtn.classList.add('hidden');
+                }
+            });
+            
+            // Check on page load
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('hidden');
+            }
+        }
+    })();
+</script>
 
 

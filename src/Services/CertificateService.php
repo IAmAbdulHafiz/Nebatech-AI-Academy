@@ -253,7 +253,7 @@ class CertificateService
         <div class="achievement-badge">★</div>
         
         <div class="content">
-            <div class="logo">🎓 NEBATECH AI ACADEMY</div>
+            <div class="logo">🎓 Nebatech Software Solutions Ltd</div>
             
             <div class="certificate-title">Certificate of Completion</div>
             
@@ -282,7 +282,7 @@ class CertificateService
             <div class="signature-block">
                 <div class="signature-line">
                     <strong>Director</strong><br>
-                    Nebatech AI Academy
+                    Nebatech Software Solutions Ltd
                 </div>
             </div>
             

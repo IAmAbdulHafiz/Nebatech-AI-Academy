@@ -162,14 +162,10 @@ if ($isLoggedIn) {
         this.searchLoading = true;
         this.showSearchResults = true;
         
-        // Simulate API call
+        // Search API call - results will be fetched dynamically
         setTimeout(() => {
-            this.searchResults = [
-                { type: 'course', title: 'Full Stack Web Development', category: 'Development', icon: '💻' },
-                { type: 'course', title: 'Machine Learning Fundamentals', category: 'AI & Data Science', icon: '🤖' },
-                { type: 'blog', title: 'How to Learn Programming Fast', category: 'Blog', icon: '📝' },
-                { type: 'service', title: 'Custom Web Application Development', category: 'Services', icon: '🛠️' }
-            ].filter(item => item.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
+            // TODO: Replace with actual API call to /api/search?q=query
+            this.searchResults = [];
             this.searchLoading = false;
         }, 300);
     },
@@ -401,12 +397,12 @@ if ($isLoggedIn) {
                             </div>
                             <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
                                 <a href="<?= url('/courses') ?>" class="text-primary dark:text-primary/80 font-semibold hover:text-primary dark:hover:text-white/80 flex items-center">
-                                    View All 50+ Courses 
+                                    Browse All Courses 
                                     <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                                     </svg>
                                 </a>
-                                <a href="<?= url('/register') ?>" class="bg-secondary hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors">Start Learning Free</a>
+                                <a href="<?= url('/register') ?>" class="bg-secondary hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors">Start Learning</a>
                             </div>
                         </div>
                     </div>
@@ -464,7 +460,7 @@ if ($isLoggedIn) {
                                     </h4>
                                     <a href="<?= url('/services#consulting') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">IT Consultancy</a>
                                     <a href="<?= url('/services#nocode') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">No-Code Development</a>
-                                    <a href="<?= url('/services#hardware') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Hardware Repairs</a>
+                                    <a href="https://crm.nebatech.com/" target="_blank" rel="noopener noreferrer" class="block py-2 hover:text-secondary transition-colors text-sm">Hardware Repairs <span class="text-xs">↗</span></a>
                                     <a href="<?= url('/services#training') ?>" class="block py-2 hover:text-secondary transition-colors text-sm">Corporate Training</a>
                                 </div>
                                 <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 rounded-lg p-6">
@@ -615,40 +611,12 @@ if ($isLoggedIn) {
 
             <!-- Right Side Icons & Buttons -->
             <div class="flex items-center space-x-3">
-                <!-- Language Selector -->
-                <div class="hidden md:block relative" @mouseenter="languageDropdown = true" @mouseleave="languageDropdown = false">
-                    <button class="flex items-center text-white hover:text-secondary transition-colors">
-                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-                        </svg>
-                        <span class="text-sm font-semibold" x-text="selectedLanguage.toUpperCase()"></span>
-                        <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div x-show="languageDropdown" 
-                         x-transition
-                         class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-lg shadow-xl py-2 z-50">
-                        <button @click="changeLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-between" :class="selectedLanguage === 'en' ? 'bg-blue-50 dark:bg-primary/90/30 text-primary dark:text-primary/80' : ''">
-                            <span>🇬🇧 English</span>
-                            <svg x-show="selectedLanguage === 'en'" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                        <button @click="changeLanguage('fr')" class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-between" :class="selectedLanguage === 'fr' ? 'bg-blue-50 dark:bg-primary/90/30 text-primary dark:text-primary/80' : ''">
-                            <span>🇫🇷 Français</span>
-                            <svg x-show="selectedLanguage === 'fr'" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
                 
                 <!-- Accessibility Menu -->
                 <div class="hidden md:block relative" @mouseenter="accessibilityMenu = true" @mouseleave="accessibilityMenu = false">
                     <button class="text-white hover:text-secondary transition-colors" title="Accessibility Options">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                         </svg>
                     </button>
                     <div x-show="accessibilityMenu" 
@@ -808,7 +776,6 @@ if ($isLoggedIn) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
                             My Courses
-                            <span class="ml-auto bg-blue-100 dark:bg-primary/90 text-primary dark:text-white/80 text-xs px-2 py-1 rounded-full">3</span>
                         </a>
                         <a href="<?= url('/profile') ?>" class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                             <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -821,7 +788,6 @@ if ($isLoggedIn) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                             </svg>
                             My Certificates
-                            <span class="ml-auto bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs px-2 py-1 rounded-full">2</span>
                         </a>
                         <a href="<?= url('/wishlist') ?>" class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                             <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -840,14 +806,46 @@ if ($isLoggedIn) {
                     </div>
                 </div>
 
-                <!-- Auth Buttons (when not logged in) -->
-                <div x-show="!isLoggedIn" class="hidden md:flex items-center space-x-3">
-                    <a href="<?= url('/login') ?>" class="text-white hover:text-secondary font-semibold transition-colors">
-                        Login
-                    </a>
-                    <a href="<?= url('/register') ?>" class="bg-secondary hover:bg-orange-600 text-white font-bold px-5 py-2 rounded-lg transition-colors">
-                        Sign Up Free
-                    </a>
+                <!-- Auth Dropdown (when not logged in) -->
+                <div x-show="!isLoggedIn" class="hidden md:block relative" x-data="{ authDropdown: false }" @mouseenter="authDropdown = true" @mouseleave="authDropdown = false">
+                    <button class="flex items-center bg-secondary hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Get Started
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div x-show="authDropdown" 
+                         x-transition
+                         class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-lg shadow-2xl py-2 z-50">
+                        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                            <p class="text-sm font-semibold text-gray-900 dark:text-white">Join Nebatech Academy</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Start learning today</p>
+                        </div>
+                        <a href="<?= url('/login') ?>" class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            <div>
+                                <p class="font-semibold">Login</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Access your account</p>
+                            </div>
+                        </a>
+                        <a href="<?= url('/register') ?>" class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <svg class="w-5 h-5 mr-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            <div>
+                                <p class="font-semibold">Sign Up</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Create new account</p>
+                            </div>
+                        </a>
+                        <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 px-4 pb-2">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">New here? <a href="<?= url('/register') ?>" class="text-secondary hover:underline">Join for free</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -927,7 +925,7 @@ if ($isLoggedIn) {
                     <?php else: ?>
                     <a href="<?= url('/login') ?>" class="block py-2 hover:text-secondary transition-colors font-semibold">Login</a>
                     <a href="<?= url('/register') ?>" class="block bg-secondary hover:bg-orange-600 text-white font-bold px-4 py-3 rounded-lg text-center transition-colors">
-                        Sign Up Free
+                        Sign Up
                     </a>
                     <?php endif; ?>
                 </div>

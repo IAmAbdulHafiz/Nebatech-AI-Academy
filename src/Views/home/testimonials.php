@@ -40,26 +40,27 @@
         </div>
         <h1 class="text-4xl md:text-6xl font-bold mb-6">Success Stories & Testimonials</h1>
         <p class="text-xl text-yellow-100 max-w-3xl mx-auto mb-12">
-            Hear from our graduates who transformed their careers through Nebatech AI Academy
+            Hear from our graduates who transformed their careers through Nebatech Software Solutions Ltd
         </p>
         
+        <?php $testimonialStats = getSiteStats(); ?>
         <!-- Stats Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-yellow-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">5,000+</div>
+                <div class="text-3xl font-bold"><?= number_format($testimonialStats['totalStudents']) ?>+</div>
                 <div class="text-yellow-200 text-sm">Students Trained</div>
             </div>
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-orange-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">92%</div>
-                <div class="text-yellow-200 text-sm">Job Placement Rate</div>
+                <div class="text-3xl font-bold"><?= $testimonialStats['totalCourses'] ?>+</div>
+                <div class="text-yellow-200 text-sm">Courses Available</div>
             </div>
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-amber-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">4.9/5</div>
+                <div class="text-3xl font-bold"><?= $testimonialStats['avgRating'] ?>/5</div>
                 <div class="text-yellow-200 text-sm">Average Rating</div>
             </div>
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-yellow-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">500+</div>
-                <div class="text-yellow-200 text-sm">Companies Hiring</div>
+                <div class="text-3xl font-bold"><?= number_format($testimonialStats['certificatesIssued']) ?>+</div>
+                <div class="text-yellow-200 text-sm">Certificates Issued</div>
             </div>
         </div>
     </div>
@@ -76,7 +77,7 @@
                 'role' => 'Full Stack Developer at MTN Ghana',
                 'image' => 'AR',
                 'rating' => 5,
-                'text' => 'Nebatech AI Academy gave me the practical skills I needed. Within 3 months of completing the program, I landed my dream job at MTN. The hands-on projects were invaluable!'
+                'text' => 'Nebatech Software Solutions Ltd gave me the practical skills I needed. Within 3 months of completing the program, I landed my dream job at MTN. The hands-on projects were invaluable!'
             ],
             [
                 'name' => 'Fatima Alhassan',
@@ -143,7 +144,7 @@
         <h2 class="text-3xl font-bold mb-4">Ready to Write Your Success Story?</h2>
         <p class="text-xl mb-8">Join thousands of successful graduates and transform your career today</p>
         <a href="<?= url('/register') ?>" class="bg-secondary hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-lg inline-block transition-colors">
-            Start Learning Free
+            Start Learning Today
         </a>
     </div>
 </div>

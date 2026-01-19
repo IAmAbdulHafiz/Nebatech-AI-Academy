@@ -10,20 +10,10 @@ if (!function_exists('base_url')) {
      */
     function base_url(string $path = ''): string
     {
-        $scriptName = $_SERVER['SCRIPT_NAME'];
-        $scriptDir = dirname($scriptName);
-        
-        // Get the application base (one level up from public)
-        $baseParts = explode('/', trim($scriptDir, '/'));
-        array_pop($baseParts); // Remove 'public'
-        $appBase = '/' . implode('/', $baseParts);
-        
-        if ($appBase === '/') {
-            $appBase = '';
-        }
-        
+        // For production/Hostinger where all files are in public_html root
+        // Just return the path with leading slash
         $path = ltrim($path, '/');
-        return $appBase . ($path ? '/' . $path : '');
+        return $path ? '/' . $path : '/';
     }
 }
 
@@ -217,5 +207,81 @@ if (!function_exists('timeAgo')) {
         }
         
         return 'Just now';
+    }
+}
+
+if (!function_exists('getSiteStats')) {
+    /**
+     * Get site-wide statistics from database
+     * Cached for performance (refreshed once per request)
+     */
+    function getSiteStats(): array
+    {
+        static $cachedStats = null;
+        
+        if ($cachedStats !== null) {
+            return $cachedStats;
+        }
+        
+        $db = \Nebatech\Core\Database::class;
+        
+        // Total students
+        try {
+            $totalStudentsResult = $db::fetch("SELECT COUNT(*) as count FROM users WHERE role = 'student'");
+            $totalStudents = $totalStudentsResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalStudents = 0;
+        }
+        
+        // Total courses
+        try {
+            $totalCoursesResult = $db::fetch("SELECT COUNT(*) as count FROM courses WHERE status = 'published'");
+            $totalCourses = $totalCoursesResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalCourses = 0;
+        }
+        
+        // Total enrollments
+        try {
+            $totalEnrollmentsResult = $db::fetch("SELECT COUNT(*) as count FROM enrollments");
+            $totalEnrollments = $totalEnrollmentsResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalEnrollments = 0;
+        }
+        
+        // Certificates issued
+        try {
+            $certificatesIssuedResult = $db::fetch("SELECT COUNT(*) as count FROM certificates");
+            $certificatesIssued = $certificatesIssuedResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $certificatesIssued = 0;
+        }
+        
+        // Newsletter subscribers (table may not exist)
+        try {
+            $subscribersResult = $db::fetch("SELECT COUNT(*) as count FROM newsletter_subscribers WHERE status = 'subscribed'");
+            $newsletterSubscribers = $subscribersResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $newsletterSubscribers = 0;
+        }
+        
+        // Average rating
+        try {
+            $avgRatingResult = $db::fetch("SELECT AVG(rating) as avg_rating FROM feedback WHERE status = 'approved'");
+            $avgRating = $avgRatingResult['avg_rating'] ? number_format($avgRatingResult['avg_rating'], 1) : '5.0';
+        } catch (\Exception $e) {
+            $avgRating = '5.0';
+        }
+        
+        $cachedStats = [
+            'totalStudents' => $totalStudents,
+            'totalCourses' => $totalCourses,
+            'totalEnrollments' => $totalEnrollments,
+            'certificatesIssued' => $certificatesIssued,
+            'newsletterSubscribers' => $newsletterSubscribers,
+            'avgRating' => $avgRating
+        ];
+        
+        return $cachedStats;
     }
 }

@@ -50,6 +50,12 @@ $isActive = function($path) use ($currentPath) {
     <span class="font-medium whitespace-nowrap overflow-hidden" x-show="sidebarOpen">Certificates</span>
 </a>
 
+<!-- Success Stories -->
+<a href="<?= url('/admin/success-stories') ?>" :class="sidebarOpen ? 'gap-3 px-4' : 'justify-center'" class="flex items-center py-3 rounded-lg transition <?= $isActive('/admin/success-stories') ?>" title="Success Stories">
+    <i class="fas fa-star w-5 flex-shrink-0"></i>
+    <span class="font-medium whitespace-nowrap overflow-hidden" x-show="sidebarOpen">Success Stories</span>
+</a>
+
 <!-- Divider -->
 <div class="border-t border-gray-200 my-4" x-show="sidebarOpen"></div>
 

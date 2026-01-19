@@ -51,7 +51,7 @@
         </div>
         <h1 class="text-5xl md:text-6xl font-bold mb-6">Frequently Asked Questions</h1>
         <p class="text-xl max-w-4xl mx-auto leading-relaxed mb-4 text-white/90">
-            Find answers to common questions about Nebatech AI Academy, our services, and training programs
+            Find answers to common questions about Nebatech Software Solutions Ltd, our services, and training programs
         </p>
         <p class="text-sm text-white/80 mb-12">
             <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -167,8 +167,8 @@
                     $generalFAQs = [
                         [
                             'id' => 1,
-                            'question' => 'What is Nebatech AI Academy?',
-                            'answer' => 'Nebatech AI Academy is a leading technology training and service provider based in Tamale, Ghana. We specialize in AI & Machine Learning, software development, IT infrastructure, and digital skills training. Our mission is to empower individuals and businesses with cutting-edge technology solutions.',
+                            'question' => 'What is Nebatech Software Solutions Ltd?',
+                            'answer' => 'Nebatech Software Solutions Ltd is a leading technology training and service provider based in Tamale, Ghana. We specialize in AI & Machine Learning, software development, IT infrastructure, and digital skills training. Our mission is to empower individuals and businesses with cutting-edge technology solutions.',
                             'keywords' => 'nebatech about company who we are mission vision'
                         ],
                         [
@@ -294,14 +294,14 @@
                         ],
                         [
                             'id' => 5,
-                            'question' => 'Are the courses free?',
-                            'answer' => 'Most of our training programs require payment. However, we occasionally offer scholarships and discounts. Contact us to learn about current promotions and payment plans.',
-                            'keywords' => 'courses free cost pricing paid scholarship discount'
+                            'question' => 'What are the course fees?',
+                            'answer' => 'Our training programs are professionally priced to ensure quality education. We offer competitive rates and flexible payment plans. Contact us to learn about current pricing and payment options.',
+                            'keywords' => 'courses cost pricing fees payment scholarship discount'
                         ],
                         [
                             'id' => 6,
                             'question' => 'Do you offer certificates?',
-                            'answer' => 'Yes! Upon successful completion of any training program, you\'ll receive an official certificate from Nebatech AI Academy, which you can add to your portfolio and resume.',
+                            'answer' => 'Yes! Upon successful completion of any training program, you\'ll receive an official certificate from Nebatech Software Solutions Ltd, which you can add to your portfolio and resume.',
                             'keywords' => 'certificate certification credentials diploma validation'
                         ],
                         [
@@ -568,14 +568,7 @@
     </div>
     </div>
     
-    <!-- Floating Back to Top Button -->
-    <button @click="scrollToTop()" 
-            x-show="showBackToTop" 
-            x-transition
-            @scroll.window="showBackToTop = window.pageYOffset > 300"
-            class="fixed bottom-6 right-6 bg-secondary hover:bg-orange-600 text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-40">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-    </button>
+    <!-- Back to Top Button is in footer.php -->
     
     <!-- Live Chat Widget (Hidden by default) -->
     <div x-show="liveChatOpen" 
@@ -784,7 +777,7 @@ function faqManager() {
             
             if (navigator.share) {
                 navigator.share({
-                    title: 'Nebatech AI Academy - FAQ',
+                    title: 'Nebatech Software Solutions Ltd - FAQ',
                     text: question,
                     url: url
                 }).then(() => {
@@ -800,7 +793,7 @@ function faqManager() {
         emailFAQ(faqId, question) {
             const url = `${window.location.origin}${window.location.pathname}#faq-${faqId}`;
             const subject = encodeURIComponent(`FAQ: ${question}`);
-            const body = encodeURIComponent(`Check out this FAQ from Nebatech AI Academy:\n\n${question}\n\n${url}`);
+            const body = encodeURIComponent(`Check out this FAQ from Nebatech Software Solutions Ltd:\n\n${question}\n\n${url}`);
             window.location.href = `mailto:?subject=${subject}&body=${body}`;
         },
         

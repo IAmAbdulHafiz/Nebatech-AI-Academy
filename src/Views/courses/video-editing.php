@@ -44,7 +44,7 @@
                         <i class="fas fa-rocket mr-2"></i>Browse Courses
                     </a>
                     <a href="<?= url('/register') ?>" class="bg-rose-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-rose-800 transition inline-flex items-center border-2 border-rose-400/50 shadow-lg">
-                        <i class="fas fa-user-plus mr-2"></i>Get Started Free
+                        <i class="fas fa-user-plus mr-2"></i>Get Started
                     </a>
                 </div>
 
@@ -468,11 +468,11 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Create Amazing Videos?</h2>
             <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands learning video editing and production with Nebatech AI Academy
+                Join thousands learning video editing and production with Nebatech Software Solutions Ltd
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="<?= url('/register') ?>" class="bg-white text-rose-600 px-8 py-4 rounded-lg font-semibold hover:bg-rose-50 transition inline-flex items-center">
-                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                    <i class="fas fa-rocket mr-2"></i>Get Started
                 </a>
                 <a href="<?= url('/contact') ?>" class="bg-rose-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-rose-800 transition inline-flex items-center border-2 border-rose-500">
                     <i class="fas fa-comment mr-2"></i>Talk to an Advisor

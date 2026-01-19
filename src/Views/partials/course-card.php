@@ -8,7 +8,7 @@ $course = $course ?? $item ?? [];
 if (empty($course)) return;
 
 $price = $course['price'] ?? 0;
-$priceDisplay = $price == 0 ? 'Free' : 'GHS ' . number_format($price);
+$priceDisplay = $price == 0 ? 'Enroll' : 'GHS ' . number_format($price);
 $thumbnail = $course['thumbnail'] ?? '';
 $level = $course['level'] ?? 'beginner';
 $duration = $course['duration'] ?? '';

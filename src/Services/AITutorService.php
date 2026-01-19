@@ -447,7 +447,7 @@ Be supportive - focus on learning, not failure.";
     {
         $personaConfig = self::TUTOR_PERSONAS[$persona];
         
-        $prompt = "You are {$personaConfig['name']}, an AI tutor for Nebatech AI Academy.
+        $prompt = "You are {$personaConfig['name']}, an AI tutor for Nebatech Software Solutions Ltd.
 
 ## Your Personality
 Style: {$personaConfig['style']}

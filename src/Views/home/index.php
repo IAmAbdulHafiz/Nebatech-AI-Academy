@@ -1007,8 +1007,8 @@
 
                     <div class="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-100 dark:border-orange-800 rounded-xl p-6 mb-6">
                         <div class="text-center">
-                            <div class="text-4xl font-bold mb-2 text-orange-600 dark:text-orange-400">100% FREE</div>
-                            <div class="text-lg text-gray-600 dark:text-gray-400">No Credit Card Required</div>
+                            <div class="text-4xl font-bold mb-2 text-orange-600 dark:text-orange-400">ENROLL NOW</div>
+                            <div class="text-lg text-gray-600 dark:text-gray-400">Limited Spots Available</div>
                         </div>
                     </div>
 
@@ -1033,42 +1033,38 @@
                 <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Start your journey to mastering IT skills in 4 simple steps</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-                <!-- Step 1 -->
-                <div class="relative">
+            <div class="relative max-w-6xl mx-auto">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-gray-300 dark:bg-gray-600" style="z-index: 0;"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                    <!-- Step 1 -->
                     <div class="text-center">
-                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Sign Up Free</h3>
-                        <p class="text-gray-600 dark:text-gray-400">Create your account in seconds. No credit card required.</p>
+                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 relative z-10 border-4 border-gray-50 dark:border-gray-800">1</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Sign Up</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Create your account in seconds to get started.</p>
                     </div>
-                    <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gray-300" style="width: calc(100% - 4rem);"></div>
-                </div>
 
-                <!-- Step 2 -->
-                <div class="relative">
+                    <!-- Step 2 -->
                     <div class="text-center">
-                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 relative z-10 border-4 border-gray-50 dark:border-gray-800">2</div>
                         <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Choose Your Path</h3>
                         <p class="text-gray-600 dark:text-gray-400">Select courses aligned with your career goals and skill level.</p>
                     </div>
-                    <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gray-300" style="width: calc(100% - 4rem);"></div>
-                </div>
 
-                <!-- Step 3 -->
-                <div class="relative">
+                    <!-- Step 3 -->
                     <div class="text-center">
-                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                        <div class="bg-primary dark:bg-primary/90 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 relative z-10 border-4 border-gray-50 dark:border-gray-800">3</div>
                         <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Learn & Practice</h3>
                         <p class="text-gray-600 dark:text-gray-400">Build real projects with AI-powered feedback and guidance.</p>
                     </div>
-                    <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gray-300" style="width: calc(100% - 4rem);"></div>
-                </div>
 
-                <!-- Step 4 -->
-                <div class="text-center">
-                    <div class="bg-secondary dark:bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Get Certified</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Earn industry-recognized certificates to boost your career.</p>
+                    <!-- Step 4 -->
+                    <div class="text-center">
+                        <div class="bg-secondary dark:bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 relative z-10 border-4 border-gray-50 dark:border-gray-800">4</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">Get Certified</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Earn industry-recognized certificates to boost your career.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1134,7 +1130,7 @@
     <section class="py-16 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Why Choose Nebatech AI Academy?</h2>
+                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Why Choose Nebatech Software Solutions Ltd?</h2>
                 <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Everything you need to master IT skills and advance your career</p>
             </div>
             
@@ -1359,385 +1355,6 @@
         </div>
     </section>
 
-    <!-- Instructors/Facilitators Section -->
-    <section class="py-16 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Learn from Expert Instructors</h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Industry professionals with years of real-world experience</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Instructor 1 -->
-                <div class="bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-blue-100 dark:bg-primary/90/30 flex items-center justify-center">
-                        <div class="w-32 h-32 bg-primary text-white rounded-full flex items-center justify-center text-4xl font-bold">
-                            JD
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold mb-1 text-gray-800 dark:text-gray-200">John Doe</h3>
-                        <p class="text-primary font-semibold text-sm mb-3">Senior Full Stack Developer</p>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">10+ years at Google & Meta. Expert in React, Node.js, and system design.</p>
-                        <div class="flex justify-center gap-3">
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">JavaScript</span>
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">React</span>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <div class="flex justify-around text-center">
-                                <div>
-                                    <div class="font-bold text-primary">15</div>
-                                    <div class="text-xs text-gray-500">Courses</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-primary">5,000+</div>
-                                    <div class="text-xs text-gray-500">Students</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-primary">4.9</div>
-                                    <div class="text-xs text-gray-500">Rating</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Instructor 2 -->
-                <div class="bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                        <div class="w-32 h-32 bg-green-600 text-white rounded-full flex items-center justify-center text-4xl font-bold">
-                            SA
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold mb-1 text-gray-800 dark:text-gray-200">Sarah Anderson</h3>
-                        <p class="text-green-600 font-semibold text-sm mb-3">AI/ML Research Scientist</p>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">PhD in AI. Former researcher at MIT. Specializes in deep learning and NLP.</p>
-                        <div class="flex justify-center gap-3">
-                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">Python</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">AI/ML</span>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <div class="flex justify-around text-center">
-                                <div>
-                                    <div class="font-bold text-green-600">8</div>
-                                    <div class="text-xs text-gray-500">Courses</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-green-600">3,200+</div>
-                                    <div class="text-xs text-gray-500">Students</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-green-600">5.0</div>
-                                    <div class="text-xs text-gray-500">Rating</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Instructor 3 -->
-                <div class="bg-white dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                        <div class="w-32 h-32 bg-secondary text-white rounded-full flex items-center justify-center text-4xl font-bold">
-                            MK
-                        </div>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold mb-1 text-gray-800 dark:text-gray-200">Michael Kim</h3>
-                        <p class="text-secondary font-semibold text-sm mb-3">Cybersecurity Expert</p>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">15+ years in security. CISSP certified. Worked with Fortune 500 companies.</p>
-                        <div class="flex justify-center gap-3">
-                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">Security</span>
-                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">Linux</span>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <div class="flex justify-around text-center">
-                                <div>
-                                    <div class="font-bold text-secondary">12</div>
-                                    <div class="text-xs text-gray-500">Courses</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-secondary">4,500+</div>
-                                    <div class="text-xs text-gray-500">Students</div>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-secondary">4.8</div>
-                                    <div class="text-xs text-gray-500">Rating</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">All instructors are vetted professionals with proven industry experience</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Popular Courses Section -->
-    <section class="py-16 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Popular Courses</h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Start your journey with our most popular learning paths</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Course Card 1 -->
-                <div class="card hover:shadow-2xl transition-all transform hover:-translate-y-1 border-2 border-primary dark:border-primary/90">
-                    <div class="bg-primary dark:bg-primary/90 h-40 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center">
-                        <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                        </svg>
-                    </div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-semibold px-3 py-1 rounded-full">Beginner</span>
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">⏱️ 12 weeks</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 dark:text-gray-200">Front-End Development</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">Master HTML, CSS, JavaScript, and modern frameworks like React. Build responsive, interactive websites.</p>
-                    <div class="flex items-center justify-between mb-4 text-sm text-gray-600 dark:text-gray-400">
-                        <div class="flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
-                            </svg>
-                            <span>2,345 students</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-yellow-500">★★★★★</span>
-                            <span>4.8</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold text-primary dark:text-primary/80">Free</span>
-                        <a href="<?= url('/courses/frontend') ?>" class="bg-primary dark:bg-primary/90 text-white px-6 py-2 rounded-lg hover:bg-primary/70 dark:hover:bg-primary transition-colors font-semibold">
-                            Start Now →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Course Card 2 -->
-                <div class="card hover:shadow-2xl transition-all transform hover:-translate-y-1 border-2 border-primary dark:border-primary/90">
-                    <div class="bg-primary dark:bg-primary/90 h-40 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center">
-                        <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-                        </svg>
-                    </div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-semibold px-3 py-1 rounded-full">Intermediate</span>
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">⏱️ 16 weeks</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 dark:text-gray-200">Back-End Development</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">Build robust server-side applications with PHP, Node.js, and databases. Master APIs and authentication.</p>
-                    <div class="flex items-center justify-between mb-4 text-sm text-gray-600 dark:text-gray-400">
-                        <div class="flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
-                            </svg>
-                            <span>1,892 students</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-yellow-500">★★★★★</span>
-                            <span>4.9</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold text-primary dark:text-primary/80">Free</span>
-                        <a href="<?= url('/courses/backend') ?>" class="bg-primary dark:bg-primary/90 text-white px-6 py-2 rounded-lg hover:bg-primary/70 dark:hover:bg-primary transition-colors font-semibold">
-                            Start Now →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Course Card 3 -->
-                <div class="card hover:shadow-2xl transition-all transform hover:-translate-y-1 border-2 border-secondary dark:border-orange-400">
-                    <div class="bg-secondary dark:bg-orange-500 h-40 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center relative overflow-hidden">
-                        <div class="absolute top-2 right-2 bg-white dark:bg-gray-900 text-secondary dark:text-orange-400 text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
-                        <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                        </svg>
-                    </div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-semibold px-3 py-1 rounded-full">Beginner</span>
-                        <span class="text-gray-500 dark:text-gray-400 text-sm">⏱️ 10 weeks</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 dark:text-gray-200">AI & Machine Learning</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">Introduction to AI concepts and practical machine learning applications. Build intelligent systems.</p>
-                    <div class="flex items-center justify-between mb-4 text-sm text-gray-600 dark:text-gray-400">
-                        <div class="flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
-                            </svg>
-                            <span>3,567 students</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="text-yellow-500">★★★★★</span>
-                            <span>5.0</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold text-secondary dark:text-orange-400">Free</span>
-                        <a href="<?= url('/courses/ai') ?>" class="bg-secondary dark:bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-600 transition-colors font-semibold">
-                            Start Now →
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <a href="<?= url('/courses') ?>" class="inline-block bg-primary dark:bg-primary/90 text-white font-bold text-lg px-10 py-4 rounded-lg hover:bg-primary/70 dark:hover:bg-primary transition-colors">
-                    View All 50+ Courses
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Student Project Gallery -->
-    <section class="py-16 bg-gray-50 dark:bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Projects Built by Our Students</h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Real projects from real students - see what you'll build</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Project 1 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-blue-100 dark:bg-primary/90/30 flex items-center justify-center">
-                        <svg class="w-20 h-20 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 dark:text-gray-200">E-Commerce Website</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">Full-stack shopping platform with cart, payments, and admin panel</p>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-gray-500 dark:text-gray-400">By Sarah M.</span>
-                            <span class="bg-blue-100 dark:bg-primary/90/30 text-blue-800 dark:text-white/80 px-3 py-1 rounded-full text-xs font-semibold">Frontend</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                        <svg class="w-20 h-20 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 dark:text-gray-200">REST API Service</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">Scalable API with authentication, database, and documentation</p>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-gray-500 dark:text-gray-400">By David K.</span>
-                            <span class="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-3 py-1 rounded-full text-xs font-semibold">Backend</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
-                    <div class="h-48 bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                        <svg class="w-20 h-20 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 dark:text-gray-200">AI Chatbot</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">Intelligent chatbot using NLP and machine learning models</p>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-gray-500 dark:text-gray-400">By Aisha N.</span>
-                            <span class="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 px-3 py-1 rounded-full text-xs font-semibold">AI/ML</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Every student builds a complete portfolio of 5-10 projects</p>
-                <a href="<?= url('/register') ?>" class="inline-block bg-secondary text-white font-bold px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors">
-                    Start Building Your Portfolio
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Comparison Table -->
-    <section class="py-16 bg-white dark:bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">Why Choose Nebatech Over Traditional Learning?</h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">See how we compare to traditional education and bootcamps</p>
-            </div>
-
-            <div class="max-w-5xl mx-auto overflow-x-auto">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50 dark:bg-gray-800">
-                            <th class="text-left p-4 font-bold text-gray-800 dark:text-gray-200 border-b-2 dark:border-gray-700">Feature</th>
-                            <th class="text-center p-4 font-bold text-primary border-b-2 dark:border-gray-700">Nebatech AI Academy</th>
-                            <th class="text-center p-4 font-bold text-gray-600 dark:text-gray-400 border-b-2 dark:border-gray-700">Traditional University</th>
-                            <th class="text-center p-4 font-bold text-gray-600 dark:text-gray-400 border-b-2 dark:border-gray-700">Coding Bootcamps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">Cost</td>
-                            <td class="p-4 text-center"><span class="text-green-600 font-bold">FREE</span></td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">$20,000 - $100,000</td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">$10,000 - $20,000</td>
-                        </tr>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">Duration</td>
-                            <td class="p-4 text-center"><span class="text-green-600 font-bold">10-16 weeks</span></td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">2-4 years</td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">12-24 weeks</td>
-                        </tr>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">AI-Powered Learning</td>
-                            <td class="p-4 text-center"><span class="text-green-600 text-2xl">✓</span></td>
-                            <td class="p-4 text-center"><span class="text-red-500 text-2xl">✗</span></td>
-                            <td class="p-4 text-center"><span class="text-red-500 text-2xl">✗</span></td>
-                        </tr>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">24/7 Support</td>
-                            <td class="p-4 text-center"><span class="text-green-600 text-2xl">✓</span></td>
-                            <td class="p-4 text-center"><span class="text-red-500 text-2xl">✗</span></td>
-                            <td class="p-4 text-center"><span class="text-yellow-500 text-2xl">~</span></td>
-                        </tr>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">Hands-On Projects</td>
-                            <td class="p-4 text-center"><span class="text-green-600 font-bold">10+ Projects</span></td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">2-3 Projects</td>
-                            <td class="p-4 text-center text-gray-600 dark:text-gray-400">3-5 Projects</td>
-                        </tr>
-                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">Job Assistance</td>
-                            <td class="p-4 text-center"><span class="text-green-600 text-2xl">✓</span></td>
-                            <td class="p-4 text-center"><span class="text-yellow-500 text-2xl">~</span></td>
-                            <td class="p-4 text-center"><span class="text-green-600 text-2xl">✓</span></td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td class="p-4 font-semibold dark:text-gray-300">Learn at Your Pace</td>
-                            <td class="p-4 text-center"><span class="text-green-600 text-2xl">✓</span></td>
-                            <td class="p-4 text-center"><span class="text-red-500 text-2xl">✗</span></td>
-                            <td class="p-4 text-center"><span class="text-red-500 text-2xl">✗</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="text-center mt-12">
-                <a href="<?= url('/register') ?>" class="inline-block bg-primary text-white font-bold text-lg px-10 py-4 rounded-lg hover:bg-primary/70 transition-colors">
-                    Get Started for Free
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- Learning Outcomes Section -->
     <section class="py-16 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-6">
@@ -1784,7 +1401,7 @@
                         <span class="text-2xl">🤝</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3 dark:text-gray-200">Network & Community</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Connect with 10,000+ learners and industry professionals</p>
+                    <p class="text-gray-600 dark:text-gray-400">Connect with <?= isset($stats['totalStudents']) && $stats['totalStudents'] > 0 ? number_format($stats['totalStudents']) . '+' : 'our' ?> learners and industry professionals</p>
                 </div>
 
                 <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg">
@@ -1792,7 +1409,7 @@
                         <span class="text-2xl">♾️</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3 dark:text-gray-200">Lifetime Access</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Keep learning with free updates and new content forever</p>
+                    <p class="text-gray-600 dark:text-gray-400">Keep learning with updates and new content forever</p>
                 </div>
             </div>
 
@@ -1814,108 +1431,77 @@
                 <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">See how our students transformed their careers through hands-on learning</p>
             </div>
 
+            <?php
+            // Fetch approved success stories from database
+            $successStories = [];
+            try {
+                $successStories = \Nebatech\Core\Database::fetchAll(
+                    "SELECT * FROM success_stories WHERE status = 'approved' ORDER BY created_at DESC LIMIT 6"
+                );
+            } catch (\Exception $e) {
+                // Table may not exist yet, that's okay
+            }
+            ?>
+
+            <?php if (!empty($successStories)): ?>
+            <!-- Display approved success stories -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
+                <?php foreach ($successStories as $story): ?>
                 <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                     <div class="flex items-center mb-4">
                         <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mr-4">
-                            AS
+                            <?= strtoupper(substr($story['name'] ?? 'S', 0, 1) . substr(explode(' ', $story['name'] ?? 'Student')[1] ?? '', 0, 1)) ?>
                         </div>
                         <div>
-                            <div class="font-bold text-gray-800 dark:text-gray-200">Amara Sesay</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-400">Frontend Developer</div>
+                            <div class="font-bold text-gray-800 dark:text-gray-200"><?= htmlspecialchars($story['name'] ?? 'Student') ?></div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400"><?= htmlspecialchars($story['role'] ?? 'Graduate') ?></div>
                             <div class="text-yellow-500 text-sm">★★★★★</div>
                         </div>
                     </div>
                     <p class="text-gray-700 dark:text-gray-300 italic mb-4">
-                        "The hands-on projects and AI feedback helped me land my dream job as a Frontend Developer. The learning path was clear and practical!"
+                        "<?= htmlspecialchars($story['testimonial'] ?? '') ?>"
                     </p>
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Completed: Front-End Development • Now at TechCorp
+                        <?= htmlspecialchars($story['course_completed'] ?? '') ?> • <?= htmlspecialchars($story['current_position'] ?? '') ?>
                     </div>
                 </div>
-
-                <!-- Testimonial 2 -->
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <div class="w-16 h-16 bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-bold mr-4">
-                            CO
-                        </div>
-                        <div>
-                            <div class="font-bold text-gray-800 dark:text-gray-200">Chidi Okonkwo</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-400">Full Stack Developer</div>
-                            <div class="text-yellow-500 text-sm">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 dark:text-gray-300 italic mb-4">
-                        "From zero coding experience to building full-stack applications in 6 months. The AI tutor was like having a mentor 24/7!"
-                    </p>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Completed: Full Stack Program • Freelancing Successfully
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="flex items-center mb-4">
-                        <div class="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mr-4">
-                            FK
-                        </div>
-                        <div>
-                            <div class="font-bold text-gray-800 dark:text-gray-200">Fatima Kamara</div>
-                            <div class="text-sm text-gray-600 dark:text-gray-400">AI/ML Engineer</div>
-                            <div class="text-yellow-500 text-sm">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 dark:text-gray-300 italic mb-4">
-                        "The AI & ML course gave me the practical skills I needed. The projects in my portfolio helped me get hired at a leading AI company!"
-                    </p>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Completed: AI & Machine Learning • Now at AI Innovations
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
+            <?php else: ?>
+            <!-- Empty state - no approved stories yet -->
+            <div class="max-w-2xl mx-auto text-center py-12">
+                <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">Be the First to Share Your Story!</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">
+                    We're building our community of success stories. Have you completed a course or achieved something amazing with Nebatech? 
+                    Share your journey and inspire others!
+                </p>
+            </div>
+            <?php endif; ?>
 
             <div class="text-center mt-12">
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Join 10,000+ successful graduates</p>
-                <a href="<?= url('/register') ?>" class="inline-block bg-secondary text-white font-bold px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Have a success story to share?</p>
+                <a href="<?= url('/submit-story') ?>" class="inline-flex items-center bg-primary text-white font-bold px-8 py-3 rounded-lg hover:bg-primary/80 transition-colors mr-4">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Share Your Story
+                </a>
+                <a href="<?= url('/register') ?>" class="inline-flex items-center bg-secondary text-white font-bold px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
                     Start Your Success Story
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Trust Badges Section -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 border-y dark:border-gray-700">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Trusted by Leading Organizations</h3>
-                <p class="text-gray-600 dark:text-gray-400">Our students work at top companies worldwide</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-60">
-                <div class="text-center font-bold text-gray-700 dark:text-gray-300 text-xl">Microsoft</div>
-                <div class="text-center font-bold text-gray-700 dark:text-gray-300 text-xl">Google</div>
-                <div class="text-center font-bold text-gray-700 dark:text-gray-300 text-xl">Amazon</div>
-                <div class="text-center font-bold text-gray-700 dark:text-gray-300 text-xl">Meta</div>
-                <div class="text-center font-bold text-gray-700 dark:text-gray-300 text-xl">Apple</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Back to Top Button -->
-    <div x-data="{ showButton: false }" 
-         @scroll.window="showButton = window.pageYOffset > 300"
-         x-show="showButton"
-         x-transition
-         class="fixed bottom-8 right-8 z-50">
-        <button @click="window.scrollTo({ top: 0, behavior: 'smooth' })" 
-                class="bg-primary dark:bg-primary/90 text-white p-4 rounded-full shadow-2xl hover:bg-primary/70 dark:hover:bg-primary transition-all transform hover:scale-110"
-                aria-label="Back to top">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-            </svg>
-        </button>
-    </div>
+    <!-- Back to Top Button is in footer.php -->
 
     <style>
         /* Smooth scroll behavior */

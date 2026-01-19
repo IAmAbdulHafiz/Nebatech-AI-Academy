@@ -115,7 +115,7 @@ class ApplicationController extends Controller
             // Send confirmation email
             $this->emailService->send(
                 $application['email'],
-                'Application Received - Nebatech AI Academy',
+                'Application Received - Nebatech Software Solutions Ltd',
                 'emails/application-received',
                 [
                     'firstName' => $application['first_name'],
@@ -352,7 +352,7 @@ class ApplicationController extends Controller
             // Send approval email
             $this->emailService->send(
                 $application['email'],
-                'Application Approved! - Nebatech AI Academy',
+                'Application Approved! - Nebatech Software Solutions Ltd',
                 'emails/application-approved',
                 [
                     'firstName' => $application['first_name'],
@@ -416,7 +416,7 @@ class ApplicationController extends Controller
             // Send rejection email
             $this->emailService->send(
                 $application['email'],
-                'Application Status Update - Nebatech AI Academy',
+                'Application Status Update - Nebatech Software Solutions Ltd',
                 'emails/application-rejected',
                 [
                     'firstName' => $application['first_name'],

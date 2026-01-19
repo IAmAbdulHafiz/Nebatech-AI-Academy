@@ -15,7 +15,7 @@ $title = ($portfolio[0]['first_name'] ?? 'Student') . '\'s Portfolio';
         <div class="flex-1">
             <?php if (!empty($portfolio[0])): ?>
                 <h1 class="text-3xl font-bold mb-2"><?= htmlspecialchars($portfolio[0]['first_name'] . ' ' . $portfolio[0]['last_name']) ?></h1>
-                <p class="text-blue-100 mb-4">Student at Nebatech AI Academy</p>
+                <p class="text-blue-100 mb-4">Student at Nebatech Software Solutions Ltd</p>
             <?php else: ?>
                 <h1 class="text-3xl font-bold mb-2">Student Portfolio</h1>
             <?php endif; ?>

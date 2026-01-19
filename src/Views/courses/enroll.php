@@ -269,7 +269,7 @@
 
                 <!-- Trust Badges -->
                 <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Why Choose Nebatech AI Academy?</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Why Choose Nebatech Software Solutions Ltd?</h3>
                     <div class="grid md:grid-cols-3 gap-6">
                         <div class="text-center">
                             <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -282,7 +282,8 @@
                             <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <i class="fas fa-users text-2xl text-green-600"></i>
                             </div>
-                            <h4 class="font-semibold text-gray-900 mb-2">5,000+ Students</h4>
+                            <?php $enrollStats = getSiteStats(); ?>
+                            <h4 class="font-semibold text-gray-900 mb-2"><?= number_format($enrollStats['totalStudents']) ?>+ Students</h4>
                             <p class="text-sm text-gray-600">Join our growing community</p>
                         </div>
                         <div class="text-center">

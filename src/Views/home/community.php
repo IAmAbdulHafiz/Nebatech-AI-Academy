@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community - Nebatech AI Academy</title>
+    <title>Community - Nebatech Software Solutions Ltd</title>
     <link rel="stylesheet" href="<?= asset('css/main.css') ?>">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -67,16 +67,16 @@
                 <!-- Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
                     <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                        <div class="text-3xl font-bold">10,000+</div>
+                        <div class="text-3xl font-bold"><?= isset($stats['totalStudents']) ? number_format($stats['totalStudents']) : '0' ?>+</div>
                         <div class="text-white/70 text-sm">Active Members</div>
                     </div>
                     <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                        <div class="text-3xl font-bold">500+</div>
-                        <div class="text-white/70 text-sm">Daily Posts</div>
+                        <div class="text-3xl font-bold"><?= isset($stats['totalCourses']) ? number_format($stats['totalCourses']) : '0' ?>+</div>
+                        <div class="text-white/70 text-sm">Available Courses</div>
                     </div>
                     <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
-                        <div class="text-3xl font-bold">50+</div>
-                        <div class="text-white/70 text-sm">Study Groups</div>
+                        <div class="text-3xl font-bold"><?= isset($stats['totalEnrollments']) ? number_format($stats['totalEnrollments']) : '0' ?>+</div>
+                        <div class="text-white/70 text-sm">Total Enrollments</div>
                     </div>
                     <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-white/30/20">
                         <div class="text-3xl font-bold">24/7</div>
@@ -312,9 +312,9 @@
     <section class="py-16 bg-gradient-to-br from-primary to-blue-900 text-white">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl font-bold mb-4">Ready to Join Our Community?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Start learning with thousands of motivated students today. It's completely free!</p>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Start learning with thousands of motivated students today!</p>
             <a href="<?= url('/register') ?>" class="bg-secondary hover:bg-orange-600 text-white font-bold text-lg px-12 py-4 rounded-lg transition-all transform hover:scale-105 inline-block shadow-xl">
-                Join Community Free
+                Join Community
             </a>
             <p class="mt-4 text-sm opacity-90">No credit card required • Cancel anytime • Join 15,847 students</p>
         </div>

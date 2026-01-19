@@ -8,7 +8,7 @@
                 <i class="fas fa-bell text-purple-600"></i>
                 Notification Preferences
             </h1>
-            <p class="text-gray-600">Manage how you receive notifications from Nebatech AI Academy</p>
+            <p class="text-gray-600">Manage how you receive notifications from Nebatech Software Solutions Ltd</p>
         </div>
 
         <?php if (isset($_SESSION['flash_message'])): ?>
@@ -26,7 +26,7 @@
                 <div class="flex items-start">
                     <div class="flex-1">
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">Email Notifications</h3>
-                        <p class="text-sm text-gray-600">Receive email notifications from Nebatech AI Academy</p>
+                        <p class="text-sm text-gray-600">Receive email notifications from Nebatech Software Solutions Ltd</p>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" name="email_enabled" class="sr-only peer" <?= $preferences['email_enabled'] ? 'checked' : '' ?>>

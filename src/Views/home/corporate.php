@@ -43,15 +43,16 @@
             Upskill your team with customized AI and tech training programs designed for enterprise success.
         </p>
         
+        <?php $corpStats = getSiteStats(); ?>
         <!-- Stats Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-slate-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">50+</div>
-                <div class="text-slate-200 text-sm">Corporates Trained</div>
+                <div class="text-3xl font-bold"><?= $corpStats['totalCourses'] ?>+</div>
+                <div class="text-slate-200 text-sm">Courses Available</div>
             </div>
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-gray-400/20 hover:bg-white/15 transition-all">
-                <div class="text-3xl font-bold">2,000+</div>
-                <div class="text-slate-200 text-sm">Employees Upskilled</div>
+                <div class="text-3xl font-bold"><?= number_format($corpStats['totalStudents']) ?>+</div>
+                <div class="text-slate-200 text-sm">Professionals Trained</div>
             </div>
             <div class="backdrop-blur-sm bg-white/10 rounded-lg p-4 border border-zinc-400/20 hover:bg-white/15 transition-all">
                 <div class="text-3xl font-bold">100%</div>

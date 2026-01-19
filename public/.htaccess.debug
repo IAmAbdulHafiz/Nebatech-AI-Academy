@@ -1,0 +1,13 @@
+# TEMPORARY .htaccess for debugging
+# This disables all routing - use only for testing
+
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "\.(env|log|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# NO ROUTING - let files serve directly
+# Comment out all RewriteRules for now

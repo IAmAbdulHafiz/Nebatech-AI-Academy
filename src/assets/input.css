@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Nebatech AI Academy Styles */
+/* Custom Nebatech Software Solutions Ltd Styles */
 @layer base {
   body {
     @apply bg-gray-50 text-gray-900;

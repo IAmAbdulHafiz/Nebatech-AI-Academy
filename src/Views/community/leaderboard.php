@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Nebatech AI Academy</title>
+    <title>Leaderboard - Nebatech Software Solutions Ltd</title>
     
     <link rel="icon" type="image/x-icon" href="<?= asset('images/favicon.ico') ?>">
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">

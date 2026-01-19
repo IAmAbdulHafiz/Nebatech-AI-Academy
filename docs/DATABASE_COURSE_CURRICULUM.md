@@ -171,7 +171,7 @@ This curriculum aligns with the following certifications:
 ---
 
 ## 📞 Contact
-For enrollment inquiries, contact **Nebatech AI Academy**.
+For enrollment inquiries, contact **Nebatech Software Solutions Ltd**.
 
 ---
 

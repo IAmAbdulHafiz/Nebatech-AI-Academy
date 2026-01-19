@@ -1,5 +1,5 @@
 # Technology Stack Recommendation
-## Nebatech AI Academy - PHP Implementation
+## Nebatech Software Solutions Ltd - PHP Implementation
 
 ---
 
@@ -322,4 +322,4 @@ package.json
 
 ---
 
-*This document serves as the official technology stack guide for Nebatech AI Academy implementation.*
+*This document serves as the official technology stack guide for Nebatech Software Solutions Ltd implementation.*

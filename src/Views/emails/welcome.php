@@ -1,6 +1,6 @@
 <?php
 $content = <<<HTML
-<h2>Welcome to Nebatech AI Academy, {$first_name}! 🎉</h2>
+<h2>Welcome to Nebatech Software Solutions Ltd, {$first_name}! 🎉</h2>
 
 <p>We're thrilled to have you join our community of aspiring AI developers and innovators. You've taken the first step towards mastering cutting-edge AI technologies!</p>
 

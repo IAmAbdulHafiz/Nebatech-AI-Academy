@@ -70,7 +70,7 @@
                             <p style="color: #374151; font-size: 16px; line-height: 1.6; margin: 25px 0 0 0;">
                                 We look forward to receiving your updated information!<br><br>
                                 Best regards,<br>
-                                <strong style="color: #002060;">Nebatech AI Academy Admissions Team</strong>
+                                <strong style="color: #002060;">Nebatech Software Solutions Ltd Admissions Team</strong>
                             </p>
                         </td>
                     </tr>
@@ -79,7 +79,7 @@
                     <tr>
                         <td style="background-color: #F9FAFB; padding: 30px; text-align: center; border-top: 1px solid #E5E7EB;">
                             <p style="margin: 0 0 10px 0; color: #6B7280; font-size: 14px;">
-                                © <?= date('Y') ?> Nebatech AI Academy. All rights reserved.
+                                © <?= date('Y') ?> Nebatech Software Solutions Ltd. All rights reserved.
                             </p>
                             <p style="margin: 0; color: #9CA3AF; font-size: 12px;">
                                 Learn by Doing, Master by Practicing

@@ -182,7 +182,7 @@ class CourseController extends Controller
         }
 
         return $this->render('courses/show', [
-            'title' => $course['title'] . ' - Nebatech AI Academy',
+            'title' => $course['title'] . ' - Nebatech Software Solutions Ltd',
             'course' => $course,
             'subCourses' => $subCourses,
             'modules' => $modules,

@@ -4,7 +4,7 @@ $content = <<<HTML
 
 <p>Hi {$first_name},</p>
 
-<p>We received a request to reset your password for your Nebatech AI Academy account.</p>
+<p>We received a request to reset your password for your Nebatech Software Solutions Ltd account.</p>
 
 <div class="info-box">
     <h3>Reset Your Password</h3>

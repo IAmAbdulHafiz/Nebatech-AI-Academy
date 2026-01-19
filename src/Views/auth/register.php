@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Nebatech AI Academy</title>
+    <title>Sign Up - Nebatech Software Solutions Ltd</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
@@ -26,7 +26,7 @@
                         <span class="text-secondary">AI</span>
                     </h1>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-800">Start Learning for Free</h2>
+                <h2 class="text-2xl font-bold text-gray-800">Start Your Learning Journey</h2>
                 <p class="text-gray-600 mt-2">Create your account and begin your tech journey</p>
             </div>
 
@@ -107,7 +107,7 @@
                     <!-- Submit Button -->
                     <button type="submit" 
                             class="w-full bg-secondary hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors">
-                        Create Free Account
+                        Create Account
                     </button>
                 </form>
 
@@ -153,7 +153,7 @@
 
             <!-- What's Included -->
             <div class="mt-8 bg-green-50 p-6 rounded-xl border-2 border-green-100">
-                <h3 class="font-bold text-gray-800 mb-3">✨ What's Included (100% Free)</h3>
+                <h3 class="font-bold text-gray-800 mb-3">✨ What's Included</h3>
                 <ul class="space-y-2 text-sm text-gray-700">
                     <li class="flex items-start">
                         <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -183,7 +183,7 @@
                         <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
-                        Join 10,000+ learning community
+                        Join our active learning community
                     </li>
                 </ul>
             </div>

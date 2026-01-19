@@ -2,7 +2,7 @@
 
 /**
  * Available Programs Configuration
- * Programs offered by Nebatech AI Academy
+ * Programs offered by Nebatech Software Solutions Ltd
  */
 
 return [

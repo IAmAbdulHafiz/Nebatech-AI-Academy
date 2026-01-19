@@ -5,7 +5,7 @@ $title = 'Apply for Program';
 <!-- Page Header -->
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">Apply for a Program</h1>
-    <p class="text-gray-600">Start your learning journey with Nebatech AI Academy</p>
+    <p class="text-gray-600">Start your learning journey with Nebatech Software Solutions Ltd</p>
 </div>
 
 <!-- Error/Success Messages -->

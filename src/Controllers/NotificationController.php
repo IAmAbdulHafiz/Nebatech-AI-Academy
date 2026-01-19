@@ -150,7 +150,7 @@ class NotificationController extends Controller
             $success = $this->emailService->sendCustomEmail(
                 $user['email'],
                 $user['first_name'] . ' ' . $user['last_name'],
-                'Test Email - Nebatech AI Academy',
+                'Test Email - Nebatech Software Solutions Ltd',
                 '<h2>Email Configuration Test</h2><p>If you\'re reading this, your email configuration is working correctly!</p>'
             );
             

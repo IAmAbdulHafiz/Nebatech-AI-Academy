@@ -1,4 +1,4 @@
-# Testing Checklist - Nebatech AI Academy
+# Testing Checklist - Nebatech Software Solutions Ltd
 ## Feature Implementation Verification
 
 ---

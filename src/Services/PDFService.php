@@ -15,8 +15,8 @@ class PDFService
         $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
 
         // Set document information
-        $pdf->SetCreator('Nebatech AI Academy');
-        $pdf->SetAuthor('Nebatech AI Academy');
+        $pdf->SetCreator('Nebatech Software Solutions Ltd');
+        $pdf->SetAuthor('Nebatech Software Solutions Ltd');
         $pdf->SetTitle('Certificate of Completion');
         $pdf->SetSubject('Certificate');
 
@@ -55,7 +55,7 @@ class PDFService
         // Subtitle
         $pdf->SetFont('helvetica', '', 12);
         $pdf->SetXY(15, 35);
-        $pdf->Cell(267, 8, 'Nebatech AI Academy', 0, 1, 'C');
+        $pdf->Cell(267, 8, 'Nebatech Software Solutions Ltd', 0, 1, 'C');
 
         // Main content area
         $pdf->SetTextColor(0, 0, 0);

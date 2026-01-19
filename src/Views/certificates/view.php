@@ -253,7 +253,7 @@ $verificationUrl = url('/verify-certificate?id=' . $certificate['certificate_num
 
             <!-- Footer Info -->
             <div class="mt-6 text-center text-sm no-print">
-                <p class="text-white font-medium">This is an official certificate issued by Nebatech AI Academy</p>
+                <p class="text-white font-medium">This is an official certificate issued by Nebatech Software Solutions Ltd</p>
                 <p class="mt-1 text-white">For inquiries, visit <a href="<?= url('/') ?>" class="text-yellow-300 hover:text-yellow-200 underline font-semibold">nebatech.com</a></p>
             </div>
         </div>

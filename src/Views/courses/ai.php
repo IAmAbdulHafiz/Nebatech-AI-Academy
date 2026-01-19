@@ -49,7 +49,7 @@
                         <i class="fas fa-rocket mr-2"></i>Browse Courses
                     </a>
                     <a href="<?= url('/register') ?>" class="bg-indigo-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-indigo-800 transition inline-flex items-center border-2 border-indigo-400/50 shadow-lg">
-                        <i class="fas fa-user-plus mr-2"></i>Get Started Free
+                        <i class="fas fa-user-plus mr-2"></i>Get Started
                     </a>
                 </div>
 
@@ -604,7 +604,7 @@
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="<?= url('/register') ?>" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-indigo-50 transition inline-flex items-center">
-                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                    <i class="fas fa-rocket mr-2"></i>Get Started
                 </a>
                 <a href="<?= url('/contact') ?>" class="bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-indigo-800 transition inline-flex items-center border-2 border-indigo-500">
                     <i class="fas fa-comment mr-2"></i>Talk to an Advisor

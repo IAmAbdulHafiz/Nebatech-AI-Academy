@@ -425,7 +425,7 @@
             <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">Join thousands of students mastering tech skills with AI-powered learning and expert mentorship</p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="<?= url('/register') ?>" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                    <i class="fas fa-rocket mr-2"></i>Get Started
                 </a>
                 <a href="<?= url('/contact') ?>" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition">
                     <i class="fas fa-comments mr-2"></i>Talk to an Advisor

@@ -7,7 +7,7 @@ $content = <<<HTML
 <p>We're excited to inform you that your application to <strong>{$program}</strong> has been approved!</p>
 
 <div class="success-box">
-    <h3>✓ Welcome to Nebatech AI Academy!</h3>
+    <h3>✓ Welcome to Nebatech Software Solutions Ltd!</h3>
     <p style="margin: 0;">You're now part of an elite community of aspiring AI developers and innovators.</p>
 </div>
 

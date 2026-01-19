@@ -50,7 +50,7 @@ $headerCourses = $coursesStmt->fetchAll(\PDO::FETCH_ASSOC);
 
 <!-- Top Banner (Promotional) -->
 <div class="bg-secondary text-white py-2 text-center text-sm">
-    <p>🎉 <strong>New Year Special:</strong> All premium courses FREE until Dec 31st! <a href="<?= url('/register') ?>" class="underline font-semibold ml-2">Join Now</a></p>
+    <p>🎉 <strong>New Year Special:</strong> Limited time discounts on all premium courses! <a href="<?= url('/register') ?>" class="underline font-semibold ml-2">Join Now</a></p>
 </div>
 
 <!-- Unified Header -->

@@ -12,7 +12,7 @@
             <div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
                 <i class="fas fa-graduation-cap text-white text-xs"></i>
             </div>
-            <p>&copy; <?= date('Y') ?> Nebatech AI Academy</p>
+            <p>&copy; <?= date('Y') ?> Nebatech Software Solutions Ltd</p>
         </div>
         <div class="flex items-center space-x-6 mt-3 md:mt-0">
             <a href="<?= url('/about') ?>" class="hover:text-primary transition">About</a>

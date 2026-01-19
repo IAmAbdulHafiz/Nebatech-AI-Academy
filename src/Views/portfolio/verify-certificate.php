@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Certificate - Nebatech AI Academy</title>
+    <title>Verify Certificate - Nebatech Software Solutions Ltd</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -16,7 +16,7 @@
                     <i class="fas fa-certificate text-purple-600"></i>
                     Certificate Verification
                 </h1>
-                <p class="text-gray-600">Verify the authenticity of a Nebatech AI Academy certificate</p>
+                <p class="text-gray-600">Verify the authenticity of a Nebatech Software Solutions Ltd certificate</p>
             </div>
             
             <?php if ($certificate): ?>
@@ -27,7 +27,7 @@
                             <i class="fas fa-check-circle text-green-600 text-4xl"></i>
                         </div>
                         <h2 class="text-2xl font-bold text-green-600 mb-2">Certificate Verified ✓</h2>
-                        <p class="text-gray-600">This is an authentic certificate issued by Nebatech AI Academy</p>
+                        <p class="text-gray-600">This is an authentic certificate issued by Nebatech Software Solutions Ltd</p>
                     </div>
                     
                     <div class="space-y-6">
@@ -147,7 +147,7 @@
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-exclamation-triangle text-yellow-500 mr-3 mt-1"></i>
-                                    <span>This is not an authentic Nebatech AI Academy certificate</span>
+                                    <span>This is not an authentic Nebatech Software Solutions Ltd certificate</span>
                                 </li>
                             </ul>
                         </div>
@@ -174,7 +174,7 @@
             <div class="mt-8 text-center">
                 <div class="inline-flex items-center gap-2 text-sm text-gray-600 bg-white rounded-lg px-4 py-3 shadow">
                     <i class="fas fa-shield-alt text-purple-600"></i>
-                    <span>All Nebatech AI Academy certificates are digitally verified and tamper-proof</span>
+                    <span>All Nebatech Software Solutions Ltd certificates are digitally verified and tamper-proof</span>
                 </div>
             </div>
         </div>

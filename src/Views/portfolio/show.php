@@ -299,7 +299,7 @@ $badgeStats = $portfolio['badge_stats'];
     <footer class="bg-gray-900 text-white py-8 mt-20">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <p class="text-gray-400">
-                Powered by <strong class="text-white">Nebatech AI Academy</strong>
+                Powered by <strong class="text-white">Nebatech Software Solutions Ltd</strong>
             </p>
             <p class="text-sm text-gray-500 mt-2">
                 Member since <?= date('F Y', strtotime($user['created_at'])) ?>

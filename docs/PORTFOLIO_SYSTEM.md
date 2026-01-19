@@ -1,7 +1,7 @@
 # Student Portfolio & Badge System
 
 ## Overview
-Complete student portfolio system with achievement badges, course certificates, and public portfolio pages for Nebatech AI Academy.
+Complete student portfolio system with achievement badges, course certificates, and public portfolio pages for Nebatech Software Solutions Ltd.
 
 ## Features Implemented
 

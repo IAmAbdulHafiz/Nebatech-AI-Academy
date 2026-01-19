@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $subject ?? 'Nebatech AI Academy' ?></title>
+    <title><?= $subject ?? 'Nebatech Software Solutions Ltd' ?></title>
     <style>
         * {
             margin: 0;
@@ -195,7 +195,7 @@
                 <div class="email-wrapper">
                     <!-- Header -->
                     <div class="email-header">
-                        <h1>🎓 Nebatech AI Academy</h1>
+                        <h1>🎓 Nebatech Software Solutions Ltd</h1>
                         <p>Empowering the Next Generation of AI Developers</p>
                     </div>
                     
@@ -208,7 +208,7 @@
                     
                     <!-- Footer -->
                     <div class="email-footer">
-                        <p><strong>Nebatech AI Academy</strong></p>
+                        <p><strong>Nebatech Software Solutions Ltd</strong></p>
                         <p>Building Future AI Leaders</p>
                         
                         <div class="social-links">
@@ -218,7 +218,7 @@
                         </div>
                         
                         <p style="font-size: 11px; color: #999;">
-                            You're receiving this email because you're a member of Nebatech AI Academy.<br>
+                            You're receiving this email because you're a member of Nebatech Software Solutions Ltd.<br>
                             <a href="<?= url('/settings/notifications') ?>" style="color: #667eea;">Manage email preferences</a>
                         </p>
                     </div>

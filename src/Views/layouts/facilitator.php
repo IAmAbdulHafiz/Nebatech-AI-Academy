@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Facilitator Studio - Nebatech AI Academy' ?></title>
+    <title><?= $title ?? 'Facilitator Studio - Nebatech Software Solutions Ltd' ?></title>
     
     <!-- Tailwind CSS -->
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
@@ -227,7 +227,7 @@
         <!-- Footer -->
         <footer class="bg-white border-t border-gray-200 py-6 px-6">
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-                <p>&copy; <?= date('Y') ?> Nebatech AI Academy - Facilitator Studio</p>
+                <p>&copy; <?= date('Y') ?> Nebatech Software Solutions Ltd - Facilitator Studio</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                     <a href="<?= url('/facilitator/help') ?>" class="hover:text-purple-600">Help & Guides</a>
                     <a href="<?= url('/facilitator/feedback') ?>" class="hover:text-purple-600">Give Feedback</a>

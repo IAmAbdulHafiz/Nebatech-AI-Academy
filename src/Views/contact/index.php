@@ -313,8 +313,8 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">AI Academy</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">Free competency-based training in software development and AI</p>
-                    <a href="/student/register" class="text-primary hover:text-primary font-semibold">Join Free →</a>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Competency-based training in software development and AI</p>
+                    <a href="/student/register" class="text-primary hover:text-primary font-semibold">Join Now →</a>
                 </div>
 
                 <div class="p-6">

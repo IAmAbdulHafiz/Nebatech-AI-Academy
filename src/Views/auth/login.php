@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Nebatech AI Academy</title>
+    <title>Login - Nebatech Software Solutions Ltd</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
@@ -117,7 +117,7 @@
                     <p class="text-gray-600">
                         Don't have an account? 
                         <a href="<?= url('/register') ?>" class="text-primary hover:text-primary font-semibold">
-                            Sign up for free
+                            Sign up now
                         </a>
                     </p>
                 </div>
@@ -125,13 +125,13 @@
 
             <!-- Benefits -->
             <div class="mt-8 bg-blue-50 p-6 rounded-xl border-2 border-white/10">
-                <h3 class="font-bold text-gray-800 mb-3">Why Students Love Nebatech AI Academy</h3>
+                <h3 class="font-bold text-gray-800 mb-3">Why Students Love Nebatech Software Solutions Ltd</h3>
                 <ul class="space-y-2 text-sm text-gray-700">
                     <li class="flex items-start">
                         <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
-                        100% Free courses with certificates
+                        Professional courses with certificates
                     </li>
                     <li class="flex items-start">
                         <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">

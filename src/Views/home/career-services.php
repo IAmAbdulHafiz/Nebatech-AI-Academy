@@ -135,9 +135,10 @@
     </div>
 
     <!-- CTA -->
+    <?php $careerStats = getSiteStats(); ?>
     <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-12 text-white text-center">
         <h2 class="text-3xl font-bold mb-4">Ready to Launch Your Tech Career?</h2>
-        <p class="text-xl mb-8">Join 5,000+ students who found their dream jobs with our career services.</p>
+        <p class="text-xl mb-8">Join <?= $careerStats['certificatesIssued'] > 0 ? number_format($careerStats['certificatesIssued']) . '+' : 'our' ?> students who found their dream jobs with our career services.</p>
         <a href="<?= url('/courses') ?>" class="inline-block bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
             Browse Courses
         </a>

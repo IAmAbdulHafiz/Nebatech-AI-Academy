@@ -56,7 +56,7 @@ class EmailService
             $this->mailer->clearAddresses();
             $this->mailer->addAddress($user['email'], $user['first_name'] . ' ' . $user['last_name']);
             
-            $this->mailer->Subject = 'Welcome to Nebatech AI Academy!';
+            $this->mailer->Subject = 'Welcome to Nebatech Software Solutions Ltd!';
             
             $template = $this->loadTemplate('welcome', [
                 'first_name' => $user['first_name'],
@@ -189,7 +189,7 @@ class EmailService
             $this->mailer->addAddress($user['email'], $user['first_name'] . ' ' . $user['last_name']);
             
             $statusTitle = $status === 'approved' ? 'Approved' : 'Update on Your Application';
-            $this->mailer->Subject = 'Application ' . $statusTitle . ' - Nebatech AI Academy';
+            $this->mailer->Subject = 'Application ' . $statusTitle . ' - Nebatech Software Solutions Ltd';
             
             $templateName = $status === 'approved' ? 'application-approved' : 'application-rejected';
             
@@ -255,7 +255,7 @@ class EmailService
             $this->mailer->clearAddresses();
             $this->mailer->addAddress($user['email'], $user['first_name'] . ' ' . $user['last_name']);
             
-            $this->mailer->Subject = 'Password Reset Request - Nebatech AI Academy';
+            $this->mailer->Subject = 'Password Reset Request - Nebatech Software Solutions Ltd';
             
             $resetUrl = url('/reset-password?token=' . $resetToken);
             

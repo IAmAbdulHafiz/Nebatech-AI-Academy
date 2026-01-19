@@ -21,7 +21,7 @@
                 Frequently Asked <span class="text-secondary">Questions</span>
             </h1>
             <p class="text-lg md:text-xl text-gray-300 mb-8">
-                Find answers to common questions about Nebatech AI Academy, our services, and training programs
+                Find answers to common questions about Nebatech Software Solutions Ltd, our services, and training programs
             </p>
             
             <!-- Search Bar -->
@@ -141,9 +141,9 @@
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden faq-item" id="faq-1" data-category="general" data-keywords="nebatech academy about mission what is">
                         <button @click="toggleFAQ(1)" 
                                 class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                            <span class="text-lg font-semibold text-gray-800 dark:text-white">What is Nebatech AI Academy?</span>
+                            <span class="text-lg font-semibold text-gray-800 dark:text-white">What is Nebatech Software Solutions Ltd?</span>
                             <div class="flex items-center gap-3">
-                                <button @click.stop="shareFAQ(1, 'What is Nebatech AI Academy?')" class="text-gray-400 hover:text-secondary transition-colors print:hidden" title="Share this FAQ">
+                                <button @click.stop="shareFAQ(1, 'What is Nebatech Software Solutions Ltd?')" class="text-gray-400 hover:text-secondary transition-colors print:hidden" title="Share this FAQ">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                                 </button>
                                 <svg class="w-5 h-5 text-secondary transition-transform" :class="{ 'rotate-180': openFaqs.includes(1) }" 
@@ -158,7 +158,7 @@
                              x-transition:enter-end="opacity-100 transform translate-y-0"
                              class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
                             <p class="text-gray-700 dark:text-gray-300 mb-4">
-                                Nebatech AI Academy is a cutting-edge technology training and services company based in Tamale, Ghana. 
+                                Nebatech Software Solutions Ltd is a cutting-edge technology training and services company based in Tamale, Ghana. 
                                 We specialize in AI-powered learning, software development, IT infrastructure, and digital skills training. 
                                 Our mission is to empower individuals and businesses with the latest technology solutions and practical skills.
                             </p>
@@ -524,7 +524,7 @@
                              class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
                             <p class="text-gray-700 dark:text-gray-300 mb-4">
                                 Yes! Upon successful completion of any training program, you will receive an industry-recognized certificate from 
-                                Nebatech AI Academy. This certificate validates your skills and can be shared with employers or on professional networks like LinkedIn.
+                                Nebatech Software Solutions Ltd. This certificate validates your skills and can be shared with employers or on professional networks like LinkedIn.
                             </p>
                             <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-600 print:hidden">
                                 <span class="text-sm text-gray-600 dark:text-gray-400">Was this helpful?</span>
@@ -1317,7 +1317,7 @@ function faqManager() {
             // Check if Web Share API is supported
             if (navigator.share) {
                 navigator.share({
-                    title: 'Nebatech AI Academy - FAQ',
+                    title: 'Nebatech Software Solutions Ltd - FAQ',
                     text: question,
                     url: url
                 }).then(() => {

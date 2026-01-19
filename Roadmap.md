@@ -1,12 +1,12 @@
 # AI Integration Plan — Practical-Based (Competency-Based) eLearning Platform
 
-## System Name: Nebatech AI Academy
+## System Name: Nebatech Software Solutions Ltd
 
 ## Positioning for Global Impact
-Nebatech AI Academy will stand as Africa’s first AI-driven Competency-Based eLearning Ecosystem — combining human teaching excellence with artificial intelligence to empower learners globally.
+Nebatech Software Solutions Ltd will stand as Africa’s first AI-driven Competency-Based eLearning Ecosystem — combining human teaching excellence with artificial intelligence to empower learners globally.
 
 ## Positioning Statement
-Nebatech AI Academy is an AI-powered, competency-based eLearning platform designed to empower students and professionals with hands-on IT skills for the future of work.
+Nebatech Software Solutions Ltd is an AI-powered, competency-based eLearning platform designed to empower students and professionals with hands-on IT skills for the future of work.
 
 ## Tagline
 Learn by Doing, Master by Practicing
@@ -178,13 +178,13 @@ This document describes a practical, actionable AI integration plan for a compet
   Admissions & Enrollment Workflow
 Overview
 
-Nebatech AI Academy operates on a controlled enrollment model, where students apply for admission into their chosen program and are approved by an administrator or admissions officer before gaining access to learning modules. This ensures each learner is properly registered, verified, and assigned to the correct program and facilitator.
+Nebatech Software Solutions Ltd operates on a controlled enrollment model, where students apply for admission into their chosen program and are approved by an administrator or admissions officer before gaining access to learning modules. This ensures each learner is properly registered, verified, and assigned to the correct program and facilitator.
 
 Student Application Flow
 
 Account Registration
 
-A new student creates an account on the Nebatech AI Academy portal.
+A new student creates an account on the Nebatech Software Solutions Ltd portal.
 
 Required details include:
 Full Name, Email, Phone, Country, Educational Background, Desired Program, Referral Source.

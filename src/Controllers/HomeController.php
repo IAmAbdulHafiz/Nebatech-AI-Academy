@@ -7,11 +7,92 @@ use Nebatech\Core\Database;
 
 class HomeController extends Controller
 {
+    /**
+     * Get site-wide statistics from database
+     */
+    private function getSiteStats(): array
+    {
+        // Total students
+        try {
+            $totalStudentsResult = Database::fetch("SELECT COUNT(*) as count FROM users WHERE role = 'student'");
+            $totalStudents = $totalStudentsResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalStudents = 0;
+        }
+        
+        // Total courses
+        try {
+            $totalCoursesResult = Database::fetch("SELECT COUNT(*) as count FROM courses WHERE status = 'published'");
+            $totalCourses = $totalCoursesResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalCourses = 0;
+        }
+        
+        // Total enrollments
+        try {
+            $totalEnrollmentsResult = Database::fetch("SELECT COUNT(*) as count FROM enrollments");
+            $totalEnrollments = $totalEnrollmentsResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $totalEnrollments = 0;
+        }
+        
+        // Certificates issued
+        try {
+            $certificatesIssuedResult = Database::fetch("SELECT COUNT(*) as count FROM certificates");
+            $certificatesIssued = $certificatesIssuedResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $certificatesIssued = 0;
+        }
+        
+        // Newsletter subscribers (table may not exist)
+        try {
+            $subscribersResult = Database::fetch("SELECT COUNT(*) as count FROM newsletter_subscribers WHERE status = 'subscribed'");
+            $newsletterSubscribers = $subscribersResult['count'] ?? 0;
+        } catch (\Exception $e) {
+            $newsletterSubscribers = 0;
+        }
+        
+        // Average rating (from feedback or course ratings)
+        try {
+            $avgRatingResult = Database::fetch("SELECT AVG(rating) as avg_rating FROM feedback WHERE status = 'approved'");
+            $avgRating = $avgRatingResult['avg_rating'] ? number_format($avgRatingResult['avg_rating'], 1) : '5.0';
+        } catch (\Exception $e) {
+            $avgRating = '5.0';
+        }
+        
+        return [
+            'totalStudents' => $totalStudents,
+            'totalCourses' => $totalCourses,
+            'totalEnrollments' => $totalEnrollments,
+            'certificatesIssued' => $certificatesIssued,
+            'newsletterSubscribers' => $newsletterSubscribers,
+            'avgRating' => $avgRating
+        ];
+    }
+
     public function index(): string
     {
+        $stats = $this->getSiteStats();
+        
+        // Fetch popular courses (top 3 by enrollment count)
+        try {
+            $popularCourses = Database::fetchAll("
+                SELECT id, title, slug, description, level, duration_hours, price, 
+                       enrollment_count, success_rate, card_icon, card_color_from, card_color_to
+                FROM courses 
+                WHERE status = 'published' 
+                ORDER BY enrollment_count DESC 
+                LIMIT 3
+            ");
+        } catch (\Exception $e) {
+            $popularCourses = [];
+        }
+        
         return $this->render('home.index', [
-            'title' => 'Welcome to Nebatech AI Academy',
-            'tagline' => 'Learn by Doing, Master by Practicing'
+            'title' => 'Welcome to Nebatech Software Solutions Ltd',
+            'tagline' => 'Learn by Doing, Master by Practicing',
+            'stats' => $stats,
+            'popularCourses' => $popularCourses
         ], 'main');
     }
 
@@ -107,7 +188,7 @@ class HomeController extends Controller
         $certificatesIssued = $certificatesIssuedResult['count'] ?? 0;
         
         return $this->render('home.community', [
-            'title' => 'Community - Nebatech AI Academy',
+            'title' => 'Community - Nebatech Software Solutions Ltd',
             'activities' => $recentActivity,
             'todayEnrollments' => $todayEnrollments,
             'stats' => [

@@ -1,7 +1,7 @@
 # Email Notification System Implementation
 
 ## Overview
-Complete email notification system for Nebatech AI Academy with PHPMailer integration, email templates, queue system, and user preferences management.
+Complete email notification system for Nebatech Software Solutions Ltd with PHPMailer integration, email templates, queue system, and user preferences management.
 
 **Status**: ✅ COMPLETED  
 **Date**: January 2025  
@@ -433,7 +433,7 @@ Edit `config/mail.php`:
 ],
 'from' => [
     'address' => 'noreply@yourdomain.com',
-    'name' => 'Nebatech AI Academy',
+    'name' => 'Nebatech Software Solutions Ltd',
 ]
 ```
 

@@ -68,7 +68,7 @@ $colorScheme = $isShowingServices ? 'green' : 'blue';
                                 </span>
                             <?php elseif (!$isShowingServices && !empty($item['price'])): ?>
                                 <span class="text-sm font-semibold text-gray-700">
-                                    <?= $item['price'] == 0 ? 'Free' : 'GHS ' . number_format($item['price']) ?>
+                                    <?= $item['price'] == 0 ? 'Enroll' : 'GHS ' . number_format($item['price']) ?>
                                 </span>
                             <?php endif; ?>
                         </div>

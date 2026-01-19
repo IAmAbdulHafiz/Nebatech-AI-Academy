@@ -6,7 +6,7 @@ $isOwnProfile = isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user['id
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?> - Nebatech AI Academy</title>
+    <title><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?> - Nebatech Software Solutions Ltd</title>
     
     <link rel="icon" type="image/x-icon" href="<?= asset('images/favicon.ico') ?>">
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">

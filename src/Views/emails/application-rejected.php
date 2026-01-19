@@ -4,7 +4,7 @@ $content = <<<HTML
 
 <p>Hi {$first_name},</p>
 
-<p>Thank you for your interest in <strong>{$program}</strong> at Nebatech AI Academy.</p>
+<p>Thank you for your interest in <strong>{$program}</strong> at Nebatech Software Solutions Ltd.</p>
 
 <div class="warning-box">
     <p style="margin: 0;">After careful consideration, we're unable to offer you admission to the program at this time.</p>
@@ -34,8 +34,8 @@ $content .= <<<HTML
 </ul>
 
 <div class="info-box">
-    <h3>📚 Free Learning Resources</h3>
-    <p style="margin: 0;">While you're not enrolled in the full program, we encourage you to explore free learning resources available online to continue your development journey.</p>
+    <h3>📚 Learning Resources</h3>
+    <p style="margin: 0;">While you're not enrolled in the full program, we encourage you to explore learning resources available online to continue your development journey.</p>
 </div>
 
 <p><strong>Alternative Learning Paths:</strong></p>
@@ -49,7 +49,7 @@ $content .= <<<HTML
 
 <div class="divider"></div>
 
-<p>Thank you again for your interest in Nebatech AI Academy. We wish you the best in your learning journey and hope to see you apply again in the future.</p>
+<p>Thank you again for your interest in Nebatech Software Solutions Ltd. We wish you the best in your learning journey and hope to see you apply again in the future.</p>
 
 <p>
     <strong>The Nebatech Admissions Team</strong>

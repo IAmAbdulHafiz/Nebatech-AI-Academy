@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Guidelines - Nebatech AI Academy</title>
+    <title>Community Guidelines - Nebatech Software Solutions Ltd</title>
     
     <link rel="icon" type="image/x-icon" href="<?= asset('images/favicon.ico') ?>">
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
@@ -37,7 +37,7 @@
                 <div class="prose dark:prose-invert max-w-none">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Our Community</h2>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">
-                        Nebatech AI Academy is a place for learning, sharing, and growing together. These guidelines help ensure that our community remains a safe, welcoming, and productive space for everyone.
+                        Nebatech Software Solutions Ltd is a place for learning, sharing, and growing together. These guidelines help ensure that our community remains a safe, welcoming, and productive space for everyone.
                     </p>
                 </div>
             </div>

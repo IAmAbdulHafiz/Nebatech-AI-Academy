@@ -35,7 +35,7 @@ if ($isCourse) {
 $thumbnail = $item['thumbnail'] ?? '';
 $price = '';
 if ($isCourse && !empty($item['price'])) {
-    $price = $item['price'] == 0 ? 'Free' : 'GHS ' . number_format($item['price']);
+    $price = $item['price'] == 0 ? 'Enroll' : 'GHS ' . number_format($item['price']);
 } elseif ($isService && !empty($item['price_range'])) {
     $price = $item['price_range'];
 }

@@ -41,7 +41,7 @@
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Terms of Service</h1>
         <p class="text-lg text-white/90 mb-2">Last Updated: November 16, 2025</p>
         <p class="text-xl text-white/80 max-w-3xl mx-auto">
-            Please read these terms carefully before using Nebatech AI Academy services.
+            Please read these terms carefully before using Nebatech Software Solutions Ltd services.
         </p>
     </div>
 </section>
@@ -51,7 +51,7 @@
     <div class="prose dark:prose-invert max-w-none space-y-6">
         <div class="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-md">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">1. Acceptance of Terms</h2>
-            <p class="text-gray-600 dark:text-gray-400">By accessing and using Nebatech AI Academy, you accept and agree to be bound by these Terms of Service.</p>
+            <p class="text-gray-600 dark:text-gray-400">By accessing and using Nebatech Software Solutions Ltd, you accept and agree to be bound by these Terms of Service.</p>
         </div>
 
         <div class="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-md">

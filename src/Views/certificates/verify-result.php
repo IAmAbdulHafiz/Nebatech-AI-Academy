@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification Result - Nebatech AI Academy</title>
+    <title>Verification Result - Nebatech Software Solutions Ltd</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -16,7 +16,7 @@
                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
                         <span class="text-white font-bold text-xl">N</span>
                     </div>
-                    <span class="text-xl font-bold text-gray-900">Nebatech AI Academy</span>
+                    <span class="text-xl font-bold text-gray-900">Nebatech Software Solutions Ltd</span>
                 </a>
                 <a href="<?= url('/') ?>" class="text-gray-600 hover:text-blue-600 transition">
                     <i class="fas fa-home mr-2"></i>Home
@@ -33,7 +33,7 @@
                     <div class="text-center mb-6">
                         <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
                         <h1 class="text-3xl font-bold text-green-900 mb-2">Certificate Verified!</h1>
-                        <p class="text-green-700">This is a valid certificate issued by Nebatech AI Academy</p>
+                        <p class="text-green-700">This is a valid certificate issued by Nebatech Software Solutions Ltd</p>
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@
     <footer class="bg-white border-t border-gray-200 mt-16">
         <div class="container mx-auto px-4 py-8">
             <div class="text-center text-gray-600">
-                <p>&copy; <?= date('Y') ?> Nebatech AI Academy. All rights reserved.</p>
+                <p>&copy; <?= date('Y') ?> Nebatech Software Solutions Ltd. All rights reserved.</p>
                 <p class="mt-2 text-sm">
                     <a href="<?= url('/') ?>" class="text-blue-600 hover:underline">Home</a> • 
                     <a href="<?= url('/contact') ?>" class="text-blue-600 hover:underline">Contact</a>

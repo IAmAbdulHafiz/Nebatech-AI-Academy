@@ -4,7 +4,7 @@ $content = <<<HTML
 
 <p>Hi {$first_name},</p>
 
-<p>You've been invited to join an exclusive learning cohort at Nebatech AI Academy!</p>
+<p>You've been invited to join an exclusive learning cohort at Nebatech Software Solutions Ltd!</p>
 
 <div class="success-box">
     <h3>📚 Cohort: {$cohort_name}</h3>

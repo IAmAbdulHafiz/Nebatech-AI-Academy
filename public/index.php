@@ -1,14 +1,9 @@
 <?php
 
 /**
- * Nebatech AI Academy
+ * Nebatech Software Solutions Ltd
  * Main Entry Point
  */
-
-// Force error display for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
 
 // Load Composer autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -21,21 +16,62 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 // Error handling based on environment
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('log_errors', '1');
-ini_set('error_log', __DIR__ . '/../storage/logs/php_errors.log');
+$isProduction = ($_ENV['APP_ENV'] ?? 'production') === 'production';
+$isDebug = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
+
+if ($isProduction || !$isDebug) {
+    // Production: Hide errors from users, log them instead
+    error_reporting(E_ALL);
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+    ini_set('log_errors', '1');
+    ini_set('error_log', __DIR__ . '/../storage/logs/php_errors.log');
+} else {
+    // Development: Show all errors
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    ini_set('log_errors', '1');
+    ini_set('error_log', __DIR__ . '/../storage/logs/php_errors.log');
+}
 
 // Set timezone
 date_default_timezone_set('Africa/Lagos');
 
+// Session security settings
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_secure', $isProduction ? '1' : '0');
+ini_set('session.use_strict_mode', '1');
+ini_set('session.cookie_samesite', 'Strict');
+
 // Start session
 session_start();
 
-// CORS headers (adjust for production)
-header('Access-Control-Allow-Origin: *');
+// CORS headers - Restrict in production
+$allowedOrigins = $isProduction 
+    ? ['https://nebatechacademy.com', 'https://www.nebatechacademy.com'] 
+    : ['http://localhost', 'http://localhost:8080', 'http://127.0.0.1'];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+} elseif (!$isProduction) {
+    header('Access-Control-Allow-Origin: *');
+}
+
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-CSRF-TOKEN');
+header('Access-Control-Allow-Credentials: true');
+
+// Security headers
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+
+if ($isProduction) {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+}
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

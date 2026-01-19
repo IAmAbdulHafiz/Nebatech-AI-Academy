@@ -225,7 +225,7 @@ All emails feature:
 ```php
 'from' => [
     'address' => 'noreply@yourdomain.com',
-    'name' => 'Nebatech AI Academy',
+    'name' => 'Nebatech Software Solutions Ltd',
 ]
 ```
 

@@ -44,7 +44,7 @@
                         <i class="fas fa-rocket mr-2"></i>Get Started
                     </a>
                     <a href="<?= url('/register') ?>" class="bg-blue-800/60 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition inline-flex items-center border-2 border-blue-400/50 shadow-lg">
-                        <i class="fas fa-user-plus mr-2"></i>Enroll Free
+                        <i class="fas fa-user-plus mr-2"></i>Enroll Now
                     </a>
                 </div>
 
@@ -495,11 +495,11 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Master Microsoft Office?</h2>
             <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands learning essential office skills with Nebatech AI Academy
+                Join thousands learning essential office skills with Nebatech Software Solutions Ltd
             </p>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="<?= url('/register') ?>" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition inline-flex items-center">
-                    <i class="fas fa-rocket mr-2"></i>Get Started Free
+                    <i class="fas fa-rocket mr-2"></i>Get Started
                 </a>
                 <a href="<?= url('/contact') ?>" class="bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition inline-flex items-center border-2 border-blue-500">
                     <i class="fas fa-comment mr-2"></i>Talk to an Advisor

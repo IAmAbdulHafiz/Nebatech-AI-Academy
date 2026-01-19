@@ -1,4 +1,4 @@
-# Nebatech AI Academy
+# Nebatech Software Solutions Ltd
 
 AI-powered, competency-based eLearning platform designed to empower students and professionals with hands-on IT skills for the future of work.
 

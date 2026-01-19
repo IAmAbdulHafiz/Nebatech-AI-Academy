@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-12 max-w-4xl">
     <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Accessibility Statement</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">Nebatech AI Academy is committed to ensuring digital accessibility for all learners.</p>
+    <p class="text-gray-600 dark:text-gray-400 mb-8">Nebatech Software Solutions Ltd is committed to ensuring digital accessibility for all learners.</p>
 
     <div class="prose dark:prose-invert max-w-none space-y-6">
         <div class="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-md">

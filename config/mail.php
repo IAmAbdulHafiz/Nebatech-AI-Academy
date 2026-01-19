@@ -54,7 +54,7 @@ return [
     */
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'noreply@nebatech.academy'),
-        'name' => env('MAIL_FROM_NAME', 'Nebatech AI Academy'),
+        'name' => env('MAIL_FROM_NAME', 'Nebatech Software Solutions Ltd'),
     ],
 
     /*

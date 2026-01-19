@@ -161,6 +161,11 @@ $router->post('/facilitator/submissions/update', [FacilitatorController::class, 
 
 // Facilitator Cohort Routes
 use Nebatech\Controllers\CohortController;
+use Nebatech\Controllers\SuccessStoryController;
+
+// Success Story Submission Routes
+$router->get('/submit-story', [SuccessStoryController::class, 'showForm']);
+$router->post('/submit-story', [SuccessStoryController::class, 'submit']);
 
 $router->get('/facilitator/cohorts', [CohortController::class, 'index']);
 $router->get('/facilitator/cohorts/create', [CohortController::class, 'create']);
@@ -187,6 +192,12 @@ $router->get('/admin/enrollments', [AdminController::class, 'enrollments']);
 $router->get('/admin/certificates', [AdminController::class, 'certificates']);
 $router->get('/admin/certificates/issue', [AdminController::class, 'issueCertificate']);
 $router->get('/admin/approvals', [AdminController::class, 'approvals']);
+
+// Admin Success Stories Management Routes
+$router->get('/admin/success-stories', [SuccessStoryController::class, 'adminList']);
+$router->post('/admin/success-stories/approve', [SuccessStoryController::class, 'approve']);
+$router->post('/admin/success-stories/reject', [SuccessStoryController::class, 'reject']);
+$router->post('/admin/success-stories/delete', [SuccessStoryController::class, 'delete']);
 
 // AI Generation Routes (facilitator only)
 $router->post('/ai/generate-course-outline', [AIController::class, 'generateCourseOutline']);

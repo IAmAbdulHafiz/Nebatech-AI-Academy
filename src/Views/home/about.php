@@ -969,14 +969,9 @@
         </div>
     </section>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="fixed bottom-8 right-8 bg-primary hover:bg-primary/70 dark:bg-primary dark:hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center transition-all opacity-0 invisible z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-        </svg>
-    </button>
+    <!-- Back to Top Button is in footer.php -->
 
-    <!-- Counter Animation & Back to Top Script -->
+    <!-- Counter Animation Script -->
     <script>
         // Animated Counter
         function animateCounter(element, target, duration = 2000) {
@@ -1012,26 +1007,6 @@
         // Observe all counters
         document.querySelectorAll('.counter').forEach(counter => {
             counterObserver.observe(counter);
-        });
-
-        // Back to Top Button
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.remove('opacity-0', 'invisible');
-                backToTopButton.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopButton.classList.add('opacity-0', 'invisible');
-                backToTopButton.classList.remove('opacity-100', 'visible');
-            }
-        });
-
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
         });
 
         // Smooth scroll reveal animations

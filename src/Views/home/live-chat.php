@@ -39,7 +39,7 @@
                         </svg>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow max-w-md">
-                        <p class="text-sm text-gray-900 dark:text-white">Hello! 👋 Welcome to Nebatech AI Academy support. How can we help you today?</p>
+                        <p class="text-sm text-gray-900 dark:text-white">Hello! 👋 Welcome to Nebatech Software Solutions Ltd support. How can we help you today?</p>
                         <span class="text-xs text-gray-500 dark:text-gray-400 mt-2 block">Just now</span>
                     </div>
                 </div>

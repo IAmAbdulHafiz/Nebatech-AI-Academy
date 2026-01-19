@@ -89,7 +89,7 @@ if (!empty($course['card_color_from'])) {
                     </a>
                 <?php endif; ?>
                 <a href="<?= url('/register') ?>" class="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/30 transition inline-flex items-center border-2 border-white/50 shadow-lg">
-                    <i class="fas fa-user-plus mr-2"></i>Get Started Free
+                    <i class="fas fa-user-plus mr-2"></i>Get Started
                 </a>
             </div>
 
@@ -605,7 +605,7 @@ if (!empty($course['card_color_from'])) {
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Learning Journey?</h2>
         <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of students mastering <?= htmlspecialchars($course['title']) ?> with Nebatech AI Academy
+            Join thousands of students mastering <?= htmlspecialchars($course['title']) ?> with Nebatech Software Solutions Ltd
         </p>
         <div class="flex flex-wrap justify-center gap-4">
             <?php if ($isEnrolled): ?>

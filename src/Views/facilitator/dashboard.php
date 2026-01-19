@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facilitator Dashboard - Nebatech AI Academy</title>
+    <title>Facilitator Dashboard - Nebatech Software Solutions Ltd</title>
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
     <!-- Alpine.js Collapse Plugin (must load before Alpine core) -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>

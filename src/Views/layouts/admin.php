@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Admin Panel - Nebatech AI Academy' ?></title>
+    <title><?= $title ?? 'Admin Panel - Nebatech Software Solutions Ltd' ?></title>
     
     <!-- Tailwind CSS -->
     <link href="<?= asset('css/main.css') ?>" rel="stylesheet">
@@ -256,7 +256,7 @@
         <!-- Footer -->
         <footer class="bg-white border-t border-gray-200 py-6 px-6">
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-                <p>&copy; <?= date('Y') ?> Nebatech AI Academy - Admin Panel v1.0</p>
+                <p>&copy; <?= date('Y') ?> Nebatech Software Solutions Ltd - Admin Panel v1.0</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                     <a href="<?= url('/admin/documentation') ?>" class="hover:text-gray-900">Documentation</a>
                     <a href="<?= url('/admin/api') ?>" class="hover:text-gray-900">API</a>
